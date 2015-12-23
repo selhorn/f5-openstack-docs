@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<!--<head>
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Install the F5 OpenStack LBaaSv1 Plug-In</title>
+    
+    <!-- Site metadata -->
+    <meta name="description" content="Uniquely cloud-ready">
+
+    <!--styles-->
+    <link rel="stylesheet" href="../assets/css/bootstrap-docs.css" type="text/css">
+    <link rel="stylesheet" href="../assets/css/f5-styles.css" type="text/css">
+
+    <!--link rel="canonical" href="http://F5Networks.github.io/f5-openstack-docs/m_install_lbaas_plugin_driver/"-->
+
+    <link rel="alternate" type="application/rss+xml" title="F5 OpenStack" href="http://F5Networks.github.io/f5-openstack-docsfeed.xml" />
+   
+  </head>
+
+ -->
+<head>
+  <title>Install the F5 OpenStack LBaaSv1 Plug-In</title>
+      
+<!-- tocify by Greg Franko gfranko / jquery.tocify.js-->
+<!DOCTYPE html>
+<html lang="en">
+
+    <!-- tocify styles-->
+    <link type="text/css" rel="stylesheet" href="../assets/css/jquery.tocify.css">
+    <link type="text/css" rel="stylesheet" href="../assets/css/bootstrap.css">
+
+    <!-- tocify scripts-->
+    <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="../assets/js/jquery.tocify.js"></script>
+
+    
+
+</head>
+      
+<body>
+    <!--<!DOCTYPE html lang="en">
+<link href="http://F5Networks.github.ioassets/css/f5-styles.css" rel="stylesheet" type="text/css">
+
+<header id="F5-Header" class="meta-open animate">
+  <div class="main-row">
+  <div class="container">
+      <div class="outside">
+            <div class="brand">
+            <a href="http://f5.com"><img src="https://cdn.f5.com/digital-platforms/images/logo.svg" alt="F5 Networks" height="42" width="47"></a>
+			</div>
+            <div class="nav-inline">
+            <ul class="main-nav" id="MainMenu">                
+               
+                <li><a class="externalLink" href="http://devcentral.f5.com">DevCentral</a></li>
+				        
+                <li><a class="externalLink" href="http://support.f5.com">Support</a></li>
+                
+                <li><a class="page-link" href="http://F5Networks.github.io">Documentation</a></li>
+                
+                <li><a class="externalLink" href="http://www.openstack.org/">OpenStack</a></li>
+            </ul>
+            </div>
+        </div>
+    </div>
+  </div>  
+      <!--div class="trigger">
+        
+          
+          <a class="page-link" href="http://F5Networks.github.io/Cloud-and-SDN-Overview/">Cloud and SDN Overview</a>
+          
+        
+          
+          <a class="page-link" href="http://F5Networks.github.io/Demo-and-Testing-Tools-Guide/">OpenStack Demo and Testing Tools</a>
+          
+        
+          
+          <a class="page-link" href="http://F5Networks.github.io/F5-Platforms-for-Cloud-Guide/">F5 Platforms for Cloud</a>
+          
+        
+          
+          <a class="page-link" href="http://F5Networks.github.io/Int-Cloud-Services-Overview/">Cloud Services Overview</a>
+          
+        
+          
+          <a class="page-link" href="http://F5Networks.github.io/LBaaS-Plugin-Design-Guide/">LBaaS Plugin Design Guide</a>
+          
+        
+          
+        
+          
+          <a class="page-link" href="http://F5Networks.github.io/m_install_lbaas_plugin_agent/">How to Deploy the F5 LBaaS Agent in OpenStack</a>
+          
+        
+          
+          <a class="page-link" href="http://F5Networks.github.io/m_install_lbaas_plugin_driver/">Install the F5 OpenStack LBaaSv1 Plug-In</a>
+          
+        
+          
+          <a class="page-link" href="http://F5Networks.github.io/plug-in_architecture-design/">LBaaS Plug-in Architecture and Design</a>
+          
+        
+      </div-->
+</header>
+ -->
+     
+    <div class="container">
+      <div class="bs-docs-header">
+      <h1>Install the F5 OpenStack LBaaSv1 Plug-In</h1>
+      </div>
+    </div>
+
+    <div class="bs-docs-sidebar">
+        <div class="bs-docs-sidenav" id="toc">
+        </div>
+    </div>
+
+
+  <div class="bs-docs-container">
+	
+		 <h1 id="overview">Overview</h1>
+
+<p>The F5 OpenStack LBaaSv1 Plugin allows you to utilize your BIG-IP (hardware or Virtual Edition) in an OpenStack distribution.</p>
+
+<p>F5’s OpenStack LBaaSva Plugin provides management of load balancing in OpenStack, including:</p>
+
+<ul>
+  <li>Local and global server load balancing;</li>
+  <li>Support for multi-tenant deployments;</li>
+  <li>Orchestration integration via iControl®;</li>
+  <li>Single-arm or dual-arm topologies;</li>
+  <li>Integrated Neutron network services;</li>
+  <li>Plugin reusability across technologies/services;</li>
+  <li>Multi-service extensibility;</li>
+  <li>Full virtual device onboarding;</li>
+  <li>Support for physical or virtual BIG-IP devices*;</li>
+  <li>SDN gateway functionality with Open vSwitch GRE and VXLAN;</li>
+</ul>
+
+<p>* Requires TMOS 11.5 or higher.</p>
+
+<p>The diagram below shows a sample configured LBaaS OpenStack environment using the F5 OpenStack LBaaSv1 Plugin. The Plugin Agent communicates with a BIG-IP platform or Virtual Edition via iApps. The load balancing service request is handled by the BIG-IP according to its configurations; it can then connect, discover, and/or deploy to the cloud-based apps or vms in the OpenStack project network.</p>
+
+<p><img src="/f5-os-lbaasv1/media/openstack_lbaas_env_example.png" alt="" title="Figure 1" /></p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before you install the F5 OpenStack LBaaSv1 plugin, you’ll need to do the following:</p>
+
+<ol>
+  <li>Install and set up an <a href="">OpenStack</a> host environment.</li>
+  <li>Install and set up OpenStack software.</li>
+  <li>Install the OpenStack Neutron service.</li>
+</ol>
+
+<p><strong>Note:</strong> You may need administrator priveleges on the network host to install the plugin driver.</p>
+
+<p>Documentation for how to install and configure OpenStack components can be found at http://docs.openstack.org/.</p>
+
+<p>To use the F5 OpenStack LBaaSv1 plugin, you’ll need:</p>
+
+<ol>
+  <li>A licensed BIG-IP (hardware or Virtual Edition).</li>
+  <li>Administrator priveleges on the BIG-IP and any associated device clusters.</li>
+</ol>
+
+<p>See the <a href="">F5 OpenStack LBaaS compatibility matrix</a> for information regarding various distributions’ compatibility with the F5 OpenStack LBaaSv1 Plugin and BIG-IP.</p>
+
+<h1 id="tasks">Tasks</h1>
+
+<h2 id="install-the-f5-openstack-lbaasv1-plugin-driver">Install the F5 OpenStack LBaaSv1 Plugin Driver</h2>
+
+<p>Install the plugin driver on your Neutron control host first, then on your network host(s). Choose the driver that corresponds to your OpenStack network host operating system.</p>
+
+<h3 id="redhatcentos">RedHat/CentOS</h3>
+
+<p>Run the below command to install the F5 LBaaS Plug-in driver on the Neutron server in Red Hat/CentOS.</p>
+
+<pre><code>rpm -i f5-lbaas-driver-1.0.7-1.noarch.rpm
+</code></pre>
+
+<h3 id="ubuntu">Ubuntu</h3>
+
+<p>Run the below command to install the F5 LBaaS Plug-in driver on the Neutron server in Ubuntu.</p>
+
+<pre><code>dpkg -i f5-lbaas-driver_1.0.7-1_all.deb
+</code></pre>
+
+<p><strong>NOTE:</strong><br />
+Errors and other relevant log messages are stored on the Neutron server in ‘/var/log/neutron/server.log’.</p>
+
+<h2 id="configure-the-neutron-service-to-use-the-f5-lbaasv1-plugin">Configure the Neutron Service to use the F5 LBaaSv1 Plugin</h2>
+
+<p>On your OpenStack host(s), edit the Neutron LBaaS configuration file to identify the F5 LBaaS Plug-in as the default load balancing service: ‘<em>/etc/neutron/neutron_lbaas.conf</em>’.</p>
+
+<ol>
+  <li>Use a text editor to open the neutron_lbaas.conf.</li>
+  <li>
+    <p>Add <code>neutron.services.loadbalancer.plugin.LoadBalancerPlugin.</code> to the [DEFAULT] section, as shown below.</p>
+
+    <p><code>[DEFAULT]  </code><br />
+ <code>service_plugins=neutron.services.l3_router.l3_router_plugin.L3RouterPlugin,neutron.services.firewall.fwaas_plugin.FirewallPlugin.</code><strong><code>neutron.services.loadbalancer.plugin.LoadBalancerPlugin.</code></strong><code>neutron.services.vpn.plugin.VPNDriverPlugin,neutron.services.metering.metering_plugin.MeteringPlugin</code></p>
+  </li>
+</ol>
+
+<h3 id="redhatcentos-1">RedHat/CentOS</h3>
+
+<p>Run the below command to install the F5 LBaaS Plug-in driver on the Neutron server in Red Hat/CentOS.</p>
+
+<pre><code>rpm -i f5-lbaas-driver-1.0.7-1.noarch.rpm
+</code></pre>
+
+<h3 id="ubuntu-1">Ubuntu</h3>
+
+<p>Run the below command to install the F5 LBaaS Plug-in driver on the Neutron server in Ubuntu.</p>
+
+<pre><code>dpkg -i f5-lbaas-driver_1.0.7-1_all.deb
+</code></pre>
+
+<ol>
+  <li>Save the changes to the Neutron server config file.</li>
+</ol>
+
+<h2 id="restart-the-neutron-server">Restart the Neutron Server</h2>
+
+<h3 id="ubuntu-2">Ubuntu</h3>
+
+<ol>
+  <li>Run the following command to restart the Neutron server.</li>
+</ol>
+
+<p><code>service neutron-server restart</code></p>
+
+<h3 id="red-hat--centos">Red Hat / CentOS</h3>
+
+<ol>
+  <li>Run the following command to restart the Neutron server.</li>
+</ol>
+
+<p><code>systemctl start neutron-$service</code></p>
+
+
+    
+	</div>
+ 
+
+    <!-- <link href="../assets/css/f5-styles.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/font-awesome.css" rel="stylesheet" type="text/css">
+<footer id="F5-Footer">
+
+<div>
+  <ul class="links" id="F5-Footer">
+              <li>
+                <p class="toggleNext toggleMobile"><span class="icon-down visible-xs-inline hidden-ie">&#8203;</span> Connect With Us</p>
+                <ul class="social-media">
+                    
+                    <!-- en -->
+                    <li><a href="//twitter.com/f5networks" target="_blank" data-name="twitter" data-type="" data-prefix="social" data-utf="E032" title="Twitter" class="externalLink"><i class="icon-twitter"></i></a> </li>
+                    <li><a href="//www.linkedin.com/companies/f5-networks" target="_blank" class="linkedin externalLink" title="LinkedIn"><i class="icon-linkedin"></i></a> </li>
+                    <li><a href="//www.facebook.com/f5networksinc" target="_blank" class="facebook externalLink" title="Facebook"><i class="icon-facebook"></i></a> </li>
+                    <li><a href="//www.youtube.com/f5networksinc" target="_blank" class="youtube externalLink" title="YouTube"><i class="icon-youtube"></i></a> </li>
+                    <li><a href="//devcentral.f5.com/" target="_blank" class="devcentral currentURL internalLink" title="DevCentral"><i class="icon-dc-pos"></i></a> </li>
+                    
+                </ul>
+            </li>
+      
+  
+       		<li><p class="toggleNext toggleMobile"><span class="icon-down visible-xs-inline hidden-ie">&#8203;</span>Find Us On GitHub</p>
+      <ul>
+      	<li>
+        <a href="https://github.com/F5Networks"><span class="username">F5Networks/</span><span class="repo"></span>  
+        </a>
+      	</li>
+
+      
+      
+	</ul>
+    </li>
+    </ul>
+  </div>
+    
+<div class="back-to-top"><a><span class="icon-up">&#8203;</span></a></div>
+</footer>
+ -->
+
+</body>
+<script>
+        $(function() {
+            //Calls the tocify method on the HTML div.
+            $("#toc").tocify();
+        });
+</script>    
+</html>          
+
