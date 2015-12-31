@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html>
+ <head>
+
+<link rel="icon" sizes="196x196" href="http://cdn.f5.com/digital-platforms/images/f5-196.png">
+
+ <title>LBaaS Deployment Guide</title>    
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Site metadata -->
+<meta name="description" content="Uniquely cloud-ready">
+
+<!--styles-->
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-docs.css" type="text/css">
+
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap.css" type="text/css">
+    
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-theme.css" type="text/css">
+
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/font-awesome.css" type="text/css">
+ 
+<!-- tocify styles-->
+ <link type="text/css" rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/jquery.tocify.css">
+
+<!-- jekyll stuff
+ <link rel="canonical" href="http://F5Networks.github.io/f5-openstack-docs/LBaaS-Deployment-Guide/">-->
+
+ <link rel="alternate" type="application/rss+xml" title="F5 OpenStack" href="http://F5Networks.github.io/f5-openstack-docsfeed.xml" />
+   
+</head>
+
+
+
+<body>
+  <header>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topFixedNavbar1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+        <a class="navbar-brand" href="http://f5.com"><img src="https://cdn.f5.com/digital-platforms/images/logo.svg" alt="F5 Networks" height="25"></a> </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="topFixedNavbar1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="http://github.com/F5Networks">F5Networks on GitHub<span class="sr-only">(current)</span></a></li>
+          <li><a href="http://devcentral.f5.com">DevCentral</a></li>
+          <li><a href="http://support.f5.com">Support</a></li>
+          <li><a href="https://devcentral.f5.com/d/openstack-neutron-lbaas-driver-and-agent">Get the LBaaSv1 Plugin</a></li>
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Project Repos<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <!--li><a href="https://github.com/F5Networks/f5-openstack-lbaasv2">F5 OpenStack LBaaSv2 Plug-in</a></li-->
+              <li role="separator" class="divider"></li>
+              <!--li><a href="#">F5 OpenStack API Libraries</a></li-->
+              <li><a href="https://github.com/F5Networks/openstack-f5-lbaasv1">F5 OpenStack LBaaSv1 plugin driver</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-agent">F5 OpenStack LBaaSv1 plugin agent</a></li>
+               <li role="separator" class="divider"></li>
+              <li><a href="https://github.com/F5Networks/f5-common-python">F5 common python</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-odk">F5 OpenStack Deployment Kit</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-heat-plugins">F5 OpenStack Heat Plug-ins</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="navbar-form navbar-right" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Partners<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Mirantis</a></li>
+              <!--li><a href="#">Another action</a></li-->
+              <!--li><a href="#">Something else here</a></li-->
+              <li role="separator" class="divider"></li>
+              <!--li><a href="#">Separated link</a></li-->
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+</header>
+ <hr>  
+     <div class="bs-docs-header">
+    <h1>LBaaS Deployment Guide</h1>
+   </div>
+  </div>
+
+  <div class="bs-docs-sidebar">
+    <div class="bs-docs-sidenav" id="toc">
+    </div>
+  </div>
+ <div class="bs-docs-container">
+  	
+		 <h1 id="introduction">Introduction</h1>
+
+<h2 id="overview">Overview</h2>
+
+<p>This guide covers the specific steps for setting up and configuring F5’s <br />
+OpenStack solution. It covers how to deploy the overall solution,<br />
+including BIG-IQ, BIG-IP(s), and the F5 LBaaS Plug-in for OpenStack. It<br />
+also covers operating and troubleshooting the OpenStack solution. It<br />
+presumes the F5 OpenStack LBaaS Solution Overview and the F5 OpenStack<br />
+ADC Integration Guide have been read and the appropriate deployment<br />
+decisions have been made.</p>
+
+<h2 id="related-documents">Related Documents</h2>
+
+<p><em>F5 OpenStack LBaaS Solution Overview</em></p>
+
+<p>This guide describes F5’s OpenStack BIG-IP solution from a high level<br />
+functional point of view. It describes the value proposition, the major<br />
+components, and the major variations for deploying the solution. The<br />
+goal of the document is to help customers choose the appropriate<br />
+deployment variation that fits their requirements best.</p>
+
+<p><em>F5 OpenStack ADC Integration Guide</em></p>
+
+<p>This guide dives deep into the networking issues surrounding the<br />
+integration of BIG-IPs with OpenStack. The intent of the document is to<br />
+help the customer understand the technical requirements that flow from<br />
+the preliminary deployment choices the customer has made (for example,<br />
+whether to use multitenant BIG-IPs, or whether to use VLANs or GRE<br />
+tunnels) after reading the Solution Overview document. After making<br />
+preliminary choices, the customer should take a look at the detailed<br />
+technical issues regarding those choices to ensure they understand the<br />
+pros and cons of their choice.</p>
+
+<p><em>F5 TMOS Virtual Edition OpenStack Deployment Guide</em></p>
+
+<p>This guide covers available tools that can be used to deploy BIG-IP and<br />
+BIG-IQ in an automated fashion. Manual instructions are provided as well<br />
+as a description of corresponding tools available via our F5 DevCentral<br />
+community. Please note that the automation tools are considered “Open<br />
+Source” and there is no support available for them at this time.</p>
+
+<p><em>F5 OpenStack LBaaS Plug-in Design Guide</em></p>
+
+<p>This guide describes the design and operation of the F5 LBaaS plug-in.<br />
+It covers internal components, major functional operations, and a<br />
+detailed explanation of the BIG-IP configuration strategy it uses.</p>
+
+<p>\<br />
+OpenStack Deployment Tips<br />
+=========================</p>
+
+<h2 id="openstack-installation-pitfalls">OpenStack Installation Pitfalls</h2>
+
+<p>The following sections describe common OpenStack installation pitfalls<br />
+and how to avoid them.</p>
+
+<h3 id="network-node-sysctl">Network Node Sysctl</h3>
+
+<p>Some OpenStack installers do not setup the network node to route<br />
+traffic, which is an essential part of its job. Certain sysctl variables<br />
+are required to be set properly, per the documentation at the following<br />
+URL:</p>
+
+<p><a href="http://docs.openstack.org/juno/install-guide/install/apt/content/neutron-network-node.html">http://docs.openstack.org/juno/install-guide/install/apt/content/neutron-network-node.html</a></p>
+
+<p>In order to set this up, place the following lines in the<br />
+/etc/sysctl.conf file (using Ubuntu for example):</p>
+
+<p>net.ipv4.conf.default.rp_filter=0</p>
+
+<p>net.ipv4.conf.all.rp_filter=0</p>
+
+<p>net.ipv4.conf.br0.rp_filter=0</p>
+
+<p>net.ipv4.ip_forward=1</p>
+
+<p>Then execute:</p>
+
+<p>sysctl -p</p>
+
+<h3 id="load-kvm-kernel-module-on-ubuntu-1204">Load kvm kernel module on Ubuntu 12.04</h3>
+
+<p>If you are running the Nova Compute service for OpenStack Icehouse on<br />
+Ubuntu 12.04, then you may need to configure a kernel module. This issue<br />
+is described at the following URL:</p>
+
+<p><a href="https://bugs.launchpad.net/openstack-manuals/+bug/1313975">https://bugs.launchpad.net/openstack-manuals/+bug/1313975</a></p>
+
+<h3 id="section">\</h3>
+<p>Allow GRE to VMs</p>
+
+<p>You may need to make a change to your OpenStack installation in order to<br />
+allow GRE packets to reach virtual machines. This step may be relevant<br />
+if you are using GRE networking with OpenStack and you have chosen to<br />
+use a BIG-IP Virtual Machine with “Tunnel Underlay Provider Network” as<br />
+the method for connecting the BIG-IP to various OpenStack networks. If<br />
+you are uncertain whether this issue applies to you, please read the F5<br />
+OpenStack ADC Integration Guide as it is essential that you know what<br />
+network type and what ADC integration method you will be using for your<br />
+OpenStack LBaaS solution.</p>
+
+<p>The reason this change may be necessary is that recent kernels,<br />
+including the recent kernel for Ubuntu 14.04, changed the way that IP<br />
+Tables (which is for networking security policy) handles GRE packets.<br />
+Now, a GRE packet will be considered INVALID unless certain kernel<br />
+modules are enabled. The way that Neutron creates rules for IP Tables is<br />
+incompatible with the recent kernel change because Neutron configures IP<br />
+Tables to drop INVALID packets before any other rules are processed that<br />
+might allow the traffic. Therefore, the proper operation of Neutron’s IP<br />
+Tables essentially requires that the operating system be setup properly<br />
+in advance. The solution is that the kernel module<br />
+“nf_conntrack_proto_gre” must be loaded as part of the operating<br />
+system installation and setup. The following commands show how to do<br />
+that for Ubuntu:</p>
+
+<p>modprobe nf_conntrack_proto_gre</p>
+
+<p>grep -q nf_conntrack_proto_gre /etc/modules || echo<br />
+nf_conntrack_proto_gre &gt;&gt; /etc/modules</p>
+
+<h3 id="nova-and-neutron-security">Nova and Neutron Security</h3>
+
+<p>For historical reasons, the Nova compute project has its own network<br />
+security policy system because it predates the Neutron project. Assuming<br />
+you are using Neutron, you should be using Neutron security. Enabling<br />
+Neutron security and disabling Nova security is a procedure that is not<br />
+easy to do. Indeed, nothing prevents configuring both security systems<br />
+at the same time.</p>
+
+<p>You should make sure you have not configured both Nova and Neutron<br />
+security. We assume you are using Neutron and if security is a<br />
+requirement (and it almost always is) then you should enable Neutron<br />
+security and disable Nova security.</p>
+
+<h2 id="openstack-sanity-checks">OpenStack Sanity Checks</h2>
+
+<p>If you have trouble running BIG-IP on OpenStack, it may be that<br />
+OpenStack itself is the source of the problem. You should ensure that<br />
+your OpenStack is fully functional and you should test all functions<br />
+with other virtual machines before concluding the problem is specific to<br />
+BIG-IP. A number of status checks and troubleshooting steps are provided<br />
+in this section that should be checked before further troubleshooting or<br />
+contacting F5 support.</p>
+
+<h3 id="ensure-services-are-running">Ensure Services are Running</h3>
+
+<p>Run the following commands and ensure all services are “up”:</p>
+
+<p># neutron agent-list</p>
+
+<p># nova service-list</p>
+
+<h3 id="ensure-console-access-is-working">Ensure console access is working</h3>
+
+<p>You should be able to access the console of a VM. If OpenStack<br />
+networking is not working properly, it can be helpful to access the VM<br />
+console in order to perform troubleshooting steps. You should make sure<br />
+you can reach the console for your VMs before launching BIG-IP.</p>
+
+<h3 id="ensure-dhcp-works">Ensure DHCP works</h3>
+
+<p>You should ensure that DHCP is working with other VMs before launching<br />
+BIG-IP.</p>
+
+<h3 id="ensure-floating-ips-work">Ensure floating IPs work</h3>
+
+<p>You should assign a floating IP to a VM and ensure that works before<br />
+launching BIG-IP.</p>
+
+<h3 id="ensure-metadata-access-is-working">Ensure metadata access is working</h3>
+
+<p>You should ensure that a VM can access the metadata service before<br />
+launching BIG-IP. Usually this can be accessed with the following<br />
+command:</p>
+
+<p>curl http://169.254.169.254/latest/user-data</p>
+
+<h3 id="ping-between-vms-on-the-same-and-different-hosts">Ping between VMs on the same and different hosts</h3>
+
+<p>You should ping between VMs running on the same Nova host and between<br />
+different Nova hosts.</p>
+
+<p>\<br />
+Deployment Options<br />
+==================</p>
+
+<h2 id="overview-1">Overview</h2>
+
+<p>This chapter covers the various deployment options available for the<br />
+LBaaS Solution. For each section, you will need to decide which option<br />
+to use so that you can follow the appropriate instructions for deploying<br />
+that portion of the solution.</p>
+
+<h2 id="big-iq">BIG-IQ</h2>
+
+<h2 id="ha-type">HA Type</h2>
+
+<h2 id="replication-mode">Replication Mode</h2>
+
+<h2 id="global-routed">Global Routed</h2>
+
+<h2 id="traffic-return">Traffic Return</h2>
+
+<h3 id="snat-mode">SNAT Mode</h3>
+
+<h3 id="gateway-mode">Gateway Mode</h3>
+
+<p>\<br />
+LBaaS Dedicated<br />
+—————</p>
+
+<p>F5 recommends having BIG-IPs dedicated to LBaaS to avoid conflicts with<br />
+other administrative operations. For example, the LBaaS plug-in<br />
+periodically saves the configuration. If an administrator was<br />
+configuring BIG-IP at the same time then saving the configuration may<br />
+not be desirable.</p>
+
+<p>Another example is that route domain allocation may conflict. The LBaaS<br />
+plug-in uses the first route domain available when allocated a new route<br />
+domain. An administrator might have decided to use the same route domain<br />
+and not realize the LBaaS plug-in had already allocated it.</p>
+
+<p>These are just a couple examples of why F5 recommends dedicating your<br />
+BIG-IPs to the LBaaS solution. We understand that customers may have<br />
+expensive, high capacity BIG-IP appliances or chassis that are far more<br />
+capacity than necessary for the LBaaS solution and that there may be a<br />
+strong desire to utilize that extra capacity for other purposes. We<br />
+recommend using F5 technology such as VCMP in these cases to create<br />
+virtual instances of BIG-IP that can be dedicated to LBaaS. There is no<br />
+problem with using other VCMP instances in the same BIG-IP chassis for<br />
+purposes other than LBaaS because the same management conflicts<br />
+mentioned above will not be an issue.</p>
+
+<p>\<br />
+Deploying TMOS Devices Overview<br />
+===============================</p>
+
+<p>At this point you should have chosen whether you are using shared<br />
+multi-tenant BIG-IPs, tenant-dedicated BIG-IPs, or a hybrid of dedicated<br />
+and shared BIG-IPs. This issue is described in the F5 OpenStack LBaaS<br />
+Solution overview and is summarized in the following paragraph.</p>
+
+<p>If an OpenStack tenant has BIG-IP deployed in their OpenStack project,<br />
+the plug-in will deploy their iApp directly to that BIG-IP using BIG-IQ.<br />
+In that case the BIG-IQ will “discover” that BIG-IP (i.e. place it under<br />
+BIG-IQ management) and then the BIG-IQ will deploy LBaaS iApp services<br />
+to that BIG-IP whenever the tenant configures an LBaaS service via<br />
+OpenStack. If, on the other hand, the tenant does not have a BIG-IP, the<br />
+plug-in can fall back to using a multitenant, shared BIG-IP cluster. In<br />
+the latter case, configuration does not go through BIG-IQ with the<br />
+current version of the solution.</p>
+
+<p>If you have chosen to include dedicated BIG-IPs in your solution then<br />
+you will need to deploy BIG-IQ. If you have chosen not to use dedicated<br />
+BIG-IPs for tenants, then the BIG-IQ is not required for the proper<br />
+operation of the LBaaS solution. Later in this guide you can skip the<br />
+instructions for deploying and configuring BIG-IQ.</p>
+
+<p>Note that we recommend BIG-IQ for general device management, such as<br />
+licensing and upgrades and anticipate that BIG-IQ will become a more<br />
+essential part of the LBaaS solution in the future. So while you may<br />
+choose not to deploy BIG-IQ now, you may need to in the future to remain<br />
+compatible with the LBaaS solution.</p>
+
+<h1 id="deploying-big-ips">Deploying BIG-IPs</h1>
+
+<h3 id="deploying-big-ip-hardware">Deploying BIG-IP Hardware</h3>
+
+<p>The first thing to do is the basic hardware setup, which includes:</p>
+
+<ul>
+  <li>
+    <p>Rack the device and connect the power cables.</p>
+  </li>
+  <li>
+    <p>Connect the BIG-IP to your switch.</p>
+  </li>
+  <li>
+    <p>Turn on the BIG-IP</p>
+  </li>
+  <li>
+    <p>Go through the setup process, including licensing and provisioning</p>
+  </li>
+</ul>
+
+<p>We assume that if you are using BIG-IP hardware then you intend to use<br />
+the device for multitenant networking. Please see the ADC integration<br />
+guide if this remains an open question.</p>
+
+<h4 id="licensing">Licensing</h4>
+
+<p>In order to use multitenancy with tunneling support, you will need a<br />
+BIG-IP License with “SDN Services” feature.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>tmsh show sys license</td>
+      <td>grep SDN</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We also recommend that you provision for extra management memory to<br />
+support many route domains:</p>
+
+<p>tmsh modify sys db provision.extramb { value 500 }</p>
+
+<h4 id="data-network-connectivity">Data network connectivity</h4>
+
+<p>Finally, the BIG-IP hardware needs to be connected to the OpenStack<br />
+networking infrastructure. For VLAN based OpenStack networking, the<br />
+BIG-IP should be connected to a VLAN trunk. For tunnel based OpenStack<br />
+networking, the BIG-IP should be connected to the physical underlay<br />
+network used for tunneling. Furthermore, for tunneling, a VLAN and self<br />
+IP address must be configured. Later in the instructions, you will<br />
+configured the plug-in with the details of how you have configured the<br />
+BIG-IP, such as which interface you connected to the VLAN trunk in the<br />
+case of VLANs.</p>
+
+<h3 id="section-1">\</h3>
+<p>Deploying BIG-IP Virtual Edition</p>
+
+<p>If you have decided to deploy BIG-IQ as a virtual machine in OpenStack,<br />
+then please refer to the F5 OpenStack TMOS VE deployment guide for<br />
+detailed instructions on how to preparing images for OpenStack, deploy<br />
+instances, and configure BIG-IP in a virtual environment.</p>
+
+<h5 id="network-naming">Network Naming</h5>
+
+<p>&lt;Explain setting meta data to customize the external/internal<br />
+network&gt;</p>
+
+<h5 id="credentials">Credentials</h5>
+
+<p>&lt;Explain setting meta data to customize the admin credentials &gt;</p>
+
+<h5 id="install-lbaas-iapp-rpm">Install LBaaS iApp RPM</h5>
+
+<p>Install iApp RPM</p>
+
+<h1 id="deploying-lbaas-plug-in">Deploying LBaaS Plug-in</h1>
+
+<h2 id="driver-installation">Driver Installation</h2>
+
+<h3 id="install-neutron-server-packages">Install Neutron Server Packages</h3>
+
+<p>You will need to install the plug-in driver. Perform these steps on the<br />
+Neutron Server. The actual names of the package may vary from version to<br />
+version.</p>
+
+<h4 id="for-ubuntu">For Ubuntu:</h4>
+
+<p>dpkg -i f5-lbaas-driver_1.0.7-1_all.deb</p>
+
+<h4 id="red-hatcentos">Red Hat/Centos:</h4>
+
+<p>rpm -i f5-lbaas-driver-1.0.7-1.noarch.rpm</p>
+
+<h3 id="configure-neutron-server">Configure Neutron Server</h3>
+
+<p>Modify the /etc/neutron/neutron.conf configuration file on the Neutron<br />
+server to include the following entries:</p>
+
+<p>[DEFAULT]</p>
+
+<p>service_plugins=neutron.services.l3_router.l3_router_plugin.L3RouterPlugin,neutron.services.firewall.fwaas_plugin.FirewallPlugin,neutron.services.loadbalancer.plugin.LoadBalancerPlugin,neutron.services.vpn.plugin.VPNDriverPlugin,neutron.services.metering.metering_plugin.MeteringPlugin</p>
+
+<p>If you are using F5 LBaaS only, then this entry must also be present:</p>
+
+<p>[service_providers]</p>
+
+<p>service_provider=LOADBALANCER:f5:neutron.services.loadbalancer.drivers.f5.plugin_driver.F5PluginDriver:default</p>
+
+<p>Here is an alternative to the previous setting that supports using both<br />
+F5 (the default) and HA Proxy:</p>
+
+<p>[service_providers]</p>
+
+<p>service_provider=LOADBALANCER:f5:neutron.services.loadbalancer.drivers.f5.plugin_driver.F5PluginDriver:default</p>
+
+<p>service_provider=LOADBALANCER:Haproxy:neutron.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver</p>
+
+<p>Then restart the neutron server:</p>
+
+<p>service neutron-server restart</p>
+
+<p>You can check for errors and other relevant log messages in<br />
+/var/log/neutron/server.log on the Neutron server.</p>
+
+<h2 id="agent-deployment-options">Agent Deployment Options</h2>
+
+<h3 id="big-ip-cluster-scope">BIG-IP Cluster Scope</h3>
+
+<p>Each F5 LBaaS agent can directly manage one and only one cluster of<br />
+BIG-IPs. Note that a cluster of BIG-IPs called a “Device Service Group”<br />
+(DSG) in F5 terminology. Before you deploy the agent, you should have a<br />
+DSG deployed already and you should know which IP addresses and<br />
+credentials should be used to access the devices. You will need to put<br />
+this information in the agent configuration file later.</p>
+
+<h3 id="tenant-scheduler">Tenant Scheduler</h3>
+
+<p>By default the F5 LBaaS Plug-in uses an agent scheduler which will keep<br />
+all LBaaS pools associated with the same tenant on the same TMOS Device<br />
+Service Groups. This association is maintained in the OpenStack database<br />
+in a standard fashion. You can view those associations by running the<br />
+command:</p>
+
+<p>neutron agent-list</p>
+
+<p>Then for each load balancing agent:</p>
+
+<p>neutron lb-pool-list-on-agent &lt;agent-id&gt;</p>
+
+<p>Even if you add more agents and corresponding device service groups, the<br />
+LBaaS plug-in will know which agent it should talk to in order to<br />
+service a given tenant. However, if you delete all pools for a tenant,<br />
+there will no longer be any record of how to map the tenant pool to an<br />
+agent, and so the BIG-IP may choose a new agent for that tenant.</p>
+
+<h3 id="agent-placement">Agent Placement</h3>
+
+<p>The F5 LBaaS agent can be run on any host which has the appropriate<br />
+Neutron python libraries installed. Typically, a Neutron Controller or<br />
+Neutron Gateway node is used because those nodes have the appropriate<br />
+libraries already. An alternative is to have a dedicated node for<br />
+running agents. Multiple F5 LBaaS agent processes can run on the same<br />
+host simultaneously.</p>
+
+<h2 id="agent-installation">Agent Installation</h2>
+
+<h3 id="install-neutron-gateway-packages">Install Neutron Gateway Packages</h3>
+
+<p>You will need to install the F5 LBaaS agent. Perform these steps on<br />
+whichever server you have decided to install the agent. Typically this<br />
+is done on the Neutron Gateway node.</p>
+
+<h4 id="ubuntu">Ubuntu:</h4>
+
+<p>dpkg -i f5-bigip-lbaas-agent_1.1.0-1_all.deb</p>
+
+<h4 id="red-hatcentos-1">Red Hat/Centos:</h4>
+
+<p>rpm -i f5-bigip-lbaas-agent-1.1.0-1.noarch.rpm</p>
+
+<p>The actual file names may vary from version to version.</p>
+
+<h4 id="stop-agent">Stop Agent</h4>
+
+<p>Since the agent has not been configured yet, you should stop it now so<br />
+it doesn’t fill your logs with errors.</p>
+
+<p>service f5-bigip-lbaas-agent stop</p>
+
+<p>If you want to start with clean logs, you should remove the log file:</p>
+
+<p>rm /var/log/neutron/f5-bigip-lbaas-agent.log</p>
+
+<h3 id="installing-additional-agents">Installing Additional Agents</h3>
+
+<p>The F5 LBaaS solution supports running multiple agents, managing<br />
+multiple clusters, simultaneously. The agent</p>
+
+<p>If you are installing additional agents, each on a separate host, then<br />
+you can simply install</p>
+
+<h3 id="agent-configuration">Agent Configuration</h3>
+
+<p>This agent configuration is in the file<br />
+/etc/neutron/f5-bigip-lbaas-agent.ini. The following is a copy of the<br />
+configuration file which includes an explanation of the various settings<br />
+available.</p>
+
+<p>Figure 1</p>
+
+<p><img src="" /> [ADD IN IMAGE FROM WORD DOC OR SCREENSHOT]</p>
+
+<h3 id="section-2">\</h3>
+<p>Restart Agent</p>
+
+<p>If you want to start with clean logs, you should remove the log file:</p>
+
+<p>rm /var/log/neutron/f5-bigip-lbaas-agent.log</p>
+
+<p>Now restart the agent:</p>
+
+<p>service f5-bigip-lbaas-agent restart</p>
+
+<h3 id="check-the-agent-status">Check the Agent Status</h3>
+
+<p>Check the agent status to make sure the agent is running. You may need<br />
+to wait a few seconds after restarting the agent before it shows up in<br />
+the list.</p>
+
+<p>manager@maas-ctrl-4:\~$ neutron agent-list</p>
+
+<p>Figure 2</p>
+
+<p><img src="" /> [ADD IN IMAGE FROM WORD DOC OR SCREENSHOT]</p>
+
+<p>If the agent does not start properly, there should be an error logged in<br />
+the file /var/log/neutron/f5-bigip-lbaas-agent.log.</p>
+
+<h3 id="enable-lbaas-gui-in-openstack">Enable LBaaS GUI in OpenStack</h3>
+
+<p>On the OpenStack “cloud controller” node, which runs the GUI, change the<br />
+enable_lb option to True in the local_settings file.</p>
+
+<p>This is the file to change for different Operating Systems:</p>
+
+<ul>
+  <li>
+    <p>RHEL, and CentOS: /etc/openstack-dashboard/local_settings</p>
+  </li>
+  <li>
+    <p>Ubuntu: /etc/openstack-dashboard/local_settings.py</p>
+  </li>
+</ul>
+
+<p>The syntax will be something like this:</p>
+
+<p>OPENSTACK_NEUTRON_NETWORK = { ‘enable_lb’: True, …}</p>
+
+<p>Then restart the web server for the setting to take effect:</p>
+
+<p>service httpd restart</p>
+
+<h1 id="tuning-and-performance">Tuning and Performance</h1>
+
+<p>This section should provide our tested performance numbers for BIG-IP<br />
+running on KVM on a Dell 620 with an Intel 10GB (ixgbe) card with SR-IOV<br />
+enabled.</p>
+
+<p>Configuration and performance improvements for jumbo frames should be<br />
+covered here.</p>
+
+<h1 id="limitations">Limitations</h1>
+
+<h3 id="route-domains-tunnels-vlans">Route Domains, Tunnels, VLANs</h3>
+
+<p>The maximum number of route domains is currently quoted as 500.</p>
+
+<p>The maximum number of tunnels or vlans has a hardcoded limit of around<br />
+64 thousand but in reality the F5 configuration database can only handle<br />
+vlans/tunnels in the low thousands efficiently.</p>
+
+<h3 id="overlapping-subnets-within-one-openstack-project">Overlapping Subnets within one OpenStack Project</h3>
+
+<p>Currently, the solution does not support having overlapping IP subnets<br />
+within the <em>same</em> OpenStack Project. The solution does support multiple<br />
+tenants and each tenant can be using an IP subnet that overlaps with<br />
+another tenant’s IP subnet. The limitation is when you try to create the<br />
+same subnet, such as 10.0.0.0/24, twice in the same project. OpenStack<br />
+actually supports this. We are evaluating whether to support this<br />
+feature in the future and would like to hear from customers whether this<br />
+is an important feature.</p>
+
+<h1 id="procedures">Procedures</h1>
+
+<h2 id="agent-high-availability">Agent High Availability</h2>
+
+<p>This solution supports running the F5 LBaaS Agent in a high availability<br />
+mode. Further details will be provided in the future. (TODO)</p>
+
+<h2 id="scaling-out-with-multiple-clusters">Scaling Out With Multiple Clusters</h2>
+
+<h3 id="overview-2">Overview</h3>
+
+<p>This solution supports deploying iApps to multiple clusters of BIG-IPs.<br />
+Additional clusters can be setup by running additional F5 LBaaS Agents<br />
+on additional servers. Each agent will manage their own BIG-IP cluster.</p>
+
+<h3 id="add-additional-cluster">Add Additional Cluster</h3>
+
+<p>Setup cluster</p>
+
+<p>Setup agent.</p>
+
+<h3 id="disable-cluster-for-new-tenants">Disable Cluster for New Tenants</h3>
+
+<p>If a cluster is getting overloaded, disable it for new tenants.</p>
+
+<h3 id="disable-new-pools-on-cluster">Disable New Pools on Cluster</h3>
+
+<p>If a cluster is getting really overloaded, disable it for new pools.</p>
+
+<h3 id="remove-pool-from-cluster">Remove Pool From Cluster</h3>
+
+<p>Disable new tenants.</p>
+
+<p>Remove a service for tenant. Create service again.</p>
+
+<h3 id="remove-tenant-from-cluster">Remove Tenant From Cluster</h3>
+
+<h3 id="move-tenant-to-new-cluster">Move Tenant to New Cluster</h3>
+
+<h2 id="gtm-integration">GTM Integration</h2>
+
+<h3 id="introduction-1">Introduction</h3>
+
+<h3 id="wide-ip-setup">Wide IP Setup</h3>
+
+<h3 id="divert-away">Divert away</h3>
+
+<h3 id="divert-back">Divert back</h3>
+
+<p>\<br />
+Troubleshooting<br />
+===============</p>
+
+<h2 id="log-files">Log Files</h2>
+
+<h3 id="neutron-server">Neutron Server</h3>
+
+<p>/var/log/neutron/server.log</p>
+
+<h3 id="neutron-gateway">Neutron Gateway</h3>
+
+<p>/var/log/neutron/ f5-bigip-lbaas-agent.log</p>
+
+<p>grep ERROR /var/log/neutron/f5-bigip-lbaas-agent.log</p>
+
+<h2 id="packet-tracing">Packet Tracing</h2>
+
+<h3 id="network-node">Network Node</h3>
+
+<p>ping the VM floating IP</p>
+
+<p>neutron router-list</p>
+
+<p>ip netns list</p>
+
+<p>ip netns exec &lt;ns&gt; bash</p>
+
+<p>ping the VM fixed IP</p>
+
+<p>ovs-vsctl show</p>
+
+<p>tcpdump</p>
+
+<h3 id="compute-node">Compute Node</h3>
+
+<p>ovs-vsctl show</p>
+
+<p>tcpdump</p>
+
+<h3 id="big-ip">BIG-IP</h3>
+
+<p>Before tracing tunnel packets, be sure you have the proper license.</p>
+
+    
+	</div>
+ 
+<hr>
+<footer>
+  <div class="footer">
+      <ul class="list-inline">
+      <li class="fa fa-3x"><a href="http://github.com/F5Networks" target="_blank" title="GitHub" ><i class="fa-github-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://twitter.com/f5networks" target="_blank" title="Twitter" ><i class="fa-twitter-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://www.linkedin.com/companies/f5-networks" target="_blank" title="LinkedIn"><i class="fa-linkedin-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://www.facebook.com/f5networksinc" target="_blank" title="Facebook"><i class="fa-facebook-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://www.youtube.com/f5networksinc" target="_blank" title="YouTube"><i class="fa-youtube-square"></i></a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+
+<!-- tocify scripts-->
+<script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="http://F5Networks.github.io/f5-openstack-docs/js/jquery.tocify.js"></script>
+<script>
+        $(function() {
+            //Calls the tocify method on the HTML div.
+            $("#toc").tocify();
+        });
+</script>    
+</html>          
+

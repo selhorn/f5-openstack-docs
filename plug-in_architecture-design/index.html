@@ -1,137 +1,103 @@
-<!doctype html>
-<html lang="en">
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-
-<!--<head>
-    <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <title>LBaaS Plug-in Architecture and Design</title>
-    
-    <!-- Site metadata -->
-    <meta name="description" content="Uniquely cloud-ready">
-
-    <!--styles-->
-    <link rel="stylesheet" href="../assets/css/bootstrap-docs.css" type="text/css">
-    <link rel="stylesheet" href="../assets/css/f5-styles.css" type="text/css">
-
-    <!--link rel="canonical" href="http://F5Networks.github.io/f5-openstack-docs/plug-in_architecture-design/"-->
-
-    <link rel="alternate" type="application/rss+xml" title="F5 OpenStack" href="http://F5Networks.github.io/f5-openstack-docsfeed.xml" />
-   
-  </head>
-
- -->
-<head>
-  <title>LBaaS Plug-in Architecture and Design</title>
-      
-<!-- tocify by Greg Franko gfranko / jquery.tocify.js-->
 <!DOCTYPE html>
-<html lang="en">
+<html>
+ <head>
 
-    <!-- tocify styles-->
-    <link type="text/css" rel="stylesheet" href="../assets/css/jquery.tocify.css">
-    <link type="text/css" rel="stylesheet" href="../assets/css/bootstrap.css">
+<link rel="icon" sizes="196x196" href="http://cdn.f5.com/digital-platforms/images/f5-196.png">
 
-    <!-- tocify scripts-->
-    <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
-    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script src="../assets/js/jquery.tocify.js"></script>
+ <title>LBaaS Plug-in Architecture and Design</title>    
 
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Site metadata -->
+<meta name="description" content="Uniquely cloud-ready">
+
+<!--styles-->
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-docs.css" type="text/css">
+
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap.css" type="text/css">
     
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-theme.css" type="text/css">
 
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/font-awesome.css" type="text/css">
+ 
+<!-- tocify styles-->
+ <link type="text/css" rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/jquery.tocify.css">
+
+<!-- jekyll stuff
+ <link rel="canonical" href="http://F5Networks.github.io/f5-openstack-docs/plug-in_architecture-design/">-->
+
+ <link rel="alternate" type="application/rss+xml" title="F5 OpenStack" href="http://F5Networks.github.io/f5-openstack-docsfeed.xml" />
+   
 </head>
-      
+
+
+
 <body>
-    <!--<!DOCTYPE html lang="en">
-<link href="http://F5Networks.github.ioassets/css/f5-styles.css" rel="stylesheet" type="text/css">
-
-<header id="F5-Header" class="meta-open animate">
-  <div class="main-row">
-  <div class="container">
-      <div class="outside">
-            <div class="brand">
-            <a href="http://f5.com"><img src="https://cdn.f5.com/digital-platforms/images/logo.svg" alt="F5 Networks" height="42" width="47"></a>
-			</div>
-            <div class="nav-inline">
-            <ul class="main-nav" id="MainMenu">                
-               
-                <li><a class="externalLink" href="http://devcentral.f5.com">DevCentral</a></li>
-				        
-                <li><a class="externalLink" href="http://support.f5.com">Support</a></li>
-                
-                <li><a class="page-link" href="http://F5Networks.github.io">Documentation</a></li>
-                
-                <li><a class="externalLink" href="http://www.openstack.org/">OpenStack</a></li>
+  <header>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topFixedNavbar1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+        <a class="navbar-brand" href="http://f5.com"><img src="https://cdn.f5.com/digital-platforms/images/logo.svg" alt="F5 Networks" height="25"></a> </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="topFixedNavbar1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="http://github.com/F5Networks">F5Networks on GitHub<span class="sr-only">(current)</span></a></li>
+          <li><a href="http://devcentral.f5.com">DevCentral</a></li>
+          <li><a href="http://support.f5.com">Support</a></li>
+          <li><a href="https://devcentral.f5.com/d/openstack-neutron-lbaas-driver-and-agent">Get the LBaaSv1 Plugin</a></li>
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Project Repos<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <!--li><a href="https://github.com/F5Networks/f5-openstack-lbaasv2">F5 OpenStack LBaaSv2 Plug-in</a></li-->
+              <li role="separator" class="divider"></li>
+              <!--li><a href="#">F5 OpenStack API Libraries</a></li-->
+              <li><a href="https://github.com/F5Networks/openstack-f5-lbaasv1">F5 OpenStack LBaaSv1 plugin driver</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-agent">F5 OpenStack LBaaSv1 plugin agent</a></li>
+               <li role="separator" class="divider"></li>
+              <li><a href="https://github.com/F5Networks/f5-common-python">F5 common python</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-odk">F5 OpenStack Deployment Kit</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-heat-plugins">F5 OpenStack Heat Plug-ins</a></li>
             </ul>
-            </div>
-        </div>
-    </div>
-  </div>  
-      <!--div class="trigger">
-        
-          
-          <a class="page-link" href="http://F5Networks.github.io/Cloud-and-SDN-Overview/">Cloud and SDN Overview</a>
-          
-        
-          
-          <a class="page-link" href="http://F5Networks.github.io/Demo-and-Testing-Tools-Guide/">OpenStack Demo and Testing Tools</a>
-          
-        
-          
-          <a class="page-link" href="http://F5Networks.github.io/F5-Platforms-for-Cloud-Guide/">F5 Platforms for Cloud</a>
-          
-        
-          
-          <a class="page-link" href="http://F5Networks.github.io/Int-Cloud-Services-Overview/">Cloud Services Overview</a>
-          
-        
-          
-          <a class="page-link" href="http://F5Networks.github.io/LBaaS-Plugin-Design-Guide/">LBaaS Plugin Design Guide</a>
-          
-        
-          
-        
-          
-          <a class="page-link" href="http://F5Networks.github.io/m_install_lbaas_plugin_agent/">How to Deploy the F5 LBaaS Agent in OpenStack</a>
-          
-        
-          
-          <a class="page-link" href="http://F5Networks.github.io/m_install_lbaas_plugin_driver/">Install the F5 OpenStack LBaaSv1 Plug-In</a>
-          
-        
-          
-          <a class="page-link" href="http://F5Networks.github.io/plug-in_architecture-design/">LBaaS Plug-in Architecture and Design</a>
-          
-        
-      </div-->
-</header>
- -->
-     
-    <div class="container">
-      <div class="bs-docs-header">
-      <h1>LBaaS Plug-in Architecture and Design</h1>
+          </li>
+        </ul>
+        <form class="navbar-form navbar-right" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Partners<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Mirantis</a></li>
+              <!--li><a href="#">Another action</a></li-->
+              <!--li><a href="#">Something else here</a></li-->
+              <li role="separator" class="divider"></li>
+              <!--li><a href="#">Separated link</a></li-->
+            </ul>
+          </li>
+        </ul>
       </div>
+      <!-- /.navbar-collapse -->
     </div>
+    <!-- /.container-fluid -->
+  </nav>
+</header>
+ <hr>  
+     <div class="bs-docs-header">
+    <h1>LBaaS Plug-in Architecture and Design</h1>
+   </div>
+  </div>
 
-    <div class="bs-docs-sidebar">
-        <div class="bs-docs-sidenav" id="toc">
-        </div>
+  <div class="bs-docs-sidebar">
+    <div class="bs-docs-sidenav" id="toc">
     </div>
-
-
-  <div class="bs-docs-container">
-	
+  </div>
+ <div class="bs-docs-container">
+  	
 		 <p>#F5 LBaaS Plug-in Architecture and Design</p>
 
 <p>##Overview</p>
@@ -333,47 +299,24 @@ is, by default, the iControlDriver class in the icontrol_driver module.<br />
     
 	</div>
  
-
-    <!-- <link href="../assets/css/f5-styles.css" rel="stylesheet" type="text/css">
-<link href="../assets/css/font-awesome.css" rel="stylesheet" type="text/css">
-<footer id="F5-Footer">
-
-<div>
-  <ul class="links" id="F5-Footer">
-              <li>
-                <p class="toggleNext toggleMobile"><span class="icon-down visible-xs-inline hidden-ie">&#8203;</span> Connect With Us</p>
-                <ul class="social-media">
-                    
-                    <!-- en -->
-                    <li><a href="//twitter.com/f5networks" target="_blank" data-name="twitter" data-type="" data-prefix="social" data-utf="E032" title="Twitter" class="externalLink"><i class="icon-twitter"></i></a> </li>
-                    <li><a href="//www.linkedin.com/companies/f5-networks" target="_blank" class="linkedin externalLink" title="LinkedIn"><i class="icon-linkedin"></i></a> </li>
-                    <li><a href="//www.facebook.com/f5networksinc" target="_blank" class="facebook externalLink" title="Facebook"><i class="icon-facebook"></i></a> </li>
-                    <li><a href="//www.youtube.com/f5networksinc" target="_blank" class="youtube externalLink" title="YouTube"><i class="icon-youtube"></i></a> </li>
-                    <li><a href="//devcentral.f5.com/" target="_blank" class="devcentral currentURL internalLink" title="DevCentral"><i class="icon-dc-pos"></i></a> </li>
-                    
-                </ul>
-            </li>
-      
-  
-       		<li><p class="toggleNext toggleMobile"><span class="icon-down visible-xs-inline hidden-ie">&#8203;</span>Find Us On GitHub</p>
-      <ul>
-      	<li>
-        <a href="https://github.com/F5Networks"><span class="username">F5Networks/</span><span class="repo"></span>  
-        </a>
-      	</li>
-
-      
-      
-	</ul>
-    </li>
+<hr>
+<footer>
+  <div class="footer">
+      <ul class="list-inline">
+      <li class="fa fa-3x"><a href="http://github.com/F5Networks" target="_blank" title="GitHub" ><i class="fa-github-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://twitter.com/f5networks" target="_blank" title="Twitter" ><i class="fa-twitter-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://www.linkedin.com/companies/f5-networks" target="_blank" title="LinkedIn"><i class="fa-linkedin-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://www.facebook.com/f5networksinc" target="_blank" title="Facebook"><i class="fa-facebook-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://www.youtube.com/f5networksinc" target="_blank" title="YouTube"><i class="fa-youtube-square"></i></a></li>
     </ul>
   </div>
-    
-<div class="back-to-top"><a><span class="icon-up">&#8203;</span></a></div>
 </footer>
- -->
-
 </body>
+
+<!-- tocify scripts-->
+<script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="http://F5Networks.github.io/f5-openstack-docs/js/jquery.tocify.js"></script>
 <script>
         $(function() {
             //Calls the tocify method on the HTML div.

@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html>
+ <head>
+
+<link rel="icon" sizes="196x196" href="http://cdn.f5.com/digital-platforms/images/f5-196.png">
+
+ <title>How To Deploy BIG-IP VE in an OpenStack Environment</title>    
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Site metadata -->
+<meta name="description" content="Uniquely cloud-ready">
+
+<!--styles-->
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-docs.css" type="text/css">
+
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap.css" type="text/css">
+    
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-theme.css" type="text/css">
+
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/font-awesome.css" type="text/css">
+ 
+<!-- tocify styles-->
+ <link type="text/css" rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/jquery.tocify.css">
+
+<!-- jekyll stuff
+ <link rel="canonical" href="http://F5Networks.github.io/f5-openstack-docs/HowTo-DeployVEinOS/">-->
+
+ <link rel="alternate" type="application/rss+xml" title="F5 OpenStack" href="http://F5Networks.github.io/f5-openstack-docsfeed.xml" />
+   
+</head>
+
+
+
+<body>
+  <header>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topFixedNavbar1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+        <a class="navbar-brand" href="http://f5.com"><img src="https://cdn.f5.com/digital-platforms/images/logo.svg" alt="F5 Networks" height="25"></a> </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="topFixedNavbar1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="http://github.com/F5Networks">F5Networks on GitHub<span class="sr-only">(current)</span></a></li>
+          <li><a href="http://devcentral.f5.com">DevCentral</a></li>
+          <li><a href="http://support.f5.com">Support</a></li>
+          <li><a href="https://devcentral.f5.com/d/openstack-neutron-lbaas-driver-and-agent">Get the LBaaSv1 Plugin</a></li>
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Project Repos<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <!--li><a href="https://github.com/F5Networks/f5-openstack-lbaasv2">F5 OpenStack LBaaSv2 Plug-in</a></li-->
+              <li role="separator" class="divider"></li>
+              <!--li><a href="#">F5 OpenStack API Libraries</a></li-->
+              <li><a href="https://github.com/F5Networks/openstack-f5-lbaasv1">F5 OpenStack LBaaSv1 plugin driver</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-agent">F5 OpenStack LBaaSv1 plugin agent</a></li>
+               <li role="separator" class="divider"></li>
+              <li><a href="https://github.com/F5Networks/f5-common-python">F5 common python</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-odk">F5 OpenStack Deployment Kit</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-heat-plugins">F5 OpenStack Heat Plug-ins</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="navbar-form navbar-right" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Partners<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Mirantis</a></li>
+              <!--li><a href="#">Another action</a></li-->
+              <!--li><a href="#">Something else here</a></li-->
+              <li role="separator" class="divider"></li>
+              <!--li><a href="#">Separated link</a></li-->
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+</header>
+ <hr>  
+     <div class="bs-docs-header">
+    <h1>How To Deploy BIG-IP VE in an OpenStack Environment</h1>
+   </div>
+  </div>
+
+  <div class="bs-docs-sidebar">
+    <div class="bs-docs-sidenav" id="toc">
+    </div>
+  </div>
+ <div class="bs-docs-container">
+  	
+		 <p>How To Deploy BIG-IP VE on OpenStack</p>
+
+<p>Overview</p>
+
+<p>This document describes how to deploy BIG-IP Virtual Edition within<br />
+OpenStack.</p>
+
+<p>(#before-you-start)Before You Start</p>
+
+<p>Check to make sure you have the following:</p>
+
+<ol>
+  <li>
+    <p>A running OpenStack installation (Juno or later) on either Red<br />
+Hat/CentOS 7 or Ubuntu 12.04 / 14.04.</p>
+  </li>
+  <li>
+    <p>Licensed BIG-IP VE software.</p>
+  </li>
+  <li>
+    <p>Basic understanding of <a href="add%20link%20to%20doc%20here">OpenStack Networking<br />
+Concepts</a>.</p>
+  </li>
+  <li>
+    <p>An OpenStack <a href="http://docs.openstack.org/admin-guide-cloud/content/provider_api_workflow.html">provider<br />
+network</a><br />
+(if using multi-tenant deployment).</p>
+  </li>
+</ol>
+
+<p>#How to Deploy BIG-IP VE on OpenStack</p>
+
+<p>#Initial Setup</p>
+
+<h2 id="verify-that-the-standard-admin-project-user-and-roles-are-set-up">Verify that the standard “admin” project, user, and roles are set up:</h2>
+
+<pre><code>manager@maas-ctrl-4:~$ keystone tenant-get admin
++-------------+----------------------------------+
+|   Property  |              Value               |
++-------------+----------------------------------+
+| description |         Created by Juju          |
+|   enabled   |               True               |
+|      id     | 3142ea42fd7c4ba0903f5701f88b1478 |
+|     name    |              admin               |
++-------------+----------------------------------+
+
+manager@maas-ctrl-4:~$ keystone user-get admin
++----------+----------------------------------+
+| Property |              Value               |
++----------+----------------------------------+
+|  email   |          juju@localhost          |
+| enabled  |               True               |
+|    id    | 44ee559840444916bd02e943894c0a09 |
+|   name   |              admin               |
+| tenantId | 3142ea42fd7c4ba0903f5701f88b1478 |
+| username |              admin               |
++----------+----------------------------------+
+
+manager@maas-ctrl-4:~$ keystone user-role-list
++----------------------------------+----------+----------------------------------+----------------------------------+
+|                id                |   name   |             user_id              |            tenant_id             |
++----------------------------------+----------+----------------------------------+----------------------------------+
+| 72d7203cdb484a60a635bcdd1b43cf65 |  Admin   | 44ee559840444916bd02e943894c0a09 | 3142ea42fd7c4ba0903f5701f88b1478 |
+| 9fe2ff9ee4384b1894a90878d3e92bab | _member_ | 44ee559840444916bd02e943894c0a09 | 3142ea42fd7c4ba0903f5701f88b1478 |
++----------------------------------+----------+----------------------------------+----------------------------------+
+</code></pre>
+
+<h2 id="define-the-neutron-security-policy">Define the Neutron Security Policy</h2>
+
+<ul>
+  <li>
+    <p>To allow the ICMP protocol:</p>
+
+    <pre><code>neutron security-group-rule-create --protocol icmp \\
+    --direction ingress default
+</code></pre>
+  </li>
+  <li>
+    <p>To assign the standard ports used by BIG-IP (22, 80, and 443):</p>
+
+    <pre><code>neutron security-group-rule-create --protocol tcp --port-range-min 22 --port-range-max 22 --direction ingress default
+neutron security-group-rule-create --protocol tcp --port-range-min 80 --port-range-max 80 --direction ingress default
+neutron security-group-rule-create --protocol tcp --port-range-min 443 --port-range-max 443 --direction ingress default
+</code></pre>
+  </li>
+  <li>
+    <p>To allow BIG-IP VE access to VXLAN packets:</p>
+
+    <pre><code>neutron security-group-rule-create --protocol udp --port-range-min 4789 --port-range-max 4789 --direction ingress default
+</code></pre>
+  </li>
+  <li>
+    <p>To allow BIG-IP VE access to GRE packets:</p>
+
+    <pre><code>neutron security-group-rule-create --protocol 47 --direction ingress default
+</code></pre>
+  </li>
+</ul>
+
+<h2 id="set-up-nova-compute-nodes">Set Up Nova Compute Nodes</h2>
+
+<p>The <em>/etc/nova/release</em> file must be changed on every Nova compute node<br />
+that may run BIG-IP. Otherwise, BIG-IP will not be able to detect that<br />
+it’s running on KVM.</p>
+
+<pre><code># echo -e "[Nova]\nvendor = Red Hat\nproduct = Bochs\npackage = RHEL 6.3.0 PC" \ &gt; /etc/nova/release
+#
+# cat /etc/nova/release
+[Nova]
+vendor = Red Hat
+product = Bochs
+package = RHEL 6.3.0 PC
+</code></pre>
+
+<h3 id="restart-the-nova-compute-service4-restart-the-nova-compute-service-4-restart-the-nova-compute-service">(#4-restart-the-nova-compute-service)4. Restart the Nova-Compute Service {#4-restart-the-nova-compute-service}</h3>
+
+<p><code>service nova-compute restart</code></p>
+
+<h2 id="integrate-big-ip-ve-with-the-openstack-network-infrastructureintegrate-big-ip-ve-with-the-openstack-network-infrastructure">(#integrate-big-ip-ve-with-the-openstack-network-infrastructure)Integrate BIG-IP VE with the OpenStack Network Infrastructure</h2>
+
+<p><strong>NOTE:</strong> If you have not yet decided on your integration method, you<br />
+should stop here and read the <a href="">F5 OpenStack ADC Integration Guide</a>.</p>
+
+<p>~~### Single-tenant Deployment~~\<br />
+ ~~If you’re using a single-tenant deployment, you can skip this section<br />
+and go on to <strong>?</strong>.~~\<br />
+ ~~### Multi-tenant Deployment~~\<br />
+ ~~### Base Networking~~\<br />
+ ~~The goal of the base networking setup is to create the OpenStack<br />
+networks, subnets, and other networking elements that are necessary to<br />
+run BIG-IP within OpenStack.~~\<br />
+ ~~### Admin Router Setup~~\<br />
+ ~~If you are working with a proof-of-concept and just have an empty\<br />
+ project, these are typical commands that are used to populate an<br />
+initial\<br />
+ public network attached to a router that can later be attached to\<br />
+ private networks that we will create.~~\</p>
+
+<p>~~<code>neutron router-create admin_router_1 neutron net-create public -- --router:external=True --provider:network_type local  neutron subnet-create --allocation-pool start=10.144.64.92,end=10.144.64.109 --gateway=10.144.64.91 --name public_subnet public 10.144.64.0/24  neutron router-gateway-set admin_router_1 public</code>~~</p>
+
+<h2 id="set-up-the-management-network">Set Up the Management Network</h2>
+
+<p>This network will be used for the BIG-IP management interface.\</p>
+
+<pre><code>neutron net-create bigip_mgmt
+neutron subnet-create --name bigip_mgmt_subnet bigip_mgmt 10.10.0.0/24
+neutron router-interface-add admin_router_1 bigip_mgmt_subnet
+</code></pre>
+
+<h2 id="set-up-high-availability-and-mirroring">Set Up High Availability and Mirroring</h2>
+
+<p><strong>NOTE:</strong> Skip this step if you’re using a stand-alone BIG-IP.</p>
+
+<ul>
+  <li>
+    <h4 id="high-availability-hahigh-availability-ha">(#high-availability-ha)High Availability (HA)</h4>
+
+    <pre><code>neutron net-create bigip_ha
+neutron subnet-create --name bigip_ha_subnet bigip_ha 10.40.0.0/24
+neutron router-interface-add admin_router_1 bigip_ha_subnet
+</code></pre>
+  </li>
+  <li>
+    <h4 id="mirroringmirroring">(#mirroring)Mirroring</h4>
+
+    <pre><code>  neutron net-create bigip\_mirror
+  neutron subnet-create --name bigip\_mirror\_subnet bigip\_mirror 10.50.0.0/24
+  neutron router-interface-add admin\_router\_1 bigip\_mirror\_subnet
+</code></pre>
+  </li>
+</ul>
+
+<h2 id="set-up-external-and-internal-networks">Set Up External and Internal Networks</h2>
+
+<p><strong>NOTE:</strong> This step is only required if you’re using BIG-IQ. It may also<br />
+be helpful to use as the external side of a load balancing service in a<br />
+single-tenant deployment.</p>
+
+<ul>
+  <li>
+    <h4 id="externalexternal">(#external)External</h4>
+
+    <pre><code>neutron net-create bigip_external
+neutron subnet-create --name bigip_external_subnet bigip_external 10.20.0.0/24
+neutron router-interface-add admin_router_1 bigip_external_subnet
+</code></pre>
+  </li>
+  <li>
+    <h4 id="internalinternal">(#internal)Internal</h4>
+
+    <pre><code>neutron net-create bigip_internal
+neutron subnet-create --name bigip_internal_subnet bigip_internal
+10.30.0.0/24
+neutron router-interface-add admin_router_1 bigip_internal_subnet
+</code></pre>
+  </li>
+</ul>
+
+<p><strong>[jputrino: OUTSIDE OF DOCUMENT SCOPE]</strong>\<br />
+ ~~### Data Network~~\<br />
+ ~~Now create the data network. See instructions~~\<br />
+ ~~For flat Provider Network:~~\</p>
+
+<p>~~<code>neutron net-create datanet --provider:network_type flat --provider:physical_network physnet-data</code>~~</p>
+
+<p>~~For VLAN provider network:~~\</p>
+
+<p>~~<code>neutron net-create datanet --provider:network_type vlan --provider:physical_network physnet-data --provider:segmentation_id 4</code>~~</p>
+
+<p>~~After creating the network above, create the subnet:~~\</p>
+
+<p>~~<code>neutron subnet-create --allocation-pool start=10.30.30.200,end=10.30.30.250 --name datanet_subnet datanet 10.30.30.0/24</code>~~</p>
+
+<p>~~Notice that a higher range of the subnet is used here. The idea is<br />
+that\<br />
+ IP addresses used for tunneling endpoints on the compute nodes can use<br />
+a\<br />
+ lower range of the subnet and service VMs like BIG-IP can use a higher\<br />
+ range of the subnet. This separation might be necessary if the compute\<br />
+ nodes are using static IPs or a different DHCP server.~~</p>
+
+<h2 id="create-a-nova-custom-flavor-for-big-ip">Create a Nova Custom Flavor for BIG-IP</h2>
+
+<p>We recommend that you define a custom flavor to represent BIG-IP’s<br />
+hardware requirements. For example:\<br />
+ <code>flavor_id=\$(cat /proc/sys/kernel/random/uuid)</code>\<br />
+ <code>nova flavor-create m1.bigip.lbaas.min \$flavor_id 4096 120 2</code></p>
+
+<h2 id="import-the-big-ip-image-to-openstack">Import the BIG-IP Image to OpenStack</h2>
+
+<p>F5 provides images for <a href="insert%20link">BIG-IP</a> and<br />
+<a href="insert%20link">BIG-IQ</a> in qcow2 disk format. These can be imported<br />
+directly into OpenStack.</p>
+
+<h3 id="image-preparation-optional">Image Preparation (optional)</h3>
+
+<pre><code>Image preparation allows you to place a boot script on the image
+before you import it into OpenStack. Both BIG-IP and BIG-IQ will run
+the boot script is immediately upon startup. **The script must be
+named */config/startup*.**\
+ **NOTE:** F5 does not recommend creating virtual machines for
+BIG-IP or BIG-IQ with a disk image that has already been booted.\
+ **\[INSTRUCTIONS FOR ADDING BOOT SCRIPT TO IMAGE?\]**
+</code></pre>
+
+<h3 id="import-the-image">Import the image</h3>
+
+<pre><code>Example using glance:\
+
+    glance image-create --name bigip11.5.2 --is-public true --container-format bare --disk-format qcow2 --file \[your.image.filename\]-OpenStack.qcow2
+
+\
+ **Do not upload the qcow2 zip file that is generated by the
+build**. The qcow2 zip format isn’t compatible with OpenStack.
+</code></pre>
+
+<h2 id="deploy-big-ip">Deploy BIG-IP</h2>
+
+<h3 id="startup-metadata-preparation">Startup Metadata Preparation</h3>
+
+<pre><code>[DevCentral](link?) has onboarding tools that patch a startup script
+into the BIG-IP image.\
+ **NOTE:** This software is not officially supported.
+</code></pre>
+
+<p>###Create an SR-IOV Neutron Port</p>
+
+<pre><code>If you’re using SR-IOV, create the port BIG-IP will attach to it
+launches:\
+ `neutron port-create &amp;lt;net-id&amp;gt; --binding:vnic-type direct`\
+ Make note of the id of the port; you’ll need it in the next step.
+</code></pre>
+
+<h3 id="launch-a-big-ip-instance">Launch a BIG-IP Instance</h3>
+
+<pre><code>To deploy BIG-IP using Horizon, login as the admin tenant and select
+the “admin” project, then click instances, and add an instance.
+Select the BIG-IP image from above as well as the custom flavor, and
+provide the VM with at least 2 networks, 3 if a management VLAN will
+be provisioned.
+</code></pre>
+
+<p>Using the “nova” command line, use something like:<br />
+ for net in<br />
+<code>bigip_mgmt bigip_external bigip_internal datanet bigip_ha bigip_mirror</code>,<br />
+do\</p>
+
+<pre><code># this command sets environmental var "id" to the id of the network
+eval `neutron net-show \$net -f shell --fields id\`
+# append nic to list
+nics="\$nics --nic net-id=\$id"
+done
+nova boot --image bigip11.5.2 --flavor m1.bigip.lbaas.min \$nics admin_bigip1
+</code></pre>
+
+<p>Wait until the instance becomes active:<br />
+ <code>nova show admin_bigip1\</code></p>
+
+<h3 id="create-a-floating-ip-from-the-public-network-for-the-big-ip">Create a floating IP from the public network for the BIG-IP.</h3>
+
+<pre><code>manager@maas-ctrl-1:~$ neutron floatingip-create public
+Created a new floatingip:
++---------------------+--------------------------------------+
+| Field               | Value                                |
++---------------------+--------------------------------------+
+| fixed_ip_address    |                                      |
+| floating_ip_address | 10.144.64.93                         |
+| floating_network_id | 1cb6add9-61a4-40a4-81ab-24295ad5896d |
+| id                  | 36f7b24c-f980-449d-a3c1-e45dd613c639 |
+| port_id             |                                      |
+| router_id           |                                      |
+| status              | DOWN                                 |
+| tenant_id           | 8a7e073f703b4232b126bda16e05f9d7     |
++---------------------+--------------------------------------+
+manager@maas-ctrl-1:~$ neutron port-list | grep 10.10.0.2
+| 8d98789e-57f9-4013-b2a9-8598ba3bbb43 |      | fa:16:3e:f7:02:f2 | {"subnet_id": "016a23e0-8a6d-4c65-a2d7-bd4bc19d3487", "ip_address": "10.10.0.2"}    |
+manager@maas-ctrl-1:~$ neutron floatingip-associate 36f7b24c-f980-449d-a3c1-e45dd613c639 8d98789e-57f9-4013-b2a9-8598ba3bbb43
+Associated floatingip 36f7b24c-f980-449d-a3c1-e45dd613c639
+</code></pre>
+
+<h3 id="next-steps">Next Steps</h3>
+<hr />
+
+<p>Now that you have a BIG-IP installed, you’ll need to configure it. Our<br />
+recommended resources for the setup process are listed below.</p>
+
+<h3 id="devcentral-community">DevCentral Community</h3>
+
+<p>The DevCentral F5 Onboard package contains a number of tools to ease deployment of BIG-IP and BIG-IQ. These tools can take care of setting passwords, licensing, provisioning, and setting up VLANs and IP addresses, upgrading software, and clustering multiple devices.</p>
+
+<h2 id="section">(#_1) {#_1}</h2>
+
+<h2 id="command-designcommand-design">(#command-design)Command Design</h2>
+
+<p>These tools are provided in the form of Bash shell wrappers around\<br />
+ scripts written in python. The python code uses the REST interface of\<br />
+ TMOS. This design was chosen so that they would integrate with<br />
+existing\<br />
+ shell or python scripts with minimal effort.</p>
+
+<h3 id="commands-for-tmos-openstack">(#commands-for-tmos-openstack)Commands for TMOS - OpenStack</h3>
+
+<p>The commands in this section are relevant to getting VE running on\<br />
+ OpenStack.</p>
+
+<h3 id="tmos-startup-script-overviewtmos-startup-script-overview">(#tmos-startup-script-overview)TMOS Startup Script Overview</h3>
+
+<p>IP/DHCP, DNS, SSH keys, passwords, Licensing, Module Provisioning</p>
+
+<h4 id="metadata-formatmetadata-format">(#metadata-format)Metadata Format</h4>
+
+<p>{</p>
+
+<p>“bigip”: {</p>
+
+<p>“ssh_key_inject”: “false”,</p>
+
+<p>“admin_password”: “”,</p>
+
+<p>“change_passwords”: “false”,</p>
+
+<p>“root_password”: “”,</p>
+
+<p>“license”: {</p>
+
+<p>“basekey”: “U1923-75960-85089-XXXXX-XXXXX”</p>
+
+<p>},</p>
+
+<p>“modules”: {</p>
+
+<p>“auto_provision”: “false”,</p>
+
+<p>“ltm”: “nominal”,</p>
+
+<p>“gtm”: “minimum”,</p>
+
+<p>“avr”: “none”,</p>
+
+<p>“apm”: “none”,</p>
+
+<p>“afm”: “none”,</p>
+
+<p>“asm”: “none”</p>
+
+<p>},</p>
+
+<p>“network”: {</p>
+
+<p>“dhcp”: “true”,</p>
+
+<p>“selfip_prefix”: “selfip-dhcp-abc-“,</p>
+
+<p>“vlan_prefix”: “network-abc-“,</p>
+
+<p>“interfaces”: {</p>
+
+<p>“1.1”: {</p>
+
+<p>“dhcp”: “true”,</p>
+
+<p>“selfip_allow_service”: “default”,</p>
+
+<p>“selfip_name”: “selfip.external”,</p>
+
+<p>“selfip_description”: “Self IP address for BIG-IP External (VIP)\<br />
+ subnet”,</p>
+
+<p>“vlan_name”: “vlan.external”,</p>
+
+<p>“vlan_description”: “VLAN for BIG-IP External traffic”</p>
+
+<p>},</p>
+
+<p>“1.2”: {</p>
+
+<p>“dhcp”: “true”,</p>
+
+<p>“selfip_allow_service”: “default”,</p>
+
+<p>“selfip_name”: “selfip.internal”,</p>
+
+<p>“selfip_description”: “Self IP address for BIG-IP Internal (Pool)\<br />
+ subnet”,</p>
+
+<p>“vlan_name”: “vlan.internal”,</p>
+
+<p>“vlan_description”: “VLAN for BIG-IP Internal traffic”</p>
+
+<p>},</p>
+
+<p>“1.3”: {</p>
+
+<p>“dhcp”: “true”,</p>
+
+<p>“selfip_allow_service”: “default”,</p>
+
+<p>“selfip_name”: “selfip.datanet”,</p>
+
+<p>“vlan_name”: “vlan.datanet”,</p>
+
+<p>“vlan_description”: “VLAN for OpenStack tunneling traffic”</p>
+
+<p>},</p>
+
+<p>“1.4”: {</p>
+
+<p>“dhcp”: “true”,</p>
+
+<p>“selfip_allow_service”: “default”,</p>
+
+<p>“selfip_name”: “selfip.ha”,</p>
+
+<p>“selfip_description”: “Self IP address for HA subnet”,</p>
+
+<p>“vlan_name”: “vlan.ha”,</p>
+
+<p>“vlan_description”: “VLAN for BIG-IP HA traffic”</p>
+
+<p>},</p>
+
+<p>“1.5”: {</p>
+
+<p>“dhcp”: “true”,</p>
+
+<p>“selfip_allow_service”: “default”,</p>
+
+<p>“selfip_name”: “selfip.mirroring”,</p>
+
+<p>“vlan_name”: “vlan.mirroring”,</p>
+
+<p>“vlan_description”: “VLAN for BIG-IP Mirroring traffic”</p>
+
+<p>}</p>
+
+<p>}</p>
+
+<p>}</p>
+
+<p>}</p>
+
+<p>}</p>
+
+<h3 id="big-iq-image-patching-for-openstackbig-iq-image-patching-for-openstack">(#big-iq-image-patching-for-openstack)BIG-IQ Image Patching for OpenStack</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>f5-onboard-openstack patch-image</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>patch-image-and-hotfix</p>
+
+<h3 id="big-ip-image-patching-for-openstackbig-ip-image-patching-for-openstack">(#big-ip-image-patching-for-openstack)BIG-IP Image Patching for OpenStack</h3>
+
+<p>f5-onboard-ve-openstack patch-image</p>
+
+<p>The image file name must end with .qcow2</p>
+
+<p>Usage:</p>
+
+<p>sudo env “PATH=\$PATH” f5-onboard-ve-openstack patch-image.sh\<br />
+ BIGIP-11.5.0.0.0.221.qcow2</p>
+
+<p>f5-onboard-ve-openstack patch-image-and-hotfix</p>
+
+<p>Example Usage:</p>
+
+<p>sudo env “PATH=\$PATH” f5-onboard-ve-openstack patch-image-and-hotfix\<br />
+ BIGIP-11.5.0.0.0.221.qcow2 base.iso hotfix.iso</p>
+
+<h3 id="deploying-big-iq-ve-on-openstackdeploying-big-iq-ve-on-openstack">(#deploying-big-iq-ve-on-openstack)Deploying BIG-IQ VE on OpenStack</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>f5-onboard-openstack deploy-admin-bigiqs</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>destroy-admin-bigiqs</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>deploy-tenant-bigiqs</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>destroy-tenant-bigiqs</p>
+
+<h3 id="deploying-big-ip-ve-on-openstackdeploying-big-ip-ve-on-openstack">(#deploying-big-ip-ve-on-openstack)Deploying BIG-IP VE on OpenStack</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>f5-onboard-openstack deploy-admin-bigips</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>destroy-admin-bigips</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>deploy-tenant-bigips</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>destroy-tenant-bigips</p>
+
+<p>f5-onboard-ve-openstack deploy-bigips</p>
+
+<p>–keystone-addr &lt;addr&gt;</p>
+
+<p>–admin-password &lt;pw&gt;</p>
+
+<p>–bigip-image &lt;img&gt;</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>–ha-type [ scalen</td>
+      <td>pair</td>
+      <td>standalone ]</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>–num-bigips &lt;num&gt;</p>
+
+<p>–bigip-index &lt;idx&gt; (starting bigip index)</p>
+
+<p>f5-onboard-ve-openstack destroy-bigips</p>
+
+<p>–keystone-addr &lt;addr&gt;</p>
+
+<p>–admin-password &lt;pw&gt;</p>
+
+<p>–num-bigips &lt;num&gt;</p>
+
+<p>–bigip-index &lt;idx&gt; (starting bigip index)</p>
+
+<h4 id="commands-for-tmos-general">(#commands-for-tmos-general)Commands for TMOS - General</h4>
+
+<p>These commands in this section should work with any set of BIG-IPs,\<br />
+ whether they are Virtual, Appliance, or vCMP®-based. These commands\<br />
+ presume you have already deployed BIG-IP in terms of basic setup and\<br />
+ licensing.</p>
+
+<p>If you are using VE, the commands in the next section can help you\<br />
+ deploy the BIG-IP from scratch.</p>
+
+<h3 id="upgrading-big-iq-softwareupgrading-big-iq-software">(#upgrading-big-iq-software)Upgrading BIG-IQ Software</h3>
+
+<h3 id="upgrading-big-ip-softwareupgrading-big-ip-software">(#upgrading-big-ip-software)Upgrading BIG-IP Software</h3>
+
+<p>f5-onboard-upgrade-bigips</p>
+
+<p>–keystone-addr &lt;addr&gt;</p>
+
+<p>–admin-password &lt;pw&gt;</p>
+
+<p>–bigip-image &lt;img&gt;</p>
+
+<p>–num-bigips &lt;num&gt;</p>
+
+<h3 id="clustering-big-ipsclustering-big-ips">(#clustering-big-ips)Clustering BIG-IPs</h3>
+
+<p>f5-onboard-cluster-bigips</p>
+
+<p>–keystone-addr &lt;addr&gt;</p>
+
+<p>–admin-password &lt;pw&gt;</p>
+
+<p>–bigip-image &lt;img&gt;</p>
+
+<p>–ha-type scalen pair standalone</p>
+
+<p>–num-bigips &lt;num&gt;</p>
+
+<p>–bigip-floating-ip-addr-list &lt;list&gt;</p>
+
+<p>–bigip-mgmt-addr-list &lt;list&gt;</p>
+
+<p>–bigip-ha-addr-list’ &lt;list&gt;</p>
+
+<p>–bigip-mirror-addr-list’ &lt;list&gt;</p>
+
+<p>(Lists are comma separated.)</p>
+
+<h3 id="commands-for-tmos---odk">Commands for TMOS - ODK</h3>
+
+<p>The commands in this section are relevant to getting VE running on\<br />
+ OpenStack, but presume that you have used the OpenStack Deployment Kit\<br />
+ (ODK) to deploy OpenStack and are using the reference implementation\<br />
+ that the ODK deploys. The ODK is an internal F5 testing tool.</p>
+
+<p>A significant difference between the commands in this section and the\<br />
+ generic OpenStack commands in the previous section is that the ODK is\<br />
+ used to get the keystone address and password. Therefore, you do not\<br />
+ need to provide those arguments in the following commands. The ODK is\<br />
+ storing your deployment information (in your \$HOME/.odk/conf and\<br />
+ \$HOME/.odk/state directories) so there is no need for you to<br />
+provide\<br />
+ those settings as arguments to these commands.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>f5-onboard-ve-odk attach-bigips-to-vlan-trunk</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>deploy-bigips-base</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>destroy-bigips-base</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>deploy-bigips</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>upgrade-bigips</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>cluster-bigips</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>destroy-bigips</p>
+
+<p>f5-onboard-ve-odk attach-bigips-to-vlan-trunk</p>
+
+<p>No arguments. Uses configured cluster settings.</p>
+
+<p>f5-onboard-ve-odk deploy-bigips-base</p>
+
+<p>–ha-type Which High Availability type to use: standalone, pair, scalen</p>
+
+<p>Default: pair</p>
+
+<p>–bigip-image Which BIG-IP to use</p>
+
+<p>Default: BIGIP-11.5.0.0.0.221-OpenStack.qcow2</p>
+
+<p>f5-onboard-ve-odk destroy-bigips-base</p>
+
+<p>–ha-type Which High Availability type to use: standalone, pair, scalen</p>
+
+<p>Default: pair</p>
+
+<p>–bigip-image Which BIG-IP to use</p>
+
+<p>Default: BIGIP-11.5.0.0.0.221-OpenStack.qcow2</p>
+
+<p>f5-onboard-ve-odk deploy-bigips</p>
+
+<p>–bigip-image Which BIG-IP to use</p>
+
+<p>Default: BIGIP-11.5.0.0.0.221-OpenStack.qcow2</p>
+
+<p>–ha-type Which High Availability type to use: standalone, pair, scalen</p>
+
+<p>Default: pair</p>
+
+<p>–num-bigips Number of big-ips to deploy for scalen mode</p>
+
+<p>Default: 4</p>
+
+<p>–sync-mode Which Synchronization mode to use: replication or autosync</p>
+
+<p>Default: replication</p>
+
+<p>f5-onboard-ve-odk destroy-bigips</p>
+
+<p>No arguments. Uses configured cluster settings.</p>
+
+<p>f5-onboard-ve-odk upgrade-bigips</p>
+
+<p>No arguments. Uses configured cluster settings.</p>
+
+<p>f5-onboard-ve-odk cluster-bigips</p>
+
+<p>No arguments. Uses configured cluster settings.</p>
+
+<p>f5-onboard-lbaas</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>configure-bigip-plugin</td>
+      <td>unconfigure-bigip-plugin</td>
+    </tr>
+  </tbody>
+</table>
+
+    
+	</div>
+ 
+<hr>
+<footer>
+  <div class="footer">
+      <ul class="list-inline">
+      <li class="fa fa-3x"><a href="http://github.com/F5Networks" target="_blank" title="GitHub" ><i class="fa-github-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://twitter.com/f5networks" target="_blank" title="Twitter" ><i class="fa-twitter-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://www.linkedin.com/companies/f5-networks" target="_blank" title="LinkedIn"><i class="fa-linkedin-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://www.facebook.com/f5networksinc" target="_blank" title="Facebook"><i class="fa-facebook-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://www.youtube.com/f5networksinc" target="_blank" title="YouTube"><i class="fa-youtube-square"></i></a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+
+<!-- tocify scripts-->
+<script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="http://F5Networks.github.io/f5-openstack-docs/js/jquery.tocify.js"></script>
+<script>
+        $(function() {
+            //Calls the tocify method on the HTML div.
+            $("#toc").tocify();
+        });
+</script>    
+</html>          
+
