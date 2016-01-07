@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+ <head>
+
+<link rel="icon" sizes="196x196" href="http://cdn.f5.com/digital-platforms/images/f5-196.png">
+
+<title>Exploring OpenStack</title>    
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Site metadata -->
+<meta name="description" content="Uniquely cloud-ready">
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-docs.css" type="text/css">
+<link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap.css">
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-theme.css">
+<link rel="stylesheet" type="text/css" href="http://F5Networks.github.io/f5-openstack-docs/css/font-awesome.css">
+<!-- tocify styles-->
+<link type="text/css" rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/jquery.tocify.css">
+<!-- jquery -->
+<script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="http://F5Networks.github.io/f5-openstack-docs/js/bootstrap.js"></script>
+
+<!-- tocify -->
+<script src="http://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+<script src="http://F5Networks.github.io/f5-openstack-docs/js/jquery.tocify.js"></script>
+
+<!--styles>
+ 
+
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap.css" type="text/css">
+    
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-theme.css" type="text/css">
+
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/font-awesome.css" type="text/css"-->
+ 
+
+<!-- cannonical link settings
+ <link rel="canonical" href="http://F5Networks.github.io/f5-openstack-docs/Exploring_OpenStack/">-->
+
+ <link rel="alternate" type="application/rss+xml" title="F5 OpenStack" href="http://F5Networks.github.io/f5-openstack-docsfeed.xml" />
+   
+</head>
+
+
+
+<body class="padding-top:70px">
+  <header>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <a class="navbar-brand" href="http://f5.com"><img src="https://cdn.f5.com/digital-platforms/images/logo.svg" alt="F5 Networks" height="25" /></a> </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="topFixedNavbar1">
+        <ul class="nav navbar-nav">
+          <li><a href="http://devcentral.f5.com" target="_blank">F5 DevCentral</a></li>
+          <li><a href="http://support.f5.com" target="_blank">F5 Support</a></li>
+          <li><a href="https://devcentral.f5.com/d/openstack-neutron-lbaas-driver-and-agent" target="_blank">Get the F5 LBaaSv1 Plugin</a></li>      
+          <li><a href="http://github.com/F5Networks" target="_blank">F5Networks on GitHub<span class="sr-only"></span></a></li>
+          <li class="dropdown"><a href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">F5Networks Project Repos<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <!--li><a href="https://github.com/F5Networks/f5-openstack-lbaasv2">F5 OpenStack LBaaSv2 Plug-in</a></li-->
+              <!--li><a href="">F5 OpenStack API Libraries</a></li-->
+              <li><a href="https://github.com/F5Networks/openstack-f5-lbaasv1" target="_blank">F5 OpenStack LBaaSv1 plugin driver</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-agent" target="_blank">F5 OpenStack LBaaSv1 plugin agent</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="https://github.com/F5Networks/f5-common-python" target="_blank">F5 common python</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-odk" target="_blank">F5 OpenStack Deployment Kit</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-heat-plugins" target="_blank">F5 OpenStack Heat Plug-ins</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Partners<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="" target="_blank">Mirantis</a></li>
+              <li><a href="https://access.redhat.com/ecosystem/software/1446683" target="_blank">Red Hat</a></li>
+              <!--li><a href="">Something else here</a></li-->
+            </ul>
+          </li>
+        <!--form class="navbar-form navbar-right" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form-->
+         
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+
+</header>
+
+
+
+<div class="alert alert-danger alert-dismissible" role="alert">
+ <strong>Heads up!</strong> This site is under construction and not all doc sets are available.
+</div>
+
+<div class="container-fluid" class="position:fixed">
+   <h1>Exploring OpenStack</h1>
+</div>
+
+<div class="bs-docs-sidebar">
+ <div class="bs-docs-sidenav" id="toc">
+ </div>
+</div>
+
+<div class="bs-docs-container">
+		 <h1 id="overview">Overview</h1>
+
+<p>You can log in to the OpenStack dashboard with the following URL (replacing with your IP address): <em>http://&lt;ip_address&gt;/dashboard</em>.</p>
+
+<p><strong>NOTE:</strong> We’ve had better luck accessing VM remote consoles with Chrome than with Internet Explorer.</p>
+
+<p>If you’ve used the <a href="#">QuickStart configuration</a>, you can log in into the admin project using the username “admin” and password from the <em>keystonerc_admin</em> file which is placed in your local directory.</p>
+
+<h1 id="projects">Projects</h1>
+<p>You can also log in as a regular tenant using the username “user_1” and password “user_1”; this will log you into the “proj_1” tenant project. You can also explore proj_2 and proj_3 using credentials “user_2” and “user_3”, respectively.</p>
+
+<h1 id="exploring-the-openstack-cli">Exploring the OpenStack CLI</h1>
+
+<p>You can use the OpenStack CLI by first sourcing the credentials:</p>
+
+<p><code>[manager@pack43 ~]$ source keystonerc_admin</code></p>
+
+<p>Check out a few commands:</p>
+
+<p><code>[manager@pack43 ~(keystone_admin)]$ keystone tenant-list</code></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">id</th>
+      <th style="text-align: left">name</th>
+      <th style="text-align: left">enabled</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">ca2d148d2f004029b147084a0e58f69c</td>
+      <td style="text-align: left">admin</td>
+      <td style="text-align: left">True</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">32d4cde8a9c54767883e4a3894373155</td>
+      <td style="text-align: left">proj_1</td>
+      <td style="text-align: left">True</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">b2b7599a9ba34292ab1a66a6239fc201</td>
+      <td style="text-align: left">proj_2</td>
+      <td style="text-align: left">True</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">4fbf9eddf32c41e28a40beb935e96c35</td>
+      <td style="text-align: left">proj_3</td>
+      <td style="text-align: left">True</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">18fc8dbb8d9745429e10224de01a78a3</td>
+      <td style="text-align: left">services</td>
+      <td style="text-align: left">True</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>More commands to try:</p>
+
+<pre><code>[manager@pack43 ~(keystone_admin)]$ keystone user-list
+[manager@pack43 ~(keystone_admin)]$ keystone role-list
+[manager@pack43 ~(keystone_admin)]$ keystone user-role-list
+[manager@pack43 ~(keystone_admin)]$ keystone service-list
+[manager@pack43 ~(keystone_admin)]$ keystone catalog
+[manager@pack43 ~(keystone_admin)]$ nova service-list
+[manager@pack43 ~(keystone_admin)]$ neutron agent-list
+</code></pre>
+
+<p>Check out the Load Balancer Agent (be sure to use the ID listed in the previous command):</p>
+
+<p><strong>INSERT TABLE IMAGE HERE</strong></p>
+
+<h3 id="explore-networks-and-floating-ips">Explore Networks and Floating IPs</h3>
+
+<pre><code>neutron net-list
+neutron net-show &lt;id&gt;
+neutron subnet-list
+neutron subnet-show &lt;id&gt;
+neutron port-list
+neutron port-show &lt;id&gt;
+neutron floatingip-list
+</code></pre>
+
+<h2 id="explore-flavors-images-and-vms">Explore Flavors, Images, and VMs</h2>
+
+<pre><code>nova list
+nova show bigip1
+nova hypervisor-list
+nova hypervisor-servers &lt;hypervisor-hostname&gt;
+nova hypervisor-stats
+nova image-list
+nova flavor-list
+nova flavor-show m1.bigip
+</code></pre>
+
+<h2 id="explore-security-rules">Explore Security Rules</h2>
+
+<pre><code>neutron security-group-list
+neutron security-group-rule-list
+</code></pre>
+
+<h2 id="explore-firewall-configuration">Explore Firewall Configuration</h2>
+
+<p><strong>NOTE:</strong> If you haven’t created a firewall, the results of these commands will be empty.</p>
+
+<pre><code>neutron firewall-list
+neutron firewall-policy-list
+neutron firewall-rule-list
+</code></pre>
+
+<h2 id="explore-lbaas-configuration">Explore LBaaS Configuration</h2>
+
+<pre><code>neutron help | grep lb-
+neutron lb-vip-list
+neutron lb-pool-list
+neutron lb-member-list
+neutron lb-healthmonitor-list
+</code></pre>
+
+<h2 id="explore-big-ip">Explore BIG-IP</h2>
+
+<p>Use <code>nova list</code> to find the address of your BIG-IP (in the following example, it’s 10.99.2.2). The BIG-IP will begin with the default credentials. To access the BIG-IP GUI from a remote machine, run the following IPTables commands on the CentOS host command line:</p>
+
+<pre><code>myif=`ip route show | grep default | head -n 1 | cut -d' ' -f5`
+myip=`ip addr show dev $myif | grep "inet "| cut -d' ' -f6 | cut -d'/'
+-f1`
+iptables -t nat -A PREROUTING -i $myif -p tcp --dport 2443 -d $myip -m
+conntrack --ctstate NEW -j DNAT --to-destination 10.99.2.2:443
+</code></pre>
+<p>If you deployed a second BIG-IP using the option “–ha-type pair” (which is not the default), then you should also do this for the second BIG-IP:</p>
+
+<pre><code>iptables -t nat -A PREROUTING -i \$myif -p tcp --dport 3443 -d $myip -m
+conntrack --ctstate NEW -j DNAT --to-destination 10.99.2.3:443
+</code></pre>
+
+<h3 id="explore-big-ip-partitions-and-ltm-objects">Explore BIG-IP Partitions and LTM Objects</h3>
+
+<p>Log in to the BIG-IP.</p>
+
+<pre><code>tmsh
+list net tunnels
+</code></pre>
+<p>Type <code>cd /u&lt;tab&gt; …</code>, select a folder, and press return.</p>
+
+<pre><code>list ltm virtuals
+list ltm pools
+</code></pre>
+
+<h3 id="explore-tunnel-config">Explore Tunnel Config</h3>
+
+<p>Log in to the BIG-IP.</p>
+
+<pre><code>tmsh
+
+list net tunnels
+</code></pre>
+<p>Type <code>cd /u&lt;tab&gt; …</code>, select a folder, and press return.</p>
+
+<pre><code>list net tunnels
+</code></pre>
+
+<h3 id="launch-a-nova-instance">Launch a Nova Instance</h3>
+
+<pre><code>curl -O http://cloud-images.ubuntu.com/releases/precise/release/ubuntu-12.04-server-cloudimg-amd64-disk1.img
+glance image-create --name Ubuntu-12.04-LTS-OVF --is-public True --disk-format qcow2 --container-format ovf \\ --file ubuntu-12.04-server-cloudimg-amd64-disk1.img --property os_distro=ubuntu
+curl -O http://cloud-images.ubuntu.com/releases/trusty/release/ubuntu-14.04-server-cloudimg-amd64-disk1.img
+glance image-create --name Ubuntu-14.04-LTS-OVF --is-public True --disk-format qcow2 --container-format ovf \\ --file ubuntu-14.04-server-cloudimg-amd64-disk1.img --property os_distro=ubuntu
+nova keypair-add --pub_key \~/.ssh/id_rsa.pub default_key
+nova keypair-list
+nova boot my-trusty --flavor m1.small --key_name default_key --image Ubuntu-12.04-LTS-OVF
+</code></pre>
+
+</div>
+ 
+<hr>
+
+<footer>
+  <div class="footer">
+      <ul class="list-inline">
+      <li class="fa fa-3x"><a href="http://github.com/F5Networks" target="_blank" title="GitHub" ><i class="fa-github-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://twitter.com/f5networks" target="_blank" title="Twitter" ><i class="fa-twitter-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://www.linkedin.com/companies/f5-networks" target="_blank" title="LinkedIn"><i class="fa-linkedin-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://www.facebook.com/f5networksinc" target="_blank" title="Facebook"><i class="fa-facebook-square"></i></a></li>
+      <li class="fa fa-3x"><a href="http://www.youtube.com/f5networksinc" target="_blank" title="YouTube"><i class="fa-youtube-square"></i></a></li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+
+<!-- tocify scripts-->
+<script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="http://F5Networks.github.io/f5-openstack-docs/js/jquery.tocify.js"></script>
+<script>
+        $(function() {
+            //Calls the tocify method on the HTML div.
+            $("#toc").tocify();
+        });
+</script>    
+</html>          
+

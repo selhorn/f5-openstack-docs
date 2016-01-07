@@ -4,7 +4,7 @@
 
 <link rel="icon" sizes="196x196" href="http://cdn.f5.com/digital-platforms/images/f5-196.png">
 
- <title>LBaaS Plug-in Architecture and Design</title>    
+<title>F5 OpenStack LBaaSv1 Plugin Architecture and Design</title>    
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,19 +13,34 @@
 <!-- Site metadata -->
 <meta name="description" content="Uniquely cloud-ready">
 
-<!--styles-->
- <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-docs.css" type="text/css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-docs.css" type="text/css">
+<link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap.css">
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-theme.css">
+<link rel="stylesheet" type="text/css" href="http://F5Networks.github.io/f5-openstack-docs/css/font-awesome.css">
+<!-- tocify styles-->
+<link type="text/css" rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/jquery.tocify.css">
+<!-- jquery -->
+<script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="http://F5Networks.github.io/f5-openstack-docs/js/bootstrap.js"></script>
+
+<!-- tocify -->
+<script src="http://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+<script src="http://F5Networks.github.io/f5-openstack-docs/js/jquery.tocify.js"></script>
+
+<!--styles>
+ 
 
  <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap.css" type="text/css">
     
  <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-theme.css" type="text/css">
 
- <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/font-awesome.css" type="text/css">
+ <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/font-awesome.css" type="text/css"-->
  
-<!-- tocify styles-->
- <link type="text/css" rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/jquery.tocify.css">
 
-<!-- jekyll stuff
+<!-- cannonical link settings
  <link rel="canonical" href="http://F5Networks.github.io/f5-openstack-docs/plug-in_architecture-design/">-->
 
  <link rel="alternate" type="application/rss+xml" title="F5 OpenStack" href="http://F5Networks.github.io/f5-openstack-docsfeed.xml" />
@@ -34,240 +49,183 @@
 
 
 
-<body>
+<body class="padding-top:70px">
   <header>
-  <nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topFixedNavbar1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-        <a class="navbar-brand" href="http://f5.com"><img src="https://cdn.f5.com/digital-platforms/images/logo.svg" alt="F5 Networks" height="25"></a> </div>
+        <a class="navbar-brand" href="http://f5.com"><img src="https://cdn.f5.com/digital-platforms/images/logo.svg" alt="F5 Networks" height="25" /></a> </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="topFixedNavbar1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="http://github.com/F5Networks">F5Networks on GitHub<span class="sr-only">(current)</span></a></li>
-          <li><a href="http://devcentral.f5.com">DevCentral</a></li>
-          <li><a href="http://support.f5.com">Support</a></li>
-          <li><a href="https://devcentral.f5.com/d/openstack-neutron-lbaas-driver-and-agent">Get the LBaaSv1 Plugin</a></li>
-          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Project Repos<span class="caret"></span></a>
+          <li><a href="http://devcentral.f5.com" target="_blank">F5 DevCentral</a></li>
+          <li><a href="http://support.f5.com" target="_blank">F5 Support</a></li>
+          <li><a href="https://devcentral.f5.com/d/openstack-neutron-lbaas-driver-and-agent" target="_blank">Get the F5 LBaaSv1 Plugin</a></li>      
+          <li><a href="http://github.com/F5Networks" target="_blank">F5Networks on GitHub<span class="sr-only"></span></a></li>
+          <li class="dropdown"><a href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">F5Networks Project Repos<span class="caret"></span></a>
             <ul class="dropdown-menu">
               <!--li><a href="https://github.com/F5Networks/f5-openstack-lbaasv2">F5 OpenStack LBaaSv2 Plug-in</a></li-->
+              <!--li><a href="">F5 OpenStack API Libraries</a></li-->
+              <li><a href="https://github.com/F5Networks/openstack-f5-lbaasv1" target="_blank">F5 OpenStack LBaaSv1 plugin driver</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-agent" target="_blank">F5 OpenStack LBaaSv1 plugin agent</a></li>
               <li role="separator" class="divider"></li>
-              <!--li><a href="#">F5 OpenStack API Libraries</a></li-->
-              <li><a href="https://github.com/F5Networks/openstack-f5-lbaasv1">F5 OpenStack LBaaSv1 plugin driver</a></li>
-              <li><a href="https://github.com/F5Networks/f5-openstack-agent">F5 OpenStack LBaaSv1 plugin agent</a></li>
-               <li role="separator" class="divider"></li>
-              <li><a href="https://github.com/F5Networks/f5-common-python">F5 common python</a></li>
-              <li><a href="https://github.com/F5Networks/f5-openstack-odk">F5 OpenStack Deployment Kit</a></li>
-              <li><a href="https://github.com/F5Networks/f5-openstack-heat-plugins">F5 OpenStack Heat Plug-ins</a></li>
+              <li><a href="https://github.com/F5Networks/f5-common-python" target="_blank">F5 common python</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-odk" target="_blank">F5 OpenStack Deployment Kit</a></li>
+              <li><a href="https://github.com/F5Networks/f5-openstack-heat-plugins" target="_blank">F5 OpenStack Heat Plug-ins</a></li>
             </ul>
           </li>
-        </ul>
-        <form class="navbar-form navbar-right" role="search">
+          <li class="dropdown"><a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Partners<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="" target="_blank">Mirantis</a></li>
+              <li><a href="https://access.redhat.com/ecosystem/software/1446683" target="_blank">Red Hat</a></li>
+              <!--li><a href="">Something else here</a></li-->
+            </ul>
+          </li>
+        <!--form class="navbar-form navbar-right" role="search">
           <div class="form-group">
             <input type="text" class="form-control" placeholder="Search">
           </div>
           <button type="submit" class="btn btn-default">Submit</button>
-        </form>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Partners<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Mirantis</a></li>
-              <!--li><a href="#">Another action</a></li-->
-              <!--li><a href="#">Something else here</a></li-->
-              <li role="separator" class="divider"></li>
-              <!--li><a href="#">Separated link</a></li-->
-            </ul>
-          </li>
+        </form-->
+         
         </ul>
       </div>
       <!-- /.navbar-collapse -->
     </div>
     <!-- /.container-fluid -->
   </nav>
+
 </header>
- <hr>  
-     <div class="bs-docs-header">
-    <h1>LBaaS Plug-in Architecture and Design</h1>
-   </div>
-  </div>
 
-  <div class="bs-docs-sidebar">
-    <div class="bs-docs-sidenav" id="toc">
-    </div>
-  </div>
- <div class="bs-docs-container">
-  	
-		 <p>#F5 LBaaS Plug-in Architecture and Design</p>
 
-<p>##Overview</p>
 
-<p>OpenStack defines standard services in terms of command line, API, and<br />
-GUI interfaces. Services can be implemented via plug-ins.</p>
+<div class="alert alert-danger alert-dismissible" role="alert">
+ <strong>Heads up!</strong> This site is under construction and not all doc sets are available.
+</div>
 
-<p>The F5 LBaaS plug-in for the Neutron load balancing service uses existing OpenStack python classes to implement its primary service functions.</p>
+<div class="container-fluid" class="position:fixed">
+   <h1>F5 OpenStack LBaaSv1 Plugin Architecture and Design</h1>
+</div>
 
-<p>The F5 LBaaS plug-in is delivered as two packages, each of which contains python code, configuration scripts, and accompanying materials:</p>
+<div class="bs-docs-sidebar">
+ <div class="bs-docs-sidenav" id="toc">
+ </div>
+</div>
 
-<ul>
-  <li>the Plug-in;</li>
-  <li>the Agent.</li>
-</ul>
+<div class="bs-docs-container">
+		 <h1 id="overview">Overview</h1>
 
-<p>The F5 LBaaS Plug-in passes LBaaS requests off to the F5 LBaaS Agent, which provisions network resources.</p>
+<p>OpenStack defines standard services in terms of command line, API, and GUI interfaces. OpenStack services can be implemented via plugins. The F5 OpenStack LBaaSv1 plugin for the Neutron load balancing service uses existing OpenStack python classes to implement its primary service functions. The plugin consists of two packages – driver and agent – each of which contains python code, configuration scripts, and accompanying materials. The driver passes lbaas requests off to the agent, which provisions network resources. Multiple agents can run simultaneously; each agent handles requests for a specific subset of the tenants.</p>
 
-<p>Multiple agents can run simultaneously; each agent handles requests for a specific subset of the tenants.<br />
-<strong>__</strong><strong>__</strong>_</p>
-
-<h2 id="components">Components</h2>
-
-<p>The F5 LBaaS solution is comprised of three major deliverables:</p>
+<p>The F5 OpenStack LBaaSv1 Plugin is comprised of three major deliverables:</p>
 
 <ol>
-  <li>
-    <p>F5 LBaaS Plug-in Package</p>
-  </li>
-  <li>
-    <p>F5 LBaaS Agent Package</p>
-  </li>
-  <li>
-    <p>F5 BIG-IP Application Delivery Controller</p>
-  </li>
+  <li>driver package</li>
+  <li>agent package</li>
+  <li>F5 BIG-IP Application Delivery Controller</li>
 </ol>
 
-<p>The deliverables can be broken down into the following major solution<br />
-components:</p>
+<p>The necessary components for implementing load balancing via the F5 OpenStack LBaaSv1 plugin are:</p>
 
 <ul>
-  <li>
-    <p><strong>Neutron Server</strong>: Receives LBaaS API requests. Neutron is part of OpenStack and must be set up and working <em>before</em> the F5 LBaaS solution is installed. <em>F5 Networks does not sell, implement, or support OpenStack</em>.</p>
+  <li><strong>Neutron Server</strong>: Receives LBaaS API requests. Neutron is part of OpenStack and must be set up and working <em>before</em> the F5 LBaaSv1 plugin is installed. <em>F5 Networks does not sell, implement, or support OpenStack</em>.</li>
+  <li><strong>F5 LBaaS Service Plugin</strong>: Accepts F5 LBaaS requests from Neutron.
+    <ul>
+      <li><strong>Driver</strong> (F5PluginDriver): Handles F5 LBaaS requests; selects an agent and passes request to the agent via a messaging-based Remote Procedure Call.</li>
+      <li><strong>Agent</strong>: Responsible for handling the LBaaS requests for a subset of tenants. Each agent can utilize one BIG-IP Device Service Group (‘DSG’; also called a cluster) to set up the service for its tenants. The agent loads an ‘agent manager’ to which it delegates all requests.</li>
+      <li><strong>F5 LBaaS Agent Manager</strong>: Runs in the F5 LBaaS agent. The agent manager loads the agent driver; handles requests from the service plugin; and passes request to the agent driver.</li>
+      <li><strong>F5 LBaaS Agent Driver</strong>: Runs in the F5 LBaaS agent. The agent driver takes requests from the agent manager and configures BIG-IP.</li>
+    </ul>
   </li>
-  <li>
-    <p><strong>F5 LBaaS Service Plug-in</strong>: Accepts F5 LBaaS requests from Neutron.</p>
-  </li>
-  <li>
-    <p><strong>F5 LBaaS Service Plug-in Driver (F5PluginDriver)</strong> (loaded by the F5 service plug-in): Handles F5 LBaaS requests on behalf of the Plug-in; selects an Agent; passes request to the Agent via a messaging-based Remote Procedure Call.</p>
-  </li>
-  <li>
-    <p><strong>F5 LBaaS Agent</strong>: Responsible for handling the LBaaS requests for a subset of tenants. Each agent can utilize one BIG-IQ and/or one BIG-IP Device Service Group (‘DSG’; also called a cluster) to set up the service for its tenants. The Agent loads an Agent Manager, to which it delegates all requests.</p>
-  </li>
-  <li>
-    <p><strong>F5 LBaaS Agent Manager</strong>: Runs in the F5 LBaaS Agent. The Agent Manager loads the F5 Agent Driver; handles  requests from the Service Plug-in; and passes request to the F5 Agent Driver.</p>
-  </li>
-  <li>
-    <p><strong>F5 LBaaS Agent Driver</strong>: Runs in the F5 Agent. The Agent Driver takes requests from the Agent Manager and configures BIG-IP or passes them to BIG-IQ (depending on the setup being used).</p>
-  </li>
-  <li>
-    <p><strong>BIG-IP Device Service Group</strong> (DSG, or cluster): One or more BIG-IP devices or BIG-IP VE instances.<br />
-<strong>__</strong><strong>__</strong><strong>__</strong></p>
-  </li>
+  <li><strong>BIG-IP Device Service Group</strong> (DSG, or cluster): One or more BIG-IP devices or BIG-IP VE instances.<br />
+<strong>__</strong><strong>__</strong><strong>__</strong></li>
 </ul>
 
-<h2 id="configurations">Configurations</h2>
+<h1 id="configurations">Configurations</h1>
 
-<h3 id="single-agent">Single Agent</h3>
+<h2 id="single-agent">Single Agent</h2>
 
-<p>In a Single Agent setup (Figure 1), each agent manages one BIG-IP DSG.</p>
+<p>In a Single Agent setup (see Figure 1), each agent manages one BIG-IP DSG.</p>
 
-<p><img src="architecture_single-agent-diagram.png" alt="" title="Figure 1" /></p>
+<p><img src="http://F5Networks.github.io/f5-openstack-docs" alt="Figure 1" /></p>
 
-<h3 id="multiple-agent">Multiple Agent</h3>
+<h2 id="multiple-agent">Multiple Agent</h2>
 
-<p>In a Multiple Agent setup (Figure 2), multiple agents are installed; each agent automatically handles a specific subset of the tenants.</p>
+<p>In a Multiple Agent setup ( see Figure 2), multiple agents are installed; each agent handles a specific subset of the tenants automatically.</p>
 
-<p><img src="architecture_multi-agent-diagram.png" alt="" title="Figure 2" /></p>
+<p><img src="http://F5Networks.github.io/f5-openstack-docs" alt="Figure 2" /></p>
 
 <h3 id="agent-tenant-affinity">Agent-Tenant Affinity</h3>
 
-<p>The F5 LBaaS solution permanently maps a tenant to a particular agent (Figure 3).</p>
+<p>The F5 OpenStack LBaaSv1 service permanently maps a tenant to a particular agent (Figure 3).</p>
 
-<p><img src="architecture_agent-tenant-affinity.png" alt="" title="Figure 3" /><br />
-<strong>__</strong><strong>__</strong>_</p>
+<p><img src="http://F5Networks.github.io/f5-openstack-docs" alt="Figure 3" /><br />
+<strong>__</strong><strong>__</strong><strong>__</strong><br />
+# Components</p>
 
-<h2 id="components-1">Components</h2>
+<h2 id="driver">Driver</h2>
 
-<h3 id="plug-in-driver">Plug-in Driver</h3>
+<p>The F5 OpenStack LBaaSv1 plugin driver processes individual LBaaS API calls. It converts calls to F5 LBaaS Service Requests and passes them to the F5 LBaaS agent.</p>
 
-<p>The plug-in driver processes individual LBaaS API calls. It converts calls to F5 LBaaS Service Requests and passes them to the F5 LBaaS agent.</p>
+<h2 id="agent-manager">Agent Manager</h2>
 
-<h3 id="agent-manager">Agent Manager</h3>
+<p>The F5 OpenStack LBaaSv1 plugin agent manager receives RPC calls and relays them to the agent driver.</p>
 
-<p>The agent manager receives RPC calls and relays them to the agent driver.</p>
+<h2 id="agent-driver-icontrol">Agent Driver (iControl)</h2>
 
-<h3 id="agent-driver-icontrol">Agent Driver (iControl)</h3>
+<p>The F5 OpenStack LBaaSv1 plugin agent driver configures all aspects of the service. The driver leverages “Builder” classes to configure networking on BIG-IP via iControl REST API calls.</p>
 
-<p>The agent driver configures all aspects of the service. The driver leverages  “Builder” classes to configure networking on BIG-IP.</p>
-
-<h4 id="builder-classes">Builder Classes</h4>
+<h3 id="builder-classes">Builder Classes</h3>
 
 <ul>
-  <li>
-    <p><strong>Network Builder</strong>: Used to configure all of the necessary networking for a service definition on BIG-IP.</p>
-  </li>
-  <li>
-    <p><strong>LBaaS Builder</strong>: Creates high-level objects for the service, such as the pool, pool members, vip, and monitors. It can either deploy an iApp to BIG-IP or configure BIG-IP directly.</p>
-  </li>
+  <li><strong>Network Builder</strong>: Used to configure all of the necessary networking for a service definition on BIG-IP.</li>
+  <li><strong>LBaaS Builder</strong>: Creates high-level objects for the service, such as the pool, pool members, vip, and monitors. It can either deploy an iApp to BIG-IP or configure BIG-IP directly.</li>
 </ul>
 
-<h3 id="configuration-managers">Configuration Managers</h3>
+<h2 id="configuration-managers">Configuration Managers</h2>
 
 <p>Configuration managers address object-definition conflicts that can arise from differences in terminology.</p>
 
 <ul>
-  <li><strong>tenant</strong>, <strong>l2</strong>, <strong>selfip</strong>, <strong>snat</strong>, <strong>pool</strong>, and <strong>vip</strong> managers: Convert OpenStack LBaaS service-defined objects to their corresponding F5-defined counterparts.</li>
-  <li><strong>vCMP manager</strong>: Talks to the vCMP host to assign VLANs to a guest.<br />
-<strong>__</strong><strong>__</strong>_</li>
+  <li><strong>tenant</strong>, <strong>l2</strong>, <strong>selfip</strong>, <strong>snat</strong>, <strong>pool</strong>, and <strong>vip</strong> managers: Convert OpenStack LBaaSv1 service-defined objects to their corresponding F5-defined counterparts.</li>
+  <li><strong>vCMP manager</strong>: Talks to the vCMP host to assign VLANs to guests.</li>
 </ul>
 
-<h2 id="service-definition">Service Definition</h2>
+<hr />
+<p># Service Definition</p>
 
-<p>Requests come in to the F5 LBaaS agent as full service definitions. The driver looks up networks, mac entries, segmentation info, etc., and places the information in a service object (which is a python dictionary variable). It then passes that service object to the agent.</p>
+<p>Requests come in to the F5 OpenStack LBaaSv1 plugin as full service definitions. The driver looks up networks, mac entries, segmentation info, etc., and places the information in a service object, which is a python dictionary variable. The driver then passes that service object to the agent. Figure 4 shows a simplified example of a service definition.</p>
 
-<p>Figure 4 is a simplified example of a service definition.</p>
+<p><img src="http://F5Networks.github.io/f5-openstack-docs" alt="Figure 4" /><br />
+<strong>__</strong><strong>__</strong><strong>__</strong><br />
+# Plugin Classes</p>
 
-<p><img src="architecture_service-definition.png" alt="" title="Figure 4" /></p>
+<p>The F5 OpenStack LBaaSv1 Plugin driver runs in the Neutron process and has access to all of the methods and data used by Neutron.</p>
 
-<h2 id="plug-in-classes">Plug-in Classes</h2>
+<p><code>F5PluginDriver</code> – Called as the F5 LBaaS “provider” in the Neutron server config file. It receives the method calls for the LBaaS service. This class is derived from a Neutron class named “LoadBalancerAbstractDriver”.<br />
+<code>LoadBalancerAgentApi</code> – Interface for RPC calls to agents. <br />
+<code>LoadBalancerCallbacks</code> – Handles requests from the agent.<br />
+<code>TenantScheduler</code> – Assigns an agent to handle an operation on a load-balancing pool.</p>
 
-<p>The F5 LBaaS Plug-in Driver runs in the Neutron process and has access<br />
-to all the methods and data that Neutron uses.</p>
+<h2 id="agent-processes">Agent Processes</h2>
+
+<p>The F5 OpenStack LBaaSv1 Plugin agent runs as a standalone process with its own startup, configuration, and logging files.</p>
 
 <ul>
-  <li>
-    <p>F5PluginDriver: Called as the F5 LBaaS “provider” in the Neutron server config file. It receives the method calls for the LBaaS service. This class is derived from a Neutron class named “LoadBalancerAbstractDriver”.</p>
-  </li>
-  <li>
-    <p>LoadBalancerAgentApi: Interface for RPC calls to agents.</p>
-  </li>
-  <li>
-    <p>LoadBalancerCallbacks: Handles requests from the agent.</p>
-  </li>
-  <li>
-    <p>TenantScheduler: Assigns an agent to handle an operation on a load-balancing pool.</p>
-  </li>
+  <li><strong>execution script</strong>: <em>/usr/bin/f5-bigip-lbaas-agent</em>. A short python program which imports the agent and runs the main function.</li>
+  <li><strong>startup script</strong>: located in <em>/etc/init</em> directory. Passes all the appropriate command line options to specify the config and logging files.</li>
+  <li><strong>main agent process entry point</strong>: <em>agent.py</em>. The main program creates an instance of LbaasAgentManager (from the agent_manager module), which in turn creates an instance of the agent driver, which is, by default, the iControlDriver class in the icontrol_driver module.</li>
 </ul>
 
-<h3 id="agent-processes">Agent Processes</h3>
+<hr />
+<p># RPC Classes</p>
 
-<p>The agent runs as a standalone process with its own startup, configuration, and logging files.</p>
-
-<p>The <strong>execution script</strong> – a short python program which imports the agent and runs the main function – is <em>/usr/bin/f5-bigip-lbaas-agent</em>.</p>
-
-<p>The <strong>startup script</strong> – which passes all the appropriate command line options to specify the config and logging files – is in the <em>/etc/init</em> directory.</p>
-
-<p>The <strong>main agent process entry point</strong> is in <em>agent.py</em>. The main program<br />
-creates an instance of LbaasAgentManager (from the agent_manager<br />
-module), which in turn creates an instance of the agent driver, which<br />
-is, by default, the iControlDriver class in the icontrol_driver module.<br />
-<strong>__</strong><strong>__</strong>_____</p>
-
-<h2 id="rpc-classes">RPC Classes</h2>
-
-<h3 id="overview">Overview</h3>
+<h2 id="overview-1">Overview</h2>
 
 <p>The LBaaS Driver and Agents communicate using the Neutron server’s RPC classes.</p>
 
-<h4 id="driver-to-agent">Driver to Agent</h4>
+<h3 id="driver-to-agent">Driver to Agent</h3>
 
 <p>The driver calls the agent for the following:</p>
 
@@ -275,31 +233,21 @@ is, by default, the iControlDriver class in the icontrol_driver module.<br />
   <li>process all LBaaS methods.</li>
 </ul>
 
-<h4 id="agent-to-driver">Agent to Driver</h4>
+<h3 id="agent-to-driver">Agent to Driver</h3>
 
 <p>The agent calls the driver for the following:</p>
 
 <ul>
-  <li>
-    <p>update the status of LBaaS objects;</p>
-  </li>
-  <li>
-    <p>allocate a port on a Neutron network;</p>
-  </li>
-  <li>
-    <p>make a query to Neutron.</p>
-  </li>
+  <li>update the status of LBaaS objects;</li>
+  <li>allocate a port on a Neutron network;</li>
+  <li>make a query to Neutron.</li>
 </ul>
 
-<h1 id="additional-resources">Additional Resources</h1>
 
-<h2 id="section">-</h2>
-<p>-</p>
-
-    
-	</div>
+</div>
  
 <hr>
+
 <footer>
   <div class="footer">
       <ul class="list-inline">
@@ -311,6 +259,7 @@ is, by default, the iControlDriver class in the icontrol_driver module.<br />
     </ul>
   </div>
 </footer>
+
 </body>
 
 <!-- tocify scripts-->
