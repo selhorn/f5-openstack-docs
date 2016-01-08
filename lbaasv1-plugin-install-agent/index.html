@@ -43,7 +43,7 @@
 <!-- cannonical link settings
  <link rel="canonical" href="http://F5Networks.github.io/f5-openstack-docs/lbaasv1-plugin-install-agent/">-->
 
- <link rel="alternate" type="application/rss+xml" title="F5 OpenStack" href="http://F5Networks.github.io/f5-openstack-docsfeed.xml" />
+ <link rel="alternate" type="application/rss+xml" title="F5 OpenStack" href="http://F5Networks.github.io/f5-openstack-docs/feed.xml" />
    
 </head>
 
@@ -63,21 +63,21 @@
           <li><a href="http://support.f5.com" target="_blank">F5 Support</a></li>
           <li><a href="https://devcentral.f5.com/d/openstack-neutron-lbaas-driver-and-agent" target="_blank">Get the F5 LBaaSv1 Plugin</a></li>      
           <li><a href="http://github.com/F5Networks" target="_blank">F5Networks on GitHub<span class="sr-only"></span></a></li>
-          <li class="dropdown"><a href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">F5Networks Project Repos<span class="caret"></span></a>
+          <li class="dropdown"><a href="" data-proofer-ignore data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">F5Networks Project Repos<span class="caret"></span></a>
             <ul class="dropdown-menu">
               <!--li><a href="https://github.com/F5Networks/f5-openstack-lbaasv2">F5 OpenStack LBaaSv2 Plug-in</a></li-->
               <!--li><a href="">F5 OpenStack API Libraries</a></li-->
-              <li><a href="https://github.com/F5Networks/openstack-f5-lbaasv1" target="_blank">F5 OpenStack LBaaSv1 plugin driver</a></li>
-              <li><a href="https://github.com/F5Networks/f5-openstack-agent" target="_blank">F5 OpenStack LBaaSv1 plugin agent</a></li>
+              <li><!--a href="https://github.com/F5Networks/openstack-f5-lbaasv1" target="_blank"-->F5 OpenStack LBaaSv1 plugin driver<!--/a--></li>
+              <li><!--ahref="https://github.com/F5Networks/f5-openstack-agent" target="_blank"-->F5 OpenStack LBaaSv1 plugin agent<!--/a--></li>
               <li role="separator" class="divider"></li>
-              <li><a href="https://github.com/F5Networks/f5-common-python" target="_blank">F5 common python</a></li>
-              <li><a href="https://github.com/F5Networks/f5-openstack-odk" target="_blank">F5 OpenStack Deployment Kit</a></li>
-              <li><a href="https://github.com/F5Networks/f5-openstack-heat-plugins" target="_blank">F5 OpenStack Heat Plug-ins</a></li>
+              <li><!--a href="https://github.com/F5Networks/f5-common-python" target="_blank"-->F5 common python<!--/a--></li>
+              <li><!--a href="https://github.com/F5Networks/f5-openstack-odk" target="_blank"-->F5 OpenStack Deployment Kit<!--/a--></li>
+              <li><!--a href="https://github.com/F5Networks/f5-openstack-heat-plugins" target="_blank"-->F5 OpenStack Heat Plugins<!--/a--></li>
             </ul>
           </li>
-          <li class="dropdown"><a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Partners<span class="caret"></span></a>
+          <li class="dropdown"><a href="" data-proofer-ignore class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Partners<span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="" target="_blank">Mirantis</a></li>
+              <li><a href="http://F5Networks.github.io/f5-openstack-docs/Mirantis_OS_F5-LBaaS-Plugin_Guide.pdf" target="_blank">Mirantis</a></li>
               <li><a href="https://access.redhat.com/ecosystem/software/1446683" target="_blank">Red Hat</a></li>
               <!--li><a href="">Something else here</a></li-->
             </ul>
@@ -125,7 +125,7 @@
     <p>Download the F5 OpenStack Plug-in package from <a href="https://devcentral.f5.com/d/openstack-neutron-lbaas-driver-and-agent">F5’s DevCentral</a>.</p>
   </li>
   <li>
-    <p>Install the <a href="http://F5Networks.github.io">F5 LBaaS Plug-in Driver</a> before you deploy the Agent.</p>
+    <p>Install the <a href="http://F5Networks.github.io/f5-openstack-docs/lbaasv1-plugin-install-driver/">F5 LBaaS Plug-in Driver</a> before you deploy the Agent.</p>
   </li>
   <li>
     <p>Set up at least one BIG-IP cluster - or, ‘device service group (DSG)’ -  before you deploy the Agent. You’ll need administrator access to the BIG-IP and all cluster members to do so.</p>
@@ -135,7 +135,7 @@
 <p><strong>Tip:</strong> Make note of the IP addresses and credentials for the devices in the cluster; you’ll need to enter them in the Agent config file(s).</p>
 
 <ul>
-  <li>Agent config file(s) (<a href="f5-os-agent/os_lbaas_agent_config_settings.xlsx">see Table 1</a>). The installation will create a default config file, but you’ll need to manually create a separate file for each Agent you deploy.</li>
+  <li>Agent config file(s) (<a href="http://F5Networks.github.io/f5-openstack-docs//lbaasv1-plugin-install-agent/#Table1">see Table 1</a>). The agent installation process creates a config file with default settings; you’ll need to manually create a separate file for each Agent you deploy.</li>
 </ul>
 
 <h2 id="placement">Placement</h2>
@@ -176,7 +176,7 @@
 
 <p>The agent configuration settings are found in <em>/etc/neutron/f5-bigip-lbaas-agent.ini</em>. The table below is a sample config file showing the available options.</p>
 
-<p>Table 1.</p>
+<p>Table 1.<a name="Table1"></a></p>
 <table width="800" border="1">
 <tbody>
 <tr>
@@ -364,7 +364,7 @@
 
 <p><strong>Figure 1.</strong></p>
 
-<p><img src="http://F5Networks.github.io/f5-openstack-docs/f5-os-lbaasv1/media/lbaas-agent-status.png" alt="Figure 1" /></p>
+<p><img src="http://F5Networks.github.io/f5-openstack-docs/f5-os-lbaasv1/lbaas-agent-status.png" alt="Figure 1" width="500" /></p>
 
 <p><strong>NOTE:</strong> It may take a few seconds for the agent to appear in the status list (shown in Figure 1) after restarting. If the agent does not start properly, an error will be logged in <em>/var/log/neutron/f5-bigip-lbaas-agent.log</em>.</p>
 

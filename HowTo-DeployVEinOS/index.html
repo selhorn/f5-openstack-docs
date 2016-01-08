@@ -43,7 +43,7 @@
 <!-- cannonical link settings
  <link rel="canonical" href="http://F5Networks.github.io/f5-openstack-docs/HowTo-DeployVEinOS/">-->
 
- <link rel="alternate" type="application/rss+xml" title="F5 OpenStack" href="http://F5Networks.github.io/f5-openstack-docsfeed.xml" />
+ <link rel="alternate" type="application/rss+xml" title="F5 OpenStack" href="http://F5Networks.github.io/f5-openstack-docs/feed.xml" />
    
 </head>
 
@@ -63,21 +63,21 @@
           <li><a href="http://support.f5.com" target="_blank">F5 Support</a></li>
           <li><a href="https://devcentral.f5.com/d/openstack-neutron-lbaas-driver-and-agent" target="_blank">Get the F5 LBaaSv1 Plugin</a></li>      
           <li><a href="http://github.com/F5Networks" target="_blank">F5Networks on GitHub<span class="sr-only"></span></a></li>
-          <li class="dropdown"><a href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">F5Networks Project Repos<span class="caret"></span></a>
+          <li class="dropdown"><a href="" data-proofer-ignore data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">F5Networks Project Repos<span class="caret"></span></a>
             <ul class="dropdown-menu">
               <!--li><a href="https://github.com/F5Networks/f5-openstack-lbaasv2">F5 OpenStack LBaaSv2 Plug-in</a></li-->
               <!--li><a href="">F5 OpenStack API Libraries</a></li-->
-              <li><a href="https://github.com/F5Networks/openstack-f5-lbaasv1" target="_blank">F5 OpenStack LBaaSv1 plugin driver</a></li>
-              <li><a href="https://github.com/F5Networks/f5-openstack-agent" target="_blank">F5 OpenStack LBaaSv1 plugin agent</a></li>
+              <li><!--a href="https://github.com/F5Networks/openstack-f5-lbaasv1" target="_blank"-->F5 OpenStack LBaaSv1 plugin driver<!--/a--></li>
+              <li><!--ahref="https://github.com/F5Networks/f5-openstack-agent" target="_blank"-->F5 OpenStack LBaaSv1 plugin agent<!--/a--></li>
               <li role="separator" class="divider"></li>
-              <li><a href="https://github.com/F5Networks/f5-common-python" target="_blank">F5 common python</a></li>
-              <li><a href="https://github.com/F5Networks/f5-openstack-odk" target="_blank">F5 OpenStack Deployment Kit</a></li>
-              <li><a href="https://github.com/F5Networks/f5-openstack-heat-plugins" target="_blank">F5 OpenStack Heat Plug-ins</a></li>
+              <li><!--a href="https://github.com/F5Networks/f5-common-python" target="_blank"-->F5 common python<!--/a--></li>
+              <li><!--a href="https://github.com/F5Networks/f5-openstack-odk" target="_blank"-->F5 OpenStack Deployment Kit<!--/a--></li>
+              <li><!--a href="https://github.com/F5Networks/f5-openstack-heat-plugins" target="_blank"-->F5 OpenStack Heat Plugins<!--/a--></li>
             </ul>
           </li>
-          <li class="dropdown"><a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Partners<span class="caret"></span></a>
+          <li class="dropdown"><a href="" data-proofer-ignore class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Partners<span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="" target="_blank">Mirantis</a></li>
+              <li><a href="http://F5Networks.github.io/f5-openstack-docs/Mirantis_OS_F5-LBaaS-Plugin_Guide.pdf" target="_blank">Mirantis</a></li>
               <li><a href="https://access.redhat.com/ecosystem/software/1446683" target="_blank">Red Hat</a></li>
               <!--li><a href="">Something else here</a></li-->
             </ul>
@@ -283,23 +283,18 @@ glance image-create --name bigip11.5.2 --is-public true --container-format bare 
 <strong>__</strong><strong>__</strong>__<br />
 ## 5. Deploy BIG-IP</p>
 
-<h3 id="startup-metadata-preparation">Startup Metadata Preparation</h3>
-
-<p><a href="#">DevCentral</a> has onboarding tools that patch a startup script into the BIG-IP image.<br />
-<strong>WARNING:</strong> This software is not officially supported.</p>
-
 <h3 id="create-an-sr-iov-neutron-port">Create an SR-IOV Neutron Port</h3>
 
-<p>If you’re using SR-IOV, create the port BIG-IP will attach to when it launches. Make note of the port id, as you’ll need it when launching the BIG-IP.<br />
-<code>
-neutron port-create &lt;net-id&gt; --binding:vnic-type direct
-</code></p>
+<p>If you’re using SR-IOV, create the port BIG-IP will attach to when it launches. Make note of the port id, as you’ll need it when launching the BIG-IP.</p>
+
+<pre><code>neutron port-create &lt;net-id&gt; --binding:vnic-type direct
+</code></pre>
 
 <h3 id="launch-a-big-ip-instance">Launch a BIG-IP Instance</h3>
 
 <p>To launch BIG-IP using Horizon:<br />
-1. Log in as the admin tenant.<br />
-2. Select the “admin” project. <br />
+1. Log in as admin.<br />
+2. Select your project. <br />
 3. Click instances and add an instance.<br />
 4. Select the BIG-IP image added earlier, as well as the custom flavor, and provide the VM with at least 2 networks (3 if a management VLAN will be provisioned).</p>
 
@@ -312,11 +307,9 @@ eval neutron net-show $net -f shell --fields id
 nics="$nics --nic net-id=$id"
 done
 nova boot --image bigip11.5.2 --flavor m1.bigip.lbaas.min $nics admin_bigip1
-# Wait until the instance becomes active\:
+# Wait until the instance becomes active:
 nova show admin_bigip1
 </code></p>
-
-<h3 id="create-a-floating-ip-from-the-public-network-for-the-big-ip">Create a floating IP from the public network for the BIG-IP.</h3>
 
 <h2 id="next-steps">Next Steps</h2>
 
