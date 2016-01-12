@@ -13,32 +13,23 @@
 <!-- Site metadata -->
 <meta name="description" content="Uniquely cloud-ready">
 
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-docs.css" type="text/css">
-<link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap.css">
-<!-- Bootstrap theme -->
-<link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-theme.css">
-<link rel="stylesheet" type="text/css" href="http://F5Networks.github.io/f5-openstack-docs/css/font-awesome.css">
+
 <!-- tocify styles-->
 <link type="text/css" rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/jquery.tocify.css">
+<!-- Bootstrap / Bootsrap Docs CSS -->
+<link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap.css">
+<!--link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-docs.css" type="text/css"-->
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-theme.css">
+<!--Font Awesome -->
+<link rel="stylesheet" type="text/css" href="http://F5Networks.github.io/f5-openstack-docs/css/font-awesome.css">
 <!-- jquery -->
 <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
-<!-- Latest compiled and minified JavaScript -->
+<!-- Latest compiled and minified Bootstrap JavaScript -->
 <script src="http://F5Networks.github.io/f5-openstack-docs/js/bootstrap.js"></script>
-
-<!-- tocify -->
+<!-- tocify scripts -->
 <script src="http://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
 <script src="http://F5Networks.github.io/f5-openstack-docs/js/jquery.tocify.js"></script>
-
-<!--styles>
- 
-
- <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap.css" type="text/css">
-    
- <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-theme.css" type="text/css">
-
- <link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/font-awesome.css" type="text/css"-->
- 
 
 <!-- cannonical link settings
  <link rel="canonical" href="http://F5Networks.github.io/f5-openstack-docs/HowTo-DeployVEinOS/">-->
@@ -49,7 +40,7 @@
 
 
 
-<body class="padding-top:70px">
+<body style="margin-top: 50px">
   <header>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
@@ -63,15 +54,14 @@
           <li><a href="http://support.f5.com" target="_blank">F5 Support</a></li>
           <li><a href="https://devcentral.f5.com/d/openstack-neutron-lbaas-driver-and-agent" target="_blank">Get the F5 LBaaSv1 Plugin</a></li>      
           <li><a href="http://github.com/F5Networks" target="_blank">F5Networks on GitHub<span class="sr-only"></span></a></li>
-          <li class="dropdown"><a href="" data-proofer-ignore data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">F5Networks Project Repos<span class="caret"></span></a>
+          <li class="dropdown"><a href="" data-proofer-ignore class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">F5Networks Project Repos<span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <!--li><a href="https://github.com/F5Networks/f5-openstack-lbaasv2">F5 OpenStack LBaaSv2 Plug-in</a></li-->
-              <!--li><a href="">F5 OpenStack API Libraries</a></li-->
               <li><!--a href="https://github.com/F5Networks/openstack-f5-lbaasv1" target="_blank"-->F5 OpenStack LBaaSv1 plugin driver<!--/a--></li>
               <li><!--ahref="https://github.com/F5Networks/f5-openstack-agent" target="_blank"-->F5 OpenStack LBaaSv1 plugin agent<!--/a--></li>
               <li role="separator" class="divider"></li>
+              <!--li><a href="https://github.com/F5Networks/f5-openstack-lbaasv2">F5 OpenStack LBaaSv2 plugin</a></li-->
+              <li role="separator" class="divider"></li>
               <li><!--a href="https://github.com/F5Networks/f5-common-python" target="_blank"-->F5 common python<!--/a--></li>
-              <li><!--a href="https://github.com/F5Networks/f5-openstack-odk" target="_blank"-->F5 OpenStack Deployment Kit<!--/a--></li>
               <li><!--a href="https://github.com/F5Networks/f5-openstack-heat-plugins" target="_blank"-->F5 OpenStack Heat Plugins<!--/a--></li>
             </ul>
           </li>
@@ -79,9 +69,9 @@
             <ul class="dropdown-menu">
               <li><a href="http://F5Networks.github.io/f5-openstack-docs/Mirantis_OS_F5-LBaaS-Plugin_Guide.pdf" target="_blank">Mirantis</a></li>
               <li><a href="https://access.redhat.com/ecosystem/software/1446683" target="_blank">Red Hat</a></li>
-              <!--li><a href="">Something else here</a></li-->
             </ul>
           </li>
+          <li><a href="" data-proofer-ignore target="_blank">API Libraries (coming soon!)</a></li>
         <!--form class="navbar-form navbar-right" role="search">
           <div class="form-group">
             <input type="text" class="form-control" placeholder="Search">
@@ -101,20 +91,21 @@
 
 
 <div class="alert alert-danger alert-dismissible" role="alert">
- <strong>Heads up!</strong> This site is under construction and not all doc sets are available.
+ <strong>Heads up!</strong> This site is under construction and not all doc sets are available / complete.
+</div>
+<div class="container-fluid" style="margin-top:auto" >   
+
+<div class="col-md-push-3">
+   <div class="tocify" id="toc">
+   </div>
+</div>
+<div class="col-md-offset-3">
+   <h1 class="tocify-header">How To Deploy BIG-IP VE in an OpenStack Environment</h1>
 </div>
 
-<div class="container-fluid" class="position:fixed">
-   <h1>How To Deploy BIG-IP VE in an OpenStack Environment</h1>
-</div>
-
-<div class="bs-docs-sidebar">
- <div class="bs-docs-sidenav" id="toc">
- </div>
-</div>
 
 <div class="bs-docs-container">
-		 <h1 id="overview">Overview</h1>
+    <h1 id="overview">Overview</h1>
 <hr />
 <p>This document describes how to deploy BIG-IP Virtual Edition within OpenStack.</p>
 
@@ -317,6 +308,8 @@ nova show admin_bigip1
 
 
 </div>
+
+</div> 
  
 <hr>
 
@@ -341,7 +334,7 @@ nova show admin_bigip1
 <script>
         $(function() {
             //Calls the tocify method on the HTML div.
-            $("#toc").tocify();
+            $("#toc").tocify({ selectors: "h1,h2,h3,h4,h5,h6", ignoreSelector: "h1 .tocify-header", showAndHideOnScroll: "true", scrollTo: "55", hashGenerator: "pretty", extendPage: "true", extendPageOffset: "100" });
         });
 </script>    
 </html>          

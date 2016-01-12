@@ -27,7 +27,7 @@
 
 </head>
 
-<body style="padding-top: 70px">
+<body style="margin-top: 50px">
 
 <header>
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -42,15 +42,14 @@
           <li><a href="http://support.f5.com" target="_blank">F5 Support</a></li>
           <li><a href="https://devcentral.f5.com/d/openstack-neutron-lbaas-driver-and-agent" target="_blank">Get the F5 LBaaSv1 Plugin</a></li>      
           <li><a href="http://github.com/F5Networks" target="_blank">F5Networks on GitHub<span class="sr-only"></span></a></li>
-          <li class="dropdown"><a href="" data-proofer-ignore="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">F5Networks Project Repos<span class="caret"></span></a>
+          <li class="dropdown"><a href="" data-proofer-ignore="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">F5Networks Project Repos<span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <!--li><a href="https://github.com/F5Networks/f5-openstack-lbaasv2">F5 OpenStack LBaaSv2 Plug-in</a></li-->
-              <!--li><a href="">F5 OpenStack API Libraries</a></li-->
               <li><!--a href="https://github.com/F5Networks/openstack-f5-lbaasv1" target="_blank"-->F5 OpenStack LBaaSv1 plugin driver<!--/a--></li>
               <li><!--ahref="https://github.com/F5Networks/f5-openstack-agent" target="_blank"-->F5 OpenStack LBaaSv1 plugin agent<!--/a--></li>
               <li role="separator" class="divider"></li>
+              <!--li><a href="https://github.com/F5Networks/f5-openstack-lbaasv2">F5 OpenStack LBaaSv2 plugin</a></li-->
+              <li role="separator" class="divider"></li>
               <li><!--a href="https://github.com/F5Networks/f5-common-python" target="_blank"-->F5 common python<!--/a--></li>
-              <li><!--a href="https://github.com/F5Networks/f5-openstack-odk" target="_blank"-->F5 OpenStack Deployment Kit<!--/a--></li>
               <li><!--a href="https://github.com/F5Networks/f5-openstack-heat-plugins" target="_blank"-->F5 OpenStack Heat Plugins<!--/a--></li>
             </ul>
           </li>
@@ -58,9 +57,9 @@
             <ul class="dropdown-menu">
               <li><a href="http://F5Networks.github.io/f5-openstack-docs/Mirantis_OS_F5-LBaaS-Plugin_Guide.pdf" target="_blank">Mirantis</a></li>
               <li><a href="https://access.redhat.com/ecosystem/software/1446683" target="_blank">Red Hat</a></li>
-              <!--li><a href="">Something else here</a></li-->
             </ul>
           </li>
+          <li><a href="" data-proofer-ignore="" target="_blank">API Libraries (coming soon!)</a></li>
         <!--form class="navbar-form navbar-right" role="search">
           <div class="form-group">
             <input type="text" class="form-control" placeholder="Search">
@@ -80,7 +79,9 @@
 
 
 <div class="alert alert-danger alert-dismissible" role="alert">
-   <strong>Heads up!</strong> This site is under construction and not all doc sets are available.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+    </button>
+    <strong>Heads up!</strong> This site is under construction and not all doc sets are available.
 </div>
 
 <div class="jumbotron">
@@ -89,64 +90,63 @@
     <p>Uniquely cloud-ready.</p>
   </div>
 </div>
-<hr />
-<div class="container-fluid-gray">
-<div class="container-fluid">
-  <div class="text-center">
-    <h3>Docs</h3>
-   <div class="row">
-  <ul class="text-left">
-    
-     
-      <li>
-        <p>
-          <a href="http://F5Networks.github.io/f5-openstack-docs/Exploring_OpenStack/">Exploring OpenStack</a>
-        </p>
-      </li>
+<div class="text-center col-lg-12">
+    <div class="row">
+      <h3>Documentation</h3>
+    </div>
+       <div class="container-fluid-gray">
+       <div class="row">  
+       <div class="text-center">
+        
+          <div class="col-md-4">
+           <h4>F5 OpenStack LBaaSv1 Plugin</h4>
+        <ul class="text-left" style="list-style: none">
+        
+        
+        
+        
+          <li><p><a href="http://F5Networks.github.io/f5-openstack-docs/HowTo-DeployVEinOS/" target="_blank">How To Deploy BIG-IP VE in an OpenStack Environment</a></p>
+          </li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+          <li><p><a href="http://F5Networks.github.io/f5-openstack-docs/lbaasv1-plugin-deploy-guide/" target="_blank">Using the F5 OpenStack LBaaSv1 Plugin and BIG-IP to Manage Local Traffic in OpenStack</a></p>
+          </li>
+        
+        
+        
+          <li><p><a href="http://F5Networks.github.io/f5-openstack-docs/lbaasv1-plugin-install-agent/" target="_blank">How to Install the F5 OpenStack LBaaSv1 Plugin Agent</a></p>
+          </li>
+        
+        
+        
+          <li><p><a href="http://F5Networks.github.io/f5-openstack-docs/lbaasv1-plugin-install-driver/" target="_blank">How to Install the F5 OpenStack LBaaSv1 Plug-In Driver</a></p>
+          </li>
+        
+        
+        
+        
+       </ul>
+      </div>
+    <div class="col-md-4">
+        <h4>F5 OpenStack LBaaSv2 Plugin</h4>
+        
+      <p>Coming soon!</p>
+       </div>
+       <div class="col-md-4">
+        <h4>F5 OpenStack API Libraries</h4>
+           <p>Coming soon!</p>
+       </div>
+     </div>
       
-     
-     
-      <li>
-        <p>
-          <a href="http://F5Networks.github.io/f5-openstack-docs/HowTo-DeployVEinOS/">How To Deploy BIG-IP VE in an OpenStack Environment</a>
-        </p>
-      </li>
-      
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-      <li>
-        <p>
-          <a href="http://F5Networks.github.io/f5-openstack-docs/lbaasv1-plugin-deploy-guide/">Using the F5 OpenStack LBaaSv1 Plugin and BIG-IP to Manage Local Traffic in OpenStack</a>
-        </p>
-      </li>
-      
-     
-     
-      <li>
-        <p>
-          <a href="http://F5Networks.github.io/f5-openstack-docs/lbaasv1-plugin-install-agent/">How to Install the F5 OpenStack LBaaSv1 Plugin Agent</a>
-        </p>
-      </li>
-      
-     
-     
-      <li>
-        <p>
-          <a href="http://F5Networks.github.io/f5-openstack-docs/lbaasv1-plugin-install-driver/">How to Install the F5 OpenStack LBaaSv1 Plug-In Driver</a>
-        </p>
-      </li>
-          
-     
-  </ul>
-
 <footer>
   <div class="footer">
       <ul class="list-inline">
@@ -158,4 +158,4 @@
     </ul>
   </div>
 </footer>
-</div></div></div></div></body>
+</div></div></div></body>
