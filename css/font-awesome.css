@@ -4,6 +4,9 @@
  */
 /* FONT PATH
  * -------------------------- */
+ /*!
+ * Copyright 2015 - 2016 F5 Networks, Inc.
+ */
 @font-face {
   font-family: 'FontAwesome';
   src: url('../fonts/fontawesome-webfont.eot?v=4.4.0');
@@ -245,6 +248,7 @@
 }
 .fa-home:before {
   content: "\f015";
+  color:#fff;
 }
 .fa-file-o:before {
   content: "\f016";
@@ -556,9 +560,11 @@
 }
 .fa-twitter-square:before {
   content: "\f081";
+  color:#fff;
 }
 .fa-facebook-square:before {
   content: "\f082";
+  color:#fff;
 }
 .fa-camera-retro:before {
   content: "\f083";
@@ -590,6 +596,7 @@
 }
 .fa-linkedin-square:before {
   content: "\f08c";
+  color:#fff;
 }
 .fa-thumb-tack:before {
   content: "\f08d";
@@ -605,6 +612,7 @@
 }
 .fa-github-square:before {
   content: "\f092";
+  color:#fff;
 }
 .fa-upload:before {
   content: "\f093";
@@ -1196,6 +1204,7 @@
 }
 .fa-youtube-square:before {
   content: "\f166";
+  color:#fff;
 }
 .fa-youtube:before {
   content: "\f167";
