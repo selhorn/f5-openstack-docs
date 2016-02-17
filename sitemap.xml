@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://F5Networks.github.io/f5-openstack-docs/Exploring_OpenStack/</loc>
+  </url>
+  <url>
+    <loc>http://F5Networks.github.io/f5-openstack-docs/HowTo-DeployVEinOS/</loc>
+  </url>
+  <url>
+    <loc>http://F5Networks.github.io/f5-openstack-docs/LBaaS-Plugin-Design-Guide/</loc>
+  </url>
+  <url>
+    <loc>http://F5Networks.github.io/f5-openstack-docs/cla_landing/</loc>
+  </url>
+  <url>
+    <loc>http://F5Networks.github.io/f5-openstack-docs/</loc>
+  </url>
+  <url>
+    <loc>http://F5Networks.github.io/f5-openstack-docs/lbaasv1-plugin-deploy-guide/</loc>
+  </url>
+  <url>
+    <loc>http://F5Networks.github.io/f5-openstack-docs/lbaasv1-plugin-install-agent/</loc>
+  </url>
+  <url>
+    <loc>http://F5Networks.github.io/f5-openstack-docs/lbaasv1-plugin-install-driver/</loc>
+  </url>
+  <url>
+    <loc>http://F5Networks.github.io/f5-openstack-docs/os-config-guide/</loc>
+  </url>
+  <url>
+    <loc>http://F5Networks.github.io/f5-openstack-docs/os-config-guide_liberty/</loc>
+  </url>
+  <url>
+    <loc>http://F5Networks.github.io/f5-openstack-docs/os-deploy-guide/</loc>
+  </url>
+  <url>
+    <loc>http://F5Networks.github.io/f5-openstack-docs/os-deploy-guide_liberty/</loc>
+  </url>
+  <url>
+    <loc>http://F5Networks.github.io/f5-openstack-docs/plug-in_architecture-design/</loc>
+  </url>
+  <url>
+    <loc>http://F5Networks.github.io/f5-openstack-docs/releases_and_versioning/</loc>
+  </url>
+</urlset>

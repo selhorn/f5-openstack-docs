@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+ <head>
+
+<link rel="icon" sizes="196x196" href="http://cdn.f5.com/digital-platforms/images/f5-196.png">
+
+<title>How to Deploy an OpenStack Environment Using Packstack</title>    
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Site metadata -->
+<meta name="description" content="Uniquely cloud-ready">
+
+
+<!-- tocify styles-->
+<link type="text/css" rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/jquery.tocify.css">
+<!-- Bootstrap / Bootsrap Docs CSS -->
+<link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap.css">
+<!--link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-docs.css" type="text/css"-->
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="http://F5Networks.github.io/f5-openstack-docs/css/bootstrap-theme.css">
+<!--Font Awesome -->
+<link rel="stylesheet" type="text/css" href="http://F5Networks.github.io/f5-openstack-docs/css/font-awesome.css">
+<!-- jquery -->
+<script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<!-- Latest compiled and minified Bootstrap JavaScript -->
+<script src="http://F5Networks.github.io/f5-openstack-docs/js/bootstrap.js"></script>
+<!-- tocify scripts -->
+<script src="http://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+<script src="http://F5Networks.github.io/f5-openstack-docs/js/jquery.tocify.js"></script>
+
+<!-- cannonical link settings
+ <link rel="canonical" href="http://F5Networks.github.io/f5-openstack-docs/os-deploy-guide_liberty/">-->
+
+ <link rel="alternate" type="application/rss+xml" title="F5 OpenStack" href="http://F5Networks.github.io/f5-openstack-docs/feed.xml" />
+   
+</head>
+
+
+
+<body style="margin-top: 50px">
+  <header>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <a class="navbar-brand" href="http://f5.com"><img src="https://cdn.f5.com/digital-platforms/images/logo.svg" alt="F5 Networks" height="25" /></a> </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="topFixedNavbar1">
+        <ul class="nav navbar-nav">
+          <li><a href="http://devcentral.f5.com" target="_blank">F5 DevCentral</a></li>
+          <li><a href="http://support.f5.com" target="_blank">F5 Support</a></li>
+          <li><a href="https://devcentral.f5.com/d/openstack-neutron-lbaas-driver-and-agent" target="_blank">Get the F5 LBaaSv1 Plugin</a></li>      
+          <li><a href="http://github.com/F5Networks" target="_blank">F5Networks on GitHub<span class="sr-only"></span></a></li>
+          <li class="dropdown"><a href="" data-proofer-ignore class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">F5Networks Project Repos<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><!--a href="https://github.com/F5Networks/openstack-f5-lbaasv1" target="_blank"-->F5 OpenStack LBaaSv1 plugin driver<!--/a--></li>
+              <li><!--ahref="https://github.com/F5Networks/f5-openstack-agent" target="_blank"-->F5 OpenStack LBaaSv1 plugin agent<!--/a--></li>
+              <li role="separator" class="divider"></li>
+              <!--li><a href="https://github.com/F5Networks/f5-openstack-lbaasv2">F5 OpenStack LBaaSv2 plugin</a></li-->
+              <li role="separator" class="divider"></li>
+              <li><!--a href="https://github.com/F5Networks/f5-common-python" target="_blank"-->F5 common python<!--/a--></li>
+              <li><!--a href="https://github.com/F5Networks/f5-openstack-heat-plugins" target="_blank"-->F5 OpenStack Heat Plugins<!--/a--></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="" data-proofer-ignore class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Partners<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li></li>
+              <li><a href="https://www.mirantis.com/partners/unlocked-partner-catalog/" target="_blank"><strong>Mirantis</strong></a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="https://access.redhat.com/ecosystem/software/1446683" target="_blank"><strong>Red Hat</strong></a></li>
+            </ul>
+          </li>
+          <li><a href="" data-proofer-ignore target="_blank">API Libraries (coming soon!)</a></li>
+        <!--form class="navbar-form navbar-right" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form-->
+         
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+
+</header>
+
+
+
+<div class="alert alert-danger alert-dismissible" role="alert">
+ <strong>Heads up!</strong> This site is under construction and not all doc sets are available / complete.
+</div>
+<div class="container-fluid" style="margin-top:auto" >   
+
+<div class="col-md-push-3">
+   <div class="tocify" id="toc">
+   </div>
+</div>
+<div class="col-md-offset-3">
+   <h1 class="tocify-header">How to Deploy an OpenStack Environment Using Packstack</h1>
+</div>
+
+
+<div class="bs-docs-container">
+    <h1 id="overview">Overview</h1>
+
+<p>This guide will allow a user who is largely unfamiliar with OpenStack to create an all-in-one, bare metal installation of <a href="https://www.rdoproject.org/">OpenStack RDO</a>. The instructions presented here will guide you through the installation of an operating system and using Packstack to simplify OpenStack deployment.</p>
+
+<p>The information presented here is based on the RDO project <a href="https://www.rdoproject.org/install/quickstart/">Quickstart guide</a>. We’ve found the RDO documentation set extremely helpful and recommend consulting it for any issues you may encounter.</p>
+
+<p><strong>WARNING: This guide describes how to deploy OpenStack Kilo. This is an open source project that is continually changing; while the instructions included here worked for us, there is no guarantee they will work exactly the same for you.</strong></p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Hardware: Machine with at least 4GB RAM, processors with hardware virtualization extensions, and at least one network adapter. For more information, see the <a href="http://docs.openstack.org/liberty/install-guide-rdo/overview.html#example-architecture">OpenStack Kilo Installation guide</a>.</p>
+
+<p>Software: Red Hat Enterprise Linux (RHEL) 7 is the minimum recommended version you can use with OpenStack Kilo. You can also use any of the equivalent versions of RHEL-based Linux distributions (CentOS, Scientific Linux, etc.). x86_64 is currently the only supported architecture.</p>
+
+<h1 id="getting-started">Getting Started</h1>
+
+<p>First, you need to install an operating system on your hardware. We installed CentOS 7 on one machine, which will serve as the controller, compute, and network nodes (referred to in this document as an ‘all-in-one’ configuration). An IP address was assigned to the machine automatically via DHCP.</p>
+
+<h2 id="users">Users</h2>
+
+<p>When installing CentOS, create a root user and a user with administrative priveleges. Our root user has the password ‘default’; our admin user is ‘manager’, with the password ‘manager’. In all command blocks shown in this guide, the assumed user is represented by the command prompt symbol:</p>
+
+<pre><code># = root
+$ = admin
+</code></pre>
+
+<h2 id="disable-network-manager">Disable Network Manager</h2>
+
+<p>Once the operating system is installed, you’ll need to disable Network Manager. It will be replaced by the standard network service for all interfaces that will be used by OpenStack Networking.</p>
+
+<p>To verify if Network Manager is enabled:</p>
+
+<pre><code># systemctl status NetworkManager
+</code></pre>
+
+<p>The system displays an error if the Network Manager service is not currently installed:</p>
+
+<pre><code>error reading information on service NetworkManager: No such file or directory
+</code></pre>
+
+<p>If you see this error, jump ahead to <a href="#install-software-repositories">Install Software Repositories</a>.</p>
+
+<p>If Network Manager is running, run the following commands to disable it.</p>
+
+<pre><code># systemctl stop NetworkManager
+# systemctl disable NetworkManager
+# systemctl enable network 
+</code></pre>
+
+<h2 id="install-software-repositories">Install Software Repositories</h2>
+
+<p><strong>NOTE:</strong> You can run these commands as root or manager. If you’re logged in as manager (the admin user), you will need to use <code>sudo</code>.</p>
+
+<p>– Update your current software packages:</p>
+
+<pre><code>  # yum install update -y
+</code></pre>
+
+<p>–  Install the software package for the OpenStack release of your choice. <br />
+  If you want to use the latest release, run:</p>
+
+<pre><code>  # yum install -y https://www.rdoproject.org/repos/rdo-release.rpm
+</code></pre>
+<p><strong>NOTE:</strong> Liberty is the latest release at the time of this doc’s creation.</p>
+
+<p>If you want to use a different version, see http://rdoproject.org/repos/ for the full listing.</p>
+
+<p>– Install the software package for Packstack.</p>
+
+<pre><code>  # yum install -y openstack-packstack`
+</code></pre>
+
+<h1 id="deploy-openstack-using-packstack">Deploy OpenStack using Packstack</h1>
+
+<p>The quickest and easiest way to deploy OpenStack is via Packstack’s <code>--allinone</code> option. This sets up a single machine as the controller, compute, and network node. Be aware that this configuration, while fairly simple to execute, is fairly limited. By default, the all-in-one configuration doesn’t have Heat and Neutron LBaaS enabled. For this reason, <strong>we don’t recommend going with the default <code>--allinone</code> deployment</strong>. Instead, you can customize your all-in-one deployment with an answers file.</p>
+
+<h2 id="custom-configuration-with-an-answers-file">Custom Configuration with an Answers File</h2>
+
+<p>Instead of using the <code>--allinone</code> flag, we generated an <a href="http://f5networks.github.io/f5-openstack-docs/f5-onboard_liberty-answers.txt">answers file</a> and edited it to enable the services we want and disable some options we don’t want.</p>
+
+<p><strong>NOTE:</strong> The configurations in our answers file are basically equivalent to running <code>packstack --os-heat-install=y --os-debug-mode=y --os-neutron-lbaas-install=y --provision-demo=n</code>.</p>
+
+<p>To generate an answers file (replace ‘[answers-file]’ with the file name of your choice):</p>
+
+<pre><code>$ packstack --gen-answer-file=[answers-file].txt 
+</code></pre>
+
+<p>For our custom all-in-one Kilo installation, we changed the following entries in the answers file. You can also customize your admin user account credentials here, if desired.</p>
+
+<pre><code># vi [answers-file].txt
+...
+# Specify 'y' to install OpenStack Orchestration (heat). ['y', 'n']
+CONFIG_HEAT_INSTALL=y
+...
+# Specify 'y' to install Nagios to monitor OpenStack hosts. Nagios
+# provides additional tools for monitoring the OpenStack environment.
+# ['y', 'n']
+CONFIG_NAGIOS_INSTALL=n
+...
+# Specify 'y' if you want to run OpenStack services in debug mode;
+# otherwise, specify 'n'. ['y', 'n']
+CONFIG_DEBUG_MODE=y
+...
+# Password to use for the Identity service 'admin' user.
+CONFIG_KEYSTONE_ADMIN_PW=57a791d9e7d849b4
+...
+# Specify 'y' to install OpenStack Networking's Load-Balancing-
+# as-a-Service (LBaaS). ['y', 'n']
+CONFIG_LBAAS_INSTALL=y
+...
+# Specify 'y' to provision for demo usage and testing. ['y', 'n']
+CONFIG_PROVISION_DEMO=n
+...
+</code></pre>
+
+<p><strong>NOTE:</strong> When you generate an answers file, Packstack automatically includes the IP address of the machine on which the file is generated in the CONTROLLER_HOST, COMPUTE_HOSTS, &amp; NETWORK_HOSTS entries. If you’re using additional compute and/or network nodes, you’ll need to edit the answers file to add in the IP addresses for those machines. As shown in the example below, multiple values should be comma-separated, without a space in between.</p>
+
+<pre><code># vi [answers-file].txt
+...
+# IP address of the server on which to install OpenStack services
+# specific to the controller role (for example, API servers or
+# dashboard).
+CONFIG_CONTROLLER_HOST=[IP_ADDRESS]
+
+# List of IP addresses of the servers on which to install the Compute
+# service.
+CONFIG_COMPUTE_HOSTS=[IP_ADDRESS],[IP_ADDRESS]
+
+# List of IP addresses of the server on which to install the network
+# service such as Compute networking (nova network) or OpenStack
+# Networking (neutron).
+CONFIG_NETWORK_HOSTS=[IP_ADDRESS],[IP_ADDRESS]
+...
+</code></pre>
+
+<p><strong>NOTE:</strong> You can add more hosts <strong>after</strong> deploying an all-in-one environment. To do so, update the network card names for <code>CONFIG_NOVA_COMPUTE_PRIVIF</code> and <code>CONFIG_NOVA_NETWORK_PRIVIF</code>; update the IP address for the <code>COMPUTE_HOSTS</code> and <code>NETWORK_HOSTS</code>; and add the IP address of the host on which you’ve already run Packstack to the <code>EXCLUDE_SERVERS</code> entry. Then, run packstack again from the answer file as shown in the next section.</p>
+
+<pre><code># Comma-separated list of servers to be excluded from the
+# installation. This is helpful if you are running Packstack a second
+# time with the same answer file and do not want Packstack to
+# overwrite these server's configurations. Leave empty if you do not
+# need to exclude any servers.
+EXCLUDE_SERVERS=10.190.4.193
+...
+# Private interface for flat DHCP on the Compute servers.
+CONFIG_NOVA_COMPUTE_PRIVIF=enp2s0
+...
+# Private interface for flat DHCP on the Compute network server.
+CONFIG_NOVA_NETWORK_PRIVIF=enp2s0
+...
+# List of IP addresses of the servers on which to install the Compute
+# service.
+CONFIG_COMPUTE_HOSTS=10.190.4.195
+
+# List of IP addresses of the server on which to install the network
+# service such as Compute networking (nova network) or OpenStack
+# Networking (neutron).
+CONFIG_NETWORK_HOSTS=10.190.4.195
+</code></pre>
+
+<p><strong>TIP:</strong> You can find the names of your devices by running:<br />
+<code>
+ifconfig | grep '^\S'
+</code></p>
+
+<h2 id="run-packstack">Run Packstack</h2>
+
+<p>To deploy OpenStack using your custom answers file:</p>
+
+<pre><code>$ packstack --answer-file=[answers-file].txt 
+</code></pre>
+
+<p>The installation can take a while. If all goes well, you should eventually see the following message:</p>
+
+<pre><code>**** Installation completed successfully ******
+
+Additional information:
+ * Time synchronization installation was skipped. Please note that unsynchronized time on server instances might be problem for some OpenStack components.
+ * File /root/keystonerc_admin has been created on OpenStack client host 10.190.4.193. To use the command line tools you need to source the file.
+ * Copy of keystonerc_admin file has been created for non-root user in /home/manager.
+ * To access the OpenStack Dashboard browse to http://10.190.4.193/dashboard.
+Please, find your login credentials stored in the keystonerc_admin in your home directory.
+ * The installation log file is available at: /var/tmp/packstack/20160121-155701-AyFMdp/openstack-setup.log
+ * The generated manifests are available at: /var/tmp/packstack/20160121-155701-AyFMdp/manifests
+</code></pre>
+
+<h2 id="configure-openstack">Configure OpenStack</h2>
+
+<p>Congratulations! You now have an OpenStack Liberty deployment. Next, you’ll need to configure your network, add projects and users, and launch instances. Please see our <a href="http://f5networks.github.io/f5-openstack-docs/os-config-guide_liberty/">OpenStack configuration guide</a> for instructions.</p>
+
+<p>You can log in to the Horizon dashboard at the URL provided, using the username and password found in <em>keystonerc_admin</em>. <strong>If you change your password in Horizon, be sure to update this file with the new password.</strong></p>
+
+<p><strong>TIPS:</strong> <br />
+- To use the openstack, nova, neutron, and glance CLI commands, you’ll need to source the keystonerc_admin file.<br />
+<code>
+$ source keystonerc_admin
+</code><br />
+- You may receive an authentication error when trying to log in to OpenStack Horizon after a session timeout. If this happens, clear your browser’s cache and delete all cookies, then try logging in again.</p>
+
+
+</div>
+
+</div> 
+ 
+<hr>
+
+<footer>
+  <ul class="list-inline">
+      <li><a href="http://f5networks.github.io/f5-openstack-docs" title="home"><i class="fa fa-home fa-3x"></i></a></li>
+       <ul class="list-inline pull-right">
+       <li><a href="http://github.com/F5Networks" target="_blank" title="GitHub"><i class="fa fa-github-square fa-3x fa-pull-right"></i></a></li>
+       <li><a href="http://twitter.com/f5networks" target="_blank" title="Twitter"><i class="fa fa-twitter-square fa-3x fa-pull-right"></i></a></li>
+       <li><a href="http://www.linkedin.com/companies/f5-networks" target="_blank" title="LinkedIn"><i class="fa fa-linkedin-square fa-3x fa-pull-right"></i></a></li>
+       <li><a href="http://www.facebook.com/f5networksinc" target="_blank" title="Facebook"><i class="fa fa-facebook-square fa-3x fa-pull-right"></i></a></li>
+       <li><a href="http://www.youtube.com/f5networksinc" target="_blank" title="YouTube"><i class="fa fa-youtube-square fa-3x fa-pull-right"></i></a></li>
+       </ul>    
+    </ul>
+   <div class="sub-footer">
+    © 2016 F5 Networks, Inc.  All rights reserved.
+</div>
+</footer>
+
+
+</body>
+
+<!-- tocify scripts-->
+<script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="http://F5Networks.github.io/f5-openstack-docs/js/jquery.tocify.js"></script>
+<script>
+        $(function() {
+            //Calls the tocify method on the HTML div.
+            $("#toc").tocify({ selectors: "h1,h2,h3,h4,h5,h6", ignoreSelector: "h1 .tocify-header", showAndHideOnScroll: "true", scrollTo: "55", hashGenerator: "pretty", extendPage: "true", extendPageOffset: "100" });
+        });
+</script>    
+</html>          
+
