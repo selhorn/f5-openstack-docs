@@ -4,7 +4,7 @@
 Project Index
 #############
 
-F5 Networks® currently has a presence in the `OpenStack projects <http://www.openstack.org/software/project-navigator>`_ listed below.
+F5 Networks currently has a presence in the `OpenStack projects <http://www.openstack.org/software/project-navigator>`_ listed below.
 
 
 Neutron
