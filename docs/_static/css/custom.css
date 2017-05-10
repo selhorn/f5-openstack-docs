@@ -64,6 +64,11 @@ form.search {
   z-index: 0;
 }
 
+.sidebar .caption {
+  font-size: 18px;
+  color: #000000;
+}
+
 .sidebar ul {
   padding-left: 15px;
 }
@@ -145,15 +150,16 @@ ul.last {
   margin-left: 26px;
 }
 
-/* Yellow: Caution, Warning */
+
+/* Yellow: Attention, Caution, Warning */
 .caution, .warning {
   border: 1px #faebcc solid;
 }
 
 .caution>.admonition-title,
 .warning>.admonition-title {
-  background-color: #fcf8e3;
-  color: #8a6d3b;
+  background-color: #ddcb0d;
+  color: #020201;
   padding: 6px;
 }
 
@@ -243,4 +249,35 @@ ul.last {
 
 th, td {
   padding: 4px;
+}
+
+/*
+/ The below elements were adapted from the sphinx-rtd-theme
+/ https://github.com/rtfd/sphinx_rtd_theme
+/ Copyright (c) 2013 Dave Snider
+*/
+.guilabel {
+    border: none;
+    background: #ededed;
+    font-size:90%;
+    font-weight:700;
+    border-radius:4px;
+    padding:2.4px 6px;
+    margin:auto 2px
+}
+.menuselection {
+    border: none;
+    background: #ededed;
+    font-size:90%;
+    font-weight:700;
+    border-radius:4px;
+    padding:2.4px 6px;
+    margin:auto 2px
+}
+
+/*
+/ Remove whitespace after code blocks
+*/
+.literal-block-wrapper:after {
+    content: none;
 }

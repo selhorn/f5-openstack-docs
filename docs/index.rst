@@ -1,7 +1,7 @@
 .. raw:: html
 
    <!--
-   Copyright 2015-2016 F5 Networks Inc.
+   Copyright 2015-2017 F5 Networks Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -16,41 +16,34 @@
    limitations under the License.
    -->
 
-F5 OpenStack Documentation
-##########################
+Introduction to F5 OpenStack Integrations
+=========================================
 
 .. raw:: html
 
     <script async defer src="https://f5-openstack-slack.herokuapp.com/slackin.js"></script>
 
-This documentation set provides users of F5® technologies with an interest in OpenStack a jumping-off point for getting started with F5 in OpenStack. We have guides for simple OpenStack :ref:`deployment <os-deploy-guide>` and :ref:`configuration <os-config-guide>` and for :ref:`deploying BIG-IP® VE <deploy_big-ip_openstack>` from within an OpenStack cloud.
+F5's OpenStack Integrations provide a means for OpenStack users to administer and orchestrate L4-L7 services on BIG-IP device(s) using the `OpenStack CLI`_ commands and `OpenStack API`_ endpoints.
 
-If you would like to request a new user guide or notify us of an issue with an existing one, please file an `issue <https://github.com/F5Networks/f5-openstack-docs/issues>`_ in GitHub.
 
-Guides and Resources
-********************
+Product Documentation
+---------------------
+
+See the product documentation for more information about each component.
 
 .. toctree::
-    :maxdepth: 1
+   :caption: Product Documentation
 
-    project_index
-    partners
-    map_developers
-    releases_and_versioning
-    openstack-deploy-guide
-    openstack-config-guide
-    howto_deploy-ve-openstack
+   F5 OpenStack BIG-IP Controller <http://clouddocs.f5.com/products/openstack/openstack-bigip-ctlr/latest>
+   F5 Heat Orchestration Templates <http://clouddocs.f5.com/products/templates/f5-openstack-hot/latest>
+   F5 Heat Plugins <http://clouddocs.f5.com/products/openstack/openstack-heat-plugins/latest>
+   F5 Neutron LBaaS driver <http://clouddocs.f5.com/products/openstack/openstack-lbaasv2-driver/latest>
+   F5 LBaaS v1 solution (EOSD) <http://clouddocs.f5.com/products/openstack/f5-openstack-lbaasv1/EOSD>
 
-Releases and Support
---------------------
-
-The user guides provided here support OpenStack |openstack|. See the :ref:`F5 Releases and Support Matrix <releases-and-support>` for more information.
-
-For Developers
---------------
-
-Interested in contributing to an F5 OpenStack project? Check out the :ref:`Developer Area`.
+.. include:: master_toc.rst
 
 
+Documentation enhancements and issues
+-------------------------------------
 
-
+If you would like to request new documentation or notify us of a docs bug, please `file an issue in GitHub <https://github.com/F5Networks/f5-openstack-docs/issues>`_.

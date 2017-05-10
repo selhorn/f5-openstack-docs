@@ -26,7 +26,7 @@ import f5_sphinx_theme
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
-needs_sphinx = '1.4'
+#needs_sphinx = '1.4'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -40,6 +40,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'cloud_sptheme.ext.table_styling',
+    'sphinxjp.themes.basicstrap',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -57,8 +58,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'F5 OpenStack Documentation'
-copyright = u'2017 F5 Networks, Inc'
+project = u'F5 OpenStack Solutions'
+copyright = u'2017 F5 Networks Inc'
 author = u'F5 Networks'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -66,12 +67,12 @@ author = u'F5 Networks'
 # built documents.
 #
 # The short X.Y version.
-version = '|openstack_release|'
+version = '1.0'
 # The full version, including alpha/beta/rc tags.
-#release = u'Kilo'
+# release = ''
 
 # OpenStack release
-openstack_release = "Kilo"
+openstack_release = "Newton"
 
 rst_prolog = '''
 .. attention::
@@ -99,7 +100,8 @@ exclude_patterns = ['_build',
                     'guides/includes',
                     'Thumbs.db',
                     '.DS_Store',
-                    'deprecated' ]
+                    '_drafts',
+                    'lbaas/solution']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -140,16 +142,16 @@ html_theme_path = f5_sphinx_theme.get_html_theme_path()
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-                        #'site_name': 'F5 OpenStack Docs Home',
-                        'next_prev_link': True
+                        #'site_name': '',
+                        'next_prev_link': False
                      }
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = 'F5 OpenStack Integrations'
+html_title = 'F5 OpenStack Solutions'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
-html_short_title = 'Home'
+html_short_title = 'F5 OpenStack Home'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
@@ -249,7 +251,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'F5OpenStackDocumentation.tex', u'F5 OpenStack Documentation',
-     u'F5 Networks, Inc', 'manual'),
+     u'F5 Networks Inc', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -314,27 +316,63 @@ texinfo_documents = [
 # intersphinx_mapping = {'https://docs.python.org/': None}
 
 intersphinx_mapping = {'heat': (
-    'http://f5-openstack-heat.readthedocs.io/en/'+openstack_release.lower()+'/', None),
+    'http://f5-openstack-heat.readthedocs.io/en/master', None),
     'heatplugins': (
-    'http://f5-openstack-heat-plugins.readthedocs.io/en/'+openstack_release.lower()+'/', None),
-    'lbaasv1': (
-    'http://f5-openstack-lbaasv1.readthedocs.io/en/'+openstack_release.lower()+'/', None),
+    'http://f5-openstack-heat-plugins.readthedocs.io/en/master', None),
     'lbaasv2': (
-    'http://f5-openstack-lbaasv2-driver.readthedocs.io/en/'+openstack_release.lower()+'/', None),
+    'http://f5-openstack-lbaasv2-driver.readthedocs.io/en/master', None),
     'agent': (
-    'http://f5-openstack-agent.readthedocs.io/en/'+openstack_release.lower()+'/', None),
+    'http://f5-openstack-agent.readthedocs.io/en/master', None),
     'f5sdk': (
     'http://f5-sdk.readthedocs.io/en/latest/', None),
     }
 
 rst_epilog = '''
+.. |agent-link| replace:: `F5 OpenStack BIG-IP Controller`_
+.. |driver-link| replace:: `F5 OpenStack LBaaSv2 Driver`_
+.. |agent-versions| replace:: 8.x, 9.x
+.. |heat-versions| replace:: 7.x, 8.x, 9.x
+.. |plugins-versions| replace:: 7.x, 8.x, 9.x
+.. |driver-versions| replace:: 8.x, 9.x
+.. |heat-t| replace:: F5 OpenStack Heat templates
+.. |heat-p| replace:: `F5 OpenStack Heat plugins`_
+.. |agent-long| replace:: F5 OpenStack BIG-IP Controller
+.. |agent| replace:: :code:`openstack-bigip-ctlr`
+.. |driver| replace:: :code:`f5-openstack-lbaasv2-driver`
+.. |driver-long| replace:: F5 OpenStack LBaaSv2 Driver
+.. _F5 OpenStack BIG-IP Controller: /products/openstack/openstack-bigip-ctlr/latest
+.. _F5 OpenStack LBaaSv2 Driver: /products/openstack/openstack-lbaasv2-driver/latest
+.. |oslbaas| replace:: F5 OpenStack LBaaS Integration
+.. _OpenStack CLI: https://docs.openstack.org/cli-reference/
+.. _OpenStack API: https://developer.openstack.org/api-guide/quick-start/index.html
+.. _F5 OpenStack Heat templates: /products/openstack/f5-openstack-heat/latest
+.. _F5 OpenStack Heat plugins: /products/openstack/f5-openstack-heat-plugins/latest
+.. _f5-openstack-heat: https://github.com/f5networks/f5-openstack-heat
+.. _f5-openstack-heat-plugins: https://github.com/f5networks/f5-openstack-heat-plugins
+.. _f5-openstack-agent: https://github.com/f5networks/f5-openstack-agent
+.. _openstack-bigip-ctlr: https://github.com/f5networks/f5-openstack-agent
+.. _f5-openstack-lbaasv2-driver: https://github.com/f5networks/f5-openstack-lbaasv2-driver
+.. |neutron| replace:: `OpenStack Neutron`_
+.. |heat| replace:: `OpenStack Heat`_
+.. _OpenStack Heat: https://docs.openstack.org/developer/heat/
+.. _OpenStack Neutron: https://docs.openstack.org/developer/neutron/
+.. _OpenStack Horizon: https://docs.openstack.org/developer/horizon/
+.. _OpenStack Barbican: https://docs.openstack.org/developer/barbican/
+.. _F5 Python SDK: http://f5-sdk.readthedocs.io/
+.. _iControl REST: https://devcentral.f5.com/wiki/iControlrest.HomePage.ashx
 .. |openstack| replace:: %(openstack_release)s
 .. |f5_lbaasv2_driver_readme| raw:: html
 
-   <a href="https://github.com/F5Networks/f5-openstack-lbaasv2-driver/blob/%(openstack_release_l)s/README.rst">README</a>
+   <a href="https://github.com/F5Networks/f5-openstack-lbaasv2-driver/blob/%(openstack_release_l)s/README.rst" target="_blank">README</a>
 .. |f5_agent_readme| raw:: html
-
-   <a href="https://github.com/F5Networks/f5-openstack-agent/blob/%(openstack_release_l)s/README.rst">README</a>
+    
+   <a href="https://github.com/F5Networks/f5-openstack-agent/blob/%(openstack_release_l)s/README.rst" target="_blank">README</a>
+.. |neutron-lbaas| raw:: html
+    
+   <a href="https://docs.openstack.org/%(openstack_release_l)s/networking-guide/config-lbaas.html" target="_blank">Neutron LBaaS</a>
+.. |os-deployment| raw:: html
+    
+   <a href="https://docs.openstack.org/%(openstack_release_l)s/networking-guide/deploy.html" target="_blank">OpenStack Deployment</a>
 ''' % {
   'openstack_release': openstack_release,
   'openstack_release_l': openstack_release.lower(),
