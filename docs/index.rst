@@ -34,11 +34,11 @@ See the product documentation for more information about each component.
 .. toctree::
    :caption: Product Documentation
 
-   f5-openstack-agent <http://clouddocs.f5.com/products/openstack/f5-openstack-agent>
-   f5-openstack-heat <http://clouddocs.f5.com/products/openstack/f5-openstack-heat>
-   f5-openstack-heat-plugins <http://clouddocs.f5.com/products/openstack/f5-openstack-heat-plugins>
-   f5-openstack-lbaasv2-driver <http://clouddocs.f5.com/products/openstack/f5-openstack-lbaasv2-driver>
-   f5-openstack-lbaasv1 <http://clouddocs.f5.com/products/openstack/f5-openstack-lbaasv1>
+   F5 OpenStack BIG-IP Controller <http://clouddocs.f5.com/products/openstack/openstack-bigip-ctlr/latest>
+   F5 Heat Orchestration Templates <http://clouddocs.f5.com/products/templates/f5-openstack-hot/latest>
+   F5 Heat Plugins <http://clouddocs.f5.com/products/openstack/openstack-heat-plugins/latest>
+   F5 Neutron LBaaS driver <http://clouddocs.f5.com/products/openstack/openstack-lbaasv2-driver/latest>
+   F5 LBaaS v1 solution (EOSD) <http://clouddocs.f5.com/products/openstack/f5-openstack-lbaasv1/EOSD>
 
 .. include:: master_toc.rst
 

@@ -1,4 +1,4 @@
-.. _heat-deploy:
+.. _heat-how-to-deploy:
 
 How to Deploy OpenStack Heat Templates
 ======================================
@@ -19,9 +19,8 @@ Here, we provide our preferred means of defining a Heat template's required para
 
    This example uses the F5-supported :ref:`deploy-lb Heat template <heat:deploy-lb>`.
 
-   :fonticon:`fa fa-download` :download:`deploy-lb.yaml </_static/config_examples/deploy-lb.yaml>`
 
-#. Download the template from the :ref:`F5 Heat library </products/openstack/heat/f5-supported/latest>`.
+#. Download the template you want to deploy from the :ref:`F5 Heat library </products/templates/f5-openstack-hot/latest/f5-supported/>`.
 #. Save the definition for each of the template's required configuration parameters in an `environment file`_.
 
    .. literalinclude:: /_static/config_examples/deploy-lb.params.yaml

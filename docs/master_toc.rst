@@ -11,6 +11,7 @@ F5 OpenStack Integrations Documentation
 
 .. toctree::
    :caption: Neutron LBaaS
+   :glob:
    :maxdepth: 1
 
    Introduction <lbaas/index>
@@ -36,7 +37,8 @@ F5 OpenStack Integrations Documentation
    :maxdepth: 1
 
    Releases and Versioning <support/releases_and_versioning>
+   support/openstack_bigip_flavors
    support/partners
    support/acknowledgements
    F5 Contributor License Agreement <support/cla_landing>
-
+   support/branching_strategy

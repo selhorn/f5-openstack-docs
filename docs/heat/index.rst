@@ -5,6 +5,7 @@ F5 OpenStack Heat Integration
 
 F5's `OpenStack Heat`_ Integration consists of the `F5 OpenStack Heat templates`_ and `F5 OpenStack Heat plugins`_.
 
+.. _heat-prereqs:
 
 General Prerequisites
 ---------------------
@@ -12,7 +13,7 @@ General Prerequisites
 The following apply to most of the F5 Heat integration documentation.
 
 - Understanding of `BIG-IP Local Traffic Management Basics`_.
-- BIG-IP `Local Traffic Manager`_ (LTM) `Virtual Edition`_ (VE) image file in qcow.zip format (any size). [#]_
+- BIG-IP `Local Traffic Manager`_ (LTM) `Virtual Edition`_ (VE) **qcow.zip** image file (any size). [#]_
 - An operational |os-deployment| with |neutron| and |heat| installed. [#]_
 
 Caveats
@@ -30,21 +31,22 @@ Heat Plugins
 The :ref:`F5 Heat plugins <heatplugins:home>` enable BIG-IP objects for use in OpenStack.
 The Heat plugins use the :ref:`F5 python sdk <f5sdk:F5 Python SDK Documentation>` to communicate with BIG-IP via the iControl REST API.
 
+:fonticon:`fa fa-chevron-right` :ref:`Install the F5 Heat Plugins <#tbd>`
 
-Templates
----------
+Heat Templates
+--------------
 
-The :ref:`F5 Heat templates <heat:home>` provision resources and BIG-IP services in an OpenStack cloud.
+You can use the :ref:`F5 Heat templates <heat:home>` to provision resources and BIG-IP services in an OpenStack cloud.
 F5's Heat templates follow the `OpenStack Heat Orchestration Template`_ (HOT) specification. They can be used in conjunction with `F5 iApps <https://devcentral.f5.com/wiki/iApp.HomePage.ashx>`_ to deploy BIG-IP VE instances and Local Traffic Manager services.
 
 The F5 Heat templates come in two flavors: :ref:`supported <heat:f5-supported_home>` and :ref:`unsupported <heat:unsupported_home>`.
-The `F5 OpenStack Heat templates`_ product documentation contains download links for all supported templates.
 
 .. warning::
 
    The :ref:`unsupported <heat:unsupported_home>` templates provided in the `f5-openstack-heat`_ GitHub repo are considered 'use-at-your-own-risk'.
    Templates in the unsupported directory are not supported by F5, regardless of your account's support agreement status.
 
+:fonticon:`fa fa-chevron-right` :ref:`Browse the F5 Heat template library <#tbd>`
 
 .. seealso::
 

@@ -36,6 +36,6 @@ Key Points
 
 
 
-.. figure:: media/branching_strategy.png
+.. figure:: /_static/media/branching_strategy.png
 
     Branching Strategy

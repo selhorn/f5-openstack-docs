@@ -64,6 +64,11 @@ form.search {
   z-index: 0;
 }
 
+.sidebar .caption {
+  font-size: 18px;
+  color: #000000;
+}
+
 .sidebar ul {
   padding-left: 15px;
 }
