@@ -26,12 +26,6 @@ Introduction to F5 OpenStack Integrations
 F5's OpenStack Integrations provide a means for OpenStack users to administer and orchestrate L4-L7 services on BIG-IP device(s) using the `OpenStack CLI`_ commands and `OpenStack API`_ endpoints.
 
 
-
-Documenataion enhancements and issues
--------------------------------------
-
-If you would like to request new documentation or notify us of a docs bug, please `file an issue in GitHub <https://github.com/F5Networks/f5-openstack-docs/issues>`_.
-
 Product Documentation
 ---------------------
 
@@ -48,3 +42,8 @@ See the product documentation for more information about each component.
 
 .. include:: master_toc.rst
 
+
+Documentation enhancements and issues
+-------------------------------------
+
+If you would like to request new documentation or notify us of a docs bug, please `file an issue in GitHub <https://github.com/F5Networks/f5-openstack-docs/issues>`_.

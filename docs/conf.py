@@ -308,15 +308,13 @@ texinfo_documents = [
 # intersphinx_mapping = {'https://docs.python.org/': None}
 
 intersphinx_mapping = {'heat': (
-    'http://f5-openstack-heat.readthedocs.io/en/'+openstack_release.lower()+'/', None),
+    'http://f5-openstack-heat.readthedocs.io/en/master', None),
     'heatplugins': (
-    'http://f5-openstack-heat-plugins.readthedocs.io/en/'+openstack_release.lower()+'/', None),
-    'lbaasv1': (
-    'http://f5-openstack-lbaasv1.readthedocs.io/en/'+openstack_release.lower()+'/', None),
+    'http://f5-openstack-heat-plugins.readthedocs.io/en/master', None),
     'lbaasv2': (
-    'http://f5-openstack-lbaasv2-driver.readthedocs.io/en/'+openstack_release.lower()+'/', None),
+    'http://f5-openstack-lbaasv2-driver.readthedocs.io/en/master', None),
     'agent': (
-    'http://f5-openstack-agent.readthedocs.io/en/'+openstack_release.lower()+'/', None),
+    'http://f5-openstack-agent.readthedocs.io/en/master', None),
     'f5sdk': (
     'http://f5-sdk.readthedocs.io/en/latest/', None),
     }

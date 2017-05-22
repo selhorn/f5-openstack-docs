@@ -9,10 +9,7 @@ F5's `OpenStack Heat`_ Integration consists of the `F5 OpenStack Heat templates`
 General Prerequisites
 ---------------------
 
-The following prerequisites apply to most of the F5 OpenStack Heat integration's documentation.
-
-Requirements
-````````````
+The following apply to most of the F5 Heat integration documentation.
 
 - Understanding of `BIG-IP Local Traffic Management Basics`_.
 - BIG-IP `Local Traffic Manager`_ (LTM) `Virtual Edition`_ (VE) image file in qcow.zip format (any size). [#]_
@@ -37,7 +34,7 @@ The Heat plugins use the :ref:`F5 python sdk <f5sdk:F5 Python SDK Documentation>
 Templates
 ---------
 
-The F5 Heat templates provision resources and BIG-IP services in an OpenStack cloud.
+The :ref:`F5 Heat templates <heat:home>` provision resources and BIG-IP services in an OpenStack cloud.
 F5's Heat templates follow the `OpenStack Heat Orchestration Template`_ (HOT) specification. They can be used in conjunction with `F5 iApps <https://devcentral.f5.com/wiki/iApp.HomePage.ashx>`_ to deploy BIG-IP VE instances and Local Traffic Manager services.
 
 The F5 Heat templates come in two flavors: :ref:`supported <heat:f5-supported_home>` and :ref:`unsupported <heat:unsupported_home>`.

@@ -3,7 +3,7 @@
 How to Deploy OpenStack Heat Templates
 ======================================
 
-Use the instructions provided here to deploy any of the templates in F5's :ref:`heat template library <>`.
+Use the instructions provided here to deploy any of the templates in F5's :ref:`heat orchestration template library <heat:templates-home>`.
 
 OpenStack CLI
 -------------
@@ -12,29 +12,28 @@ OpenStack CLI
 - `python-openstackclient`_ configured with the ``python-heatclient`` plugin
 - |heat-p|
 
-The |heat| documentation covers creating and managing Heat stacks extensively.
+The |heat| documentation extensively covers creation and management of Heat stacks.
 Here, we provide our preferred means of defining a Heat template's required parameters and deploying it via the command line.
 
-.. info::
+.. note::
 
-   This example uses the F5-supported `deploy-lb Heat template`_.
-   :download:`deploy-lb.yaml <docs/_static/config_examples/deploy-lb.yaml>`
+   This example uses the F5-supported :ref:`deploy-lb Heat template <heat:deploy-lb>`.
+
+   :fonticon:`fa fa-download` :download:`deploy-lb.yaml </_static/config_examples/deploy-lb.yaml>`
 
 #. Download the template from the :ref:`F5 Heat library </products/openstack/heat/f5-supported/latest>`.
 #. Save the definition for each of the template's required configuration parameters in an `environment file`_.
 
-   Replace the image, flavor, ssh-key, security group, and network definitions with values from your environment.
-
    .. literalinclude:: /_static/config_examples/deploy-lb.params.yaml
-      :caption: Heat environment file for ``deploy_lb`` template
+      :caption: **Example:** Environment file for the ``deploy-lb`` Heat template
       :linenos:
 
-   \
+   Replace ``image``, ``flavor``, ``ssh-key``, ``security group``, and ``network`` with the appropriate values for your environment.
+
 
    .. tip::
 
       Protect your BIG-IP login information!
-
       Store your username and password as `environment variables`_ and reference them in your environment file.
 
 #. Create the Heat stack.
