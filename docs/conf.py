@@ -93,7 +93,7 @@ exclude_patterns = ['_build',
                     'guides/includes',
                     'Thumbs.db',
                     '.DS_Store',
-                    'deprecated/' ]
+                    '_drafts' ]
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
