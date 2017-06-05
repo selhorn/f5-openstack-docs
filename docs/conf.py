@@ -351,6 +351,7 @@ rst_epilog = '''
 .. _OpenStack Heat: https://docs.openstack.org/developer/heat/
 .. _OpenStack Neutron: https://docs.openstack.org/developer/neutron/
 .. _OpenStack Horizon: https://docs.openstack.org/developer/horizon/
+.. _F5 Python SDK: http://f5-sdk.readthedocs.io/
 .. |openstack| replace:: %(openstack_release)s
 .. |f5_lbaasv2_driver_readme| raw:: html
 

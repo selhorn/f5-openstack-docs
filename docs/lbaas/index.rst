@@ -29,11 +29,7 @@ It receives tasks from the Neutron RPC messaging queue, converts them to iContro
 
 The |driver-link|, or |driver|, is F5's OpenStack Neutron service provider driver. It picks up Neutron LBaaS calls from the RPC messaging queue and assigns them to the |agent-long|.
 
-.. seealso::
 
-   - quick start
-   - multiple agents different environments
-   -
 
 Architecture
 ------------

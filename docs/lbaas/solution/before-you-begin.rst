@@ -1,7 +1,7 @@
-Before You Begin
-================
+Quick Start
+===========
 
-In order to use F5 LBaaSv2 services, you will need the following:
+
 
 - Operational OpenStack cloud (|openstack| release).
 
