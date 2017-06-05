@@ -20,7 +20,7 @@ Create a load balancer
 
 .. note::
 
-   Neutron LBaaS :code:`loadbalancer` == BIG-IP :term:`partition`
+   Neutron LBaaS load balancer == BIG-IP :term:`partition`
 
 .. todo:: add note about naming convention applied when you create a new load balancer
 
