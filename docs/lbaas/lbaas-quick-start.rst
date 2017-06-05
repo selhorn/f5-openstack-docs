@@ -1,17 +1,16 @@
 F5 LBaaSv2 Quick Start Guide
 ============================
 
-.. rubric:: Prerequisites
+.. sidebar:: Applies to:
 
-- Operational OpenStack cloud (|openstack| release).
-- An :term:`overcloud` or :term:`undercloud` BIG-IP :term:`device` or :term:`device cluster`.
-- You must have the appropriate `license`_ for the BIG-IP features you wish to use.
+   OpenStack |openstack|
 
-  .. note:: **To use GRE or VxLAN tunnels, you need a Better or Best license.**
 
-- Basic understanding of `OpenStack networking concepts`_.
-- Basic understanding of `BIG-IP Local Traffic Manager <https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/ltm-basics-12-0-0.html>`_ (LTM)
-- Both ``pip`` and ``git`` installed on the Neutron controller. (It may be necessary to use ``sudo`` to install the F5 LBaaS packages and dependencies, depending on your environment.)
+Prerequisites
+-------------
+
+- A BIG-IP :term:`device` or :Term:`device cluster` provisioned with the appropriate `license`_ for the features you want to use. [#licensing]_
+- Both ``pip`` and ``git`` installed on the Neutron controller.
 
 
 Install the F5 Service Provider Package
@@ -73,30 +72,29 @@ Configure F5 LBaaSv2
 ====================
 
 include:: includes/topic_config-agent-overview.rst
-    :start-line: 4
+
 
 The table below contains a summary of the recommended F5 LBaaSv2 :ref:`configuration settings <Configure the F5 OpenStack Agent>`.
 
 .. note:: This table is not a comprehensive list of all available options. For additional information, and to view all available configuration options, please see :ref:`Supported Features`.
 
 include:: includes/ref_agent-config-settings-table.rst
-    :start-line: 5
+
 
 include:: includes/ref_agent-config-file.rst
     :start-after: each available configuration option.
     :end-before: :ref:`Global Routed Mode
 
-* :ref:`Global Routed Mode` :download:`f5-openstack-agent.grm.ini <_static/f5-openstack-agent.grm.ini>`
+* :ref:`Global Routed Mode` f5-openstack-agent.grm.ini <_static/f5-openstack-agent.grm.ini>
 
-* GRE tunnels :download:`f5-openstack-agent.gre.ini <_static/f5-openstack-agent.gre.ini>`
+* GRE tunnels f5-openstack-agent.gre.ini <agent:f5-openstack-agent.gre.ini>
 
-* VxLAN tunnels :download:`f5-openstack-agent.vxlan.ini <_static/f5-openstack-agent.vxlan.ini>`
+* VxLAN tunnels f5-openstack-agent.vxlan.ini <_static/f5-openstack-agent.vxlan.ini>
 
-* Tagged VLANs (without tunnels) :download:`f5-openstack-agent.vlan.ini <_static/f5-openstack-agent.vlan.ini>`
+* Tagged VLANs (without tunnels) f5-openstack-agent.vlan.ini <_static/f5-openstack-agent.vlan.ini>
 
 
 include:: includes/topic_configure-neutron-lbaasv2.rst
-    :start-line: 4
 
 .. important::
 
@@ -108,7 +106,7 @@ include:: includes/topic_configure-neutron-lbaasv2.rst
     
 
 include:: includes/topic_start-f5-agent.rst
-    :start-line: 4
+
 
 Next Steps
 ==========
@@ -116,6 +114,9 @@ Next Steps
 - See the :ref:`Coding Example` for the commands to use to configure basic load balancing via the Neutron CLI.
 - See :ref:`F5 LBaaSv2 to BIG-IP Configuration Mapping` to discover what the F5 agent configures on the BIG-IP.
 
+
+.. rubric:: Footnotes
+.. [#licensing] You need a Better or Best license if you plan to use GRE or VxLAN tunnels in an L2/L3-adjacent under-the-cloud deployment.
 
 .. _license: https://f5.com/products/how-to-buy/simplified-licensing
 .. _OpenStack Networking Concepts: http://docs.openstack.org/liberty/networking-guide/
