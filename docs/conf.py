@@ -58,7 +58,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'F5 in OpenStack'
+project = u'F5 OpenStack Solutions'
 copyright = u'2017 F5 Networks Inc'
 author = u'F5 Networks'
 
@@ -134,16 +134,16 @@ html_theme_path = f5_sphinx_theme.get_html_theme_path()
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-                        #'site_name': 'F5 OpenStack Docs Home',
-                        'next_prev_link': True
+                        #'site_name': '',
+                        'next_prev_link': False
                      }
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = 'F5 in OpenStack'
+html_title = 'F5 OpenStack Solutions'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
-html_short_title = 'Home'
+html_short_title = 'F5 OpenStack Home'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
