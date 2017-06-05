@@ -37,7 +37,7 @@ F5 OpenStack Integrations Documentation
    :maxdepth: 1
 
    Releases and Versioning <support/releases_and_versioning>
-   support/openstack_bigip_flavors
+   support/openstack_big-ip_flavors
    support/partners
    support/acknowledgements
    F5 Contributor License Agreement <support/cla_landing>

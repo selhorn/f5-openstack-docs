@@ -3,8 +3,8 @@
 F5 OpenStack LBaaS Integration
 ==============================
 
-The |oslbaas| consists of the |agent-link| and |driver-link|.
-The two work in concert to configure F5 BIG-IP Local Traffic Manager (LTM) objects via the `OpenStack Networking API`_.
+The |oslbaas| consists of the `F5 OpenStack BIG-IP Controller`_ and `F5 OpenStack LBaaSv2 Driver`_.
+The two work together to configure F5 BIG-IP Local Traffic Manager (LTM) objects via the `OpenStack Networking API`_.
 
 .. _os-lbaas-prereqs:
 
@@ -21,17 +21,26 @@ The F5 OpenStack LBaaS Integration's documentation set assumes that you:
 |agent-long|
 ------------
 
+The |agent-link|, or |agent|, translates from "OpenStack" to "F5".
+It receives tasks from the Neutron RPC messaging queue, converts them to iControl REST API calls (using the `F5 Python SDK`_), and sends the calls to the BIG-IP devices.
 
 |driver-long|
 -------------
 
+The |driver-link|, or |driver|, is F5's OpenStack Neutron service provider driver. It picks up Neutron LBaaS calls from the RPC messaging queue and assigns them to the |agent-long|.
+
+.. seealso::
+
+   - quick start
+   - multiple agents different environments
+   -
 
 Architecture
 ------------
 
 
 
-
+.. include:: /reuse/see-also-lbaas.rst
 
 
 

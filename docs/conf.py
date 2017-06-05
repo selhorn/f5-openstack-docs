@@ -93,7 +93,9 @@ exclude_patterns = ['_build',
                     'guides/includes',
                     'Thumbs.db',
                     '.DS_Store',
-                    '_drafts' ]
+                    '_drafts',
+                    'reuse',
+                    'lbaas/solution']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -320,6 +322,8 @@ intersphinx_mapping = {'heat': (
     }
 
 rst_epilog = '''
+.. |agent-link| replace:: `F5 OpenStack BIG-IP Controller`_
+.. |driver-link| replace:: `F5 OpenStack LBaaSv2 Driver`_
 .. |agent-versions| replace:: 8.x, 9.x
 .. |heat-versions| replace:: 7.x, 8.x, 9.x
 .. |plugins-versions| replace:: 7.x, 8.x, 9.x
@@ -330,16 +334,17 @@ rst_epilog = '''
 .. |agent| replace:: :code:`openstack-bigip-ctlr`
 .. |driver| replace:: :code:`f5-openstack-lbaasv2-driver`
 .. |driver-long| replace:: F5 OpenStack LBaaSv2 Driver
-.. |agent-link| replace:: /products/openstack/openstack-bigip-ctlr/latest
-.. |driver-link| replace:: /products/openstack/openstack-lbaasv2-driver/latest
+.. _F5 OpenStack BIG-IP Controller: /products/openstack/openstack-bigip-ctlr/latest
+.. _F5 OpenStack LBaaSv2 Driver: /products/openstack/openstack-lbaasv2-driver/latest
 .. |oslbaas| replace:: F5 OpenStack LBaaS Integration
 .. _OpenStack CLI: https://docs.openstack.org/cli-reference/
 .. _OpenStack API: https://developer.openstack.org/api-guide/quick-start/index.html
-.. _f5-openstack-agent: https://github.com/f5networks/f5-openstack-agent
 .. _F5 OpenStack Heat templates: /products/openstack/f5-openstack-heat/latest
 .. _F5 OpenStack Heat plugins: /products/openstack/f5-openstack-heat-plugins/latest
 .. _f5-openstack-heat: https://github.com/f5networks/f5-openstack-heat
 .. _f5-openstack-heat-plugins: https://github.com/f5networks/f5-openstack-heat-plugins
+.. _f5-openstack-agent: https://github.com/f5networks/f5-openstack-agent
+.. _openstack-bigip-ctlr: https://github.com/f5networks/f5-openstack-agent
 .. _f5-openstack-lbaasv2-driver: https://github.com/f5networks/f5-openstack-lbaasv2-driver
 .. |neutron| replace:: `OpenStack Neutron`_
 .. |heat| replace:: `OpenStack Heat`_
