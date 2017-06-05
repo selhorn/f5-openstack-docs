@@ -326,6 +326,13 @@ rst_epilog = '''
 .. |driver-versions| replace:: 8.x, 9.x
 .. |heat-t| replace:: F5 OpenStack Heat templates
 .. |heat-p| replace:: `F5 OpenStack Heat plugins`_
+.. |agent-long| replace:: F5 OpenStack BIG-IP Controller
+.. |agent| replace:: :code:`openstack-bigip-ctlr`
+.. |driver| replace:: :code:`f5-openstack-lbaasv2-driver`
+.. |driver-long| replace:: F5 OpenStack LBaaSv2 Driver
+.. |agent-link| replace:: /products/openstack/openstack-bigip-ctlr/latest
+.. |driver-link| replace:: /products/openstack/openstack-lbaasv2-driver/latest
+.. |oslbaas| replace:: F5 OpenStack LBaaS Integration
 .. _OpenStack CLI: https://docs.openstack.org/cli-reference/
 .. _OpenStack API: https://developer.openstack.org/api-guide/quick-start/index.html
 .. _f5-openstack-agent: https://github.com/f5networks/f5-openstack-agent

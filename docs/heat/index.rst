@@ -10,11 +10,12 @@ F5's `OpenStack Heat`_ Integration consists of the `F5 OpenStack Heat templates`
 General Prerequisites
 ---------------------
 
-The following apply to most of the F5 Heat integration documentation.
+The F5 OpenStack Heat Integration's documentation set assumes that you:
 
-- Understanding of `BIG-IP Local Traffic Management Basics`_.
-- BIG-IP `Local Traffic Manager`_ (LTM) `Virtual Edition`_ (VE) **qcow.zip** image file (any size). [#]_
-- An operational |os-deployment| with |neutron| and |heat| installed. [#]_
+- already have an operational |os-deployment| with |neutron| and |heat| installed; [#partners]_
+- are familiar with `OpenStack Horizon`_ and the `OpenStack CLI`_ ; and
+- are familiar with F5 BIG-IP `Local Traffic Manager`_ (LTM) concepts and the BIG-IP configuration utility (aka, the BIG-IP admin web interface).
+- have a BIG-IP `Virtual Edition`_ (VE) **qcow.zip** image file (any size) licensed appropriately for your needs. [#buybigip]_
 
 Caveats
 ```````
@@ -55,12 +56,12 @@ The F5 Heat templates come in two flavors: :ref:`supported <heat:f5-supported_ho
    * :fonticon:`fa fa-book` `F5 OpenStack Heat templates`_
    * :fonticon:`fa fa-book` `F5 OpenStack Heat plugins`_
 
+.. rubric:: Footnotes
+.. [#partners] Unsure how to get started with OpenStack? Consult one of F5's :ref:`OpenStack Platform Partners <f5ospartners>`.
+.. [#buybigip] `How to Buy <https://f5.com/products/how-to-buy>`_
 
-.. [#] `How to Buy <https://f5.com/products/how-to-buy>`_
-.. [#] Unsure how to get started with OpenStack? Consult one of F5's :ref:`OpenStack Platform Partners <f5ospartners>`.
 
-.. _BIG-IP Local Traffic Management Basics: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/ltm-basics-13-0-0.html
-.. _Local Traffic Manager: https://f5.com/products/big-ip/local-traffic-manager-ltm
+.. _Local Traffic Manager: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/ltm-basics-13-0-0.html
 .. _Virtual Edition: https://f5.com/products/deployment-methods/virtual-editions
 .. _different sizes: https://support.f5.com/csp/article/K14946
 .. _OpenStack Heat Orchestration Template: https://docs.openstack.org/developer/heat/template_guide/hot_spec.html
