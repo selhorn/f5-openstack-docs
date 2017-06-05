@@ -12,58 +12,44 @@ Prerequisites
 - A BIG-IP :term:`device` or :Term:`device cluster` provisioned with the appropriate `license`_ for the features you want to use. [#licensing]_
 - Both ``pip`` and ``git`` installed on the Neutron controller.
 
+.. seealso::
 
-Install the F5 Service Provider Package
----------------------------------------
-
-.. warning:: The F5 service provider package must be installed on your Neutron controller or F5 LBaaSv2 will not work.
-
-.. rubric:: Download the F5 LBaaSv2 service provider package and add it to the python path for ``neutron_lbaas``.
-
-1. Download from GitHub.
-
-.. code-block:: shell
-
-    $ curl -O -L https://github.com/F5Networks/neutron-lbaas/releases/download/v8.0.1/f5.tgz
+   :ref:`Basic Environment Requirements for F5 LBaaSv2`
 
 
-2. Install the service provider package on the Neutron controller.
+Install the |oslbaas| packages
+------------------------------
 
-    a. CentOS:
+.. danger::
 
-    .. code-block:: text
+   If you don't install the F5 service provider package on your Neutron controller, the F5 LBaaSv2 Integration won't work.
 
-        $ sudo tar xvf f5.tgz -C /usr/lib/python2.7/site-packages/neutron_lbaas/drivers/
+#. Download and install the F5 service provider package.
 
-    b. Ubuntu:
+   .. code-block:: shell
 
-    .. code-block:: text
-
-        $ sudo tar xvf f5.tgz –C /usr/lib/python2.7/dist-packages/neutron_lbaas/drivers/
-
-
-Install the F5 Agent
---------------------
-
-.. topic:: To install the ``f5-openstack-agent`` package for v |release|:
-
-    .. parsed-literal::
-
-        $ sudo pip install |f5_agent_pip_url|
-
-    .. tip::
-
-        See the :ref:`F5 Agent documentation <agent:home>` for rpm and dpkg installation instructions.
+      curl -O -L https://github.com/F5Networks/neutron-lbaas/releases/download/v8.0.1/f5.tgz
+      sudo tar xvf f5.tgz -C /usr/lib/python2.7/site-packages/neutron_lbaas/drivers/            \\ CentOS
+      sudo tar xvf f5.tgz –C /usr/lib/python2.7/dist-packages/neutron_lbaas/drivers/            \\ Ubuntu
 
 
-Install the F5 LBaaSv2 Driver
------------------------------
+#. Install the |agent| package.
 
-include:: includes/topic_install-f5-lbaasv2-driver.rst
+   .. parsed-literal::
+
+      sudo pip install |f5_agent_pip_url|
+
+   .. tip::
+
+      See the `F5 OpenStack BIG-IP Controller`_ documentation for ``rpm`` and ``dpkg`` downloads and installation instructions.
 
 
+#. Install the |driver| package.
 
-.. seealso:: :ref:`Basic Environment Requirements for F5 LBaaSv2`
+   .. parsed-literal::
+
+      sudo pip install |f5_driver_pip_url|
+
 
 
 

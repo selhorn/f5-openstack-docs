@@ -356,13 +356,13 @@ rst_epilog = '''
 .. |openstack| replace:: %(openstack_release)s
 .. |f5_lbaasv2_driver_readme| raw:: html
 
-   <a href="https://github.com/F5Networks/f5-openstack-lbaasv2-driver/blob/%(openstack_release_l)s/README.rst" target="_blank" >README</a>
+   <a href="https://github.com/F5Networks/f5-openstack-lbaasv2-driver/blob/%(openstack_release_l)s/README.rst" target="_blank">README</a>
 .. |f5_agent_readme| raw:: html
     
-   <a href="https://github.com/F5Networks/f5-openstack-agent/blob/%(openstack_release_l)s/README.rst" target="_blank" >README</a>
+   <a href="https://github.com/F5Networks/f5-openstack-agent/blob/%(openstack_release_l)s/README.rst" target="_blank">README</a>
 .. |neutron-lbaas| raw:: html
     
-   <a href="https://docs.openstack.org/%(openstack_release_l)s/networking-guide/config-lbaas.html" target="_blank" >Neutron LBaaS</a>
+   <a href="https://docs.openstack.org/%(openstack_release_l)s/networking-guide/config-lbaas.html" target="_blank">Neutron LBaaS</a>
 .. |os-deployment| raw:: html
     
    <a href="https://docs.openstack.org/%(openstack_release_l)s/networking-guide/deploy.html" target="_blank">OpenStack Deployment</a>
