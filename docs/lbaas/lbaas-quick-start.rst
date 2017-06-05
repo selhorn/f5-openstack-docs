@@ -54,10 +54,10 @@ Install the |oslbaas| packages
 
 
 
-Configure F5 LBaaSv2
-====================
+Set up the F5 BIG-IP Controller
+-------------------------------
 
-include:: includes/topic_config-agent-overview.rst
+includes/topic_config-agent-overview.rst
 
 
 The table below contains a summary of the recommended F5 LBaaSv2 :ref:`configuration settings <Configure the F5 OpenStack Agent>`.
@@ -94,8 +94,8 @@ include:: includes/topic_configure-neutron-lbaasv2.rst
 include:: includes/topic_start-f5-agent.rst
 
 
-Next Steps
-==========
+What's Next
+-----------
 
 - See the :ref:`Coding Example` for the commands to use to configure basic load balancing via the Neutron CLI.
 - See :ref:`F5 LBaaSv2 to BIG-IP Configuration Mapping` to discover what the F5 agent configures on the BIG-IP.
