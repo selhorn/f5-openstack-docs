@@ -82,6 +82,5 @@ Verify that all of your Neutron LBaaS objects were added to the BIG-IP device us
 
 #. Log in to the BIG-IP configuration utility at the management IP address (e.g., :code:`https://1.2.3.4/tmui/login.jsp`).
 #. Use the :guilabel:`Partition` drop-down menu to select the correct partition for your load balancer.
-#. Go to :menuselection:`Local traffic --> Virtual Servers` to view your new listener, pool, pool member, and health monitor.
-
-
+#. Go to :menuselection:`Local traffic --> Virtual Servers` to view your new virtual server.
+#. Click on the virtual server name to view the pool, pool member, and health monitor.
