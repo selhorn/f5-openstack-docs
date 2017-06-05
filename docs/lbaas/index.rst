@@ -18,21 +18,32 @@ The F5 OpenStack LBaaS Integration's documentation set assumes that you:
 - are familiar with BIG-IP LTM concepts, the BIG-IP configuration utility, and ``tmsh`` commands.
 
 
+|driver-long|
+-------------
+
+The |driver-link|, or |driver|, is F5's OpenStack Neutron service provider driver.
+It picks up Neutron LBaaS calls from the RPC messaging queue and assigns them to the |agent-long|.
+
+.. figure:: /_static/media/f5-lbaas-architecture.png
+   :align: center
+   :scale: 100%
+   :alt: Diagram showing the architecture of the F5 OpenStack LBaaS integration. A user issues a neutron lbaas command; the F5 LBaaSv2 driver assigns the task from the Neutron RPC messaging queue to the F5 OpenStack BIG-IP Controller. The BIG-IP Controller periodically reports its status to the Neutron database.
+
+   F5 OpenStack LBaaS Integration Architecture
+
+
 |agent-long|
 ------------
 
 The |agent-link|, or |agent|, translates from "OpenStack" to "F5".
-It receives tasks from the Neutron RPC messaging queue, converts them to iControl REST API calls (using the `F5 Python SDK`_), and sends the calls to the BIG-IP devices.
+It receives tasks from the Neutron RPC messaging queue, converts them to `iControl REST`_ API calls (using the `F5 Python SDK`_), and sends the calls to the BIG-IP device(s).
 
-|driver-long|
--------------
+.. figure:: /_static/media/f5-lbaas-agent-to-BIG-IP.png
+   :align: center
+   :scale: 100%
+   :alt: Diagram showing the operation of the F5 OpenStack BIG-IP Controller. A user issues a neutron lbaas command; the F5 LBaaSv2 driver assigns the task to the F5 OpenStack BIG-IP Controller; the BIG-IP Controller sends the command to the BIG-IP device as an iControl REST API call to add or edit the requested object.
 
-The |driver-link|, or |driver|, is F5's OpenStack Neutron service provider driver. It picks up Neutron LBaaS calls from the RPC messaging queue and assigns them to the |agent-long|.
-
-
-
-Architecture
-------------
+   F5 OpenStack BIG-IP Controller traffic flow
 
 
 

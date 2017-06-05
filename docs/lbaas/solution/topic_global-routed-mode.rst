@@ -164,7 +164,7 @@ Configuration
 
 .. seealso::
 
-    * :download:`Sample Agent Configuration file for Global Routed Mode <../_static/f5-openstack-agent.grm.ini>`
+    * :download:`Sample Agent Configuration file for Global Routed Mode </_static/config_examples/f5-openstack-agent.grm.ini>`
 
 
 Further Reading

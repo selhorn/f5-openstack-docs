@@ -77,9 +77,9 @@ Edit the :ref:`Agent Configuration File` to configure the F5 agent.
 
 .. seealso::
 
-    * :download:`Sample Agent Configuration file for VLAN (no tunnels) <../_static/f5-openstack-agent.vlan.ini>`
-    * :download:`Sample Agent Configuration file for GRE <../_static/f5-openstack-agent.gre.ini>`
-    * :download:`Sample Agent Configuration file for VXLAN <../_static/f5-openstack-agent.vxlan.ini>`
+    * :ref:`Sample Agent Configuration file for VLAN`  (no tunnels)
+    * :ref:`Sample Agent Configuration file for GRE`
+    * :ref:`Sample Agent Configuration file for VXLAN`
 
 
 L2 Segmentation Mode

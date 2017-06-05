@@ -60,8 +60,8 @@ Install the F5 Agent
 Install the F5 LBaaSv2 Driver
 -----------------------------
 
-.. include:: includes/topic_install-f5-lbaasv2-driver.rst
-    :start-line: 5
+include:: includes/topic_install-f5-lbaasv2-driver.rst
+
 
 
 .. seealso:: :ref:`Basic Environment Requirements for F5 LBaaSv2`
@@ -72,17 +72,17 @@ Install the F5 LBaaSv2 Driver
 Configure F5 LBaaSv2
 ====================
 
-.. include:: includes/topic_config-agent-overview.rst
+include:: includes/topic_config-agent-overview.rst
     :start-line: 4
 
 The table below contains a summary of the recommended F5 LBaaSv2 :ref:`configuration settings <Configure the F5 OpenStack Agent>`.
 
 .. note:: This table is not a comprehensive list of all available options. For additional information, and to view all available configuration options, please see :ref:`Supported Features`.
 
-.. include:: includes/ref_agent-config-settings-table.rst
+include:: includes/ref_agent-config-settings-table.rst
     :start-line: 5
 
-.. include:: includes/ref_agent-config-file.rst
+include:: includes/ref_agent-config-file.rst
     :start-after: each available configuration option.
     :end-before: :ref:`Global Routed Mode
 
@@ -95,7 +95,7 @@ The table below contains a summary of the recommended F5 LBaaSv2 :ref:`configura
 * Tagged VLANs (without tunnels) :download:`f5-openstack-agent.vlan.ini <_static/f5-openstack-agent.vlan.ini>`
 
 
-.. include:: includes/topic_configure-neutron-lbaasv2.rst
+include:: includes/topic_configure-neutron-lbaasv2.rst
     :start-line: 4
 
 .. important::
@@ -107,7 +107,7 @@ The table below contains a summary of the recommended F5 LBaaSv2 :ref:`configura
     - `RedHat <https://access.redhat.com/ecosystem/software/1446683>`_
     
 
-.. include:: includes/topic_start-f5-agent.rst
+include:: includes/topic_start-f5-agent.rst
     :start-line: 4
 
 Next Steps

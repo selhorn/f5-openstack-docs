@@ -32,7 +32,7 @@ Configuration
 
 #. Generate a new custom environment on the Neutron controller.
 
-    .. include:: includes/topic_differentiated-services.rst
+    include :: includes/topic_differentiated-services.rst
         :start-after: command:
         :end-before: Configure the F5 Agent
 
