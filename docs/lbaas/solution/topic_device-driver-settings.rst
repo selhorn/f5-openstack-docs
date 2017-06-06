@@ -34,12 +34,6 @@ Prerequisites
 - F5 :ref:`agent <agent:home>` and :ref:`service provider driver <Install the F5 LBaaSv2 Driver>` installed on the Neutron controller and all other hosts for which you want to provision LBaaS services.
 
 
-Caveats
--------
-
-- vCMP is unsupported in this release (v |release|).
-- Clustering is limited to two (2) BIG-IP devices in this release.
-
 
 Configuration
 -------------
