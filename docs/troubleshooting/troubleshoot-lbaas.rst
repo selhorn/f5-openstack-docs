@@ -1,3 +1,5 @@
+.. _lbaas-troubleshooting:
+
 F5 OpenStack LBaaS Integration - Troubleshooting
 ================================================
 
@@ -116,7 +118,9 @@ If ``f5-openstack-agent``, or ``f5-oslbaasv2-agent``, doesn't appear in the agen
 Verify that you only have one agent running per environment, per host
 `````````````````````````````````````````````````````````````````````
 
-If you see more than one entry for :code:`f5-openstack-agent` or :code:`f5-oslbaasv2-agent`, and you haven't configured your host to :ref:`use multiple agents`, deactivate one of them. The commands below may help you to identify which agent to deactivate.
+If you see more than one entry for :code:`f5-openstack-agent` or :code:`f5-oslbaasv2-agent`, and you haven't configured your host to :ref:`use multiple agents`, deactivate one of them.
+
+The commands below may help you to identify which agent to deactivate.
 
 .. code-block:: console
 
