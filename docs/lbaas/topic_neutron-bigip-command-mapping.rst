@@ -36,7 +36,7 @@ The actual settings applied may vary depending on your existing BIG-IP device co
 .. table:: Neutron command to BIG-IP configuration mapping
 
    =========================================================== =================================================================================
-   Command                                                     |agent| action(s) taken
+   Command                                                     Action(s)
    =========================================================== =================================================================================
    :command:`systemctl start f5-openstack agent`               1. |agent| reads the :code:`vtep` `self IP`_ defined in the |agent| config file.
                                                                2. BIG-IP advertises the :code:`vtep` IP address.
@@ -61,12 +61,12 @@ The actual settings applied may vary depending on your existing BIG-IP device co
                                                                   ``f5_snat_addresses_per_subnet`` setting in the :ref:`agent configuration file`.
                                                                   [#tablefn5]_
 
-                                                               7. A neutron port is created for each SNAT address.
+                                                               7. |driver| adds a Neutron port for each SNAT address.
 
                                                                   - If SNAT mode is off and SNAT addresses is set to ``0``, the BIG-IP
                                                                     acts as a gateway and handles all return traffic from members.
-                                                                  - If SNAT mode is on & SNAT addresses is set to ``0``, `SNAT automap`_
-                                                                    will be used.
+                                                                  - If SNAT mode is on & SNAT addresses is set to ``0``, the BIG-IP device uses
+                                                                    `SNAT automap`_.
    ----------------------------------------------------------- ---------------------------------------------------------------------------------
    :command:`neutron lbaas-listener-create`                    |agent| ceates a new BIG-IP virtual server in the partition for the specified
                                                                load balancer.
