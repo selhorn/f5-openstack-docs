@@ -13,7 +13,7 @@ The `OpenStack CLI`_ documentation has a full list of all :code:`neutron lbaas` 
    The LBaaSv2 CLI commands begin with :code:`lbaas-`.
    Commands beginning with :code:`lb-` are part of the deprecated LBaaSv1 project.
 
-.. todo:: add neutron cli response text and `show` info after each command
+   Example: :code:`Project_9572afc14db14c8a806d8c8219446e7b`
 
 Create a load balancer
 ----------------------
@@ -22,7 +22,9 @@ Create a load balancer
 
    Neutron LBaaS load balancer == BIG-IP :term:`partition`
 
-.. todo:: add note about naming convention applied when you create a new load balancer
+   The name assigned to the new BIG-IP partition follows the naming convention :code:`<environment-prefix>_<openstack-tenant-ID>`.
+   The default environment prefix is :code:`Project_`.
+   You can change the environment prefix in the |agent-long| :ref:`agent configuration file <agent:agent-config-file>`.
 
 Specify the name you want to assign to the load balancer and the existing OpenStack subnet you want to assign to it.
 
