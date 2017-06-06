@@ -16,20 +16,20 @@ F5 LBaaSv2 uses the `f5-sdk <http://f5-sdk.readthedocs.io/en/latest/>`_ to commu
 .. table:: Neutron Command to BIG-IP Configuration Mapping
 
 
-   Neutron command                           iControl REST endpoint                                                                             BIG-IP Configuration(s)
-   ========================================= ================================================================================================== =============================================
-   :cmd:`neutron lbaas-loadbalancer-create`  :code:`https://<icontrol_endpoint>:443/mgmt/tm/sys/folder/~Project_<os_tenant_id>`                 new partition created          |
+   Neutron command                                 iControl REST endpoint                                                                             BIG-IP Configuration(s)
+   =========================================       ================================================================================================== =============================================
+   :command:`neutron lbaas-loadbalancer-create`    :code:`https://<icontrol_endpoint>:443/mgmt/tm/sys/folder/~Project_<os_tenant_id>`                 new partition created          |
 
-   :cmd:`neutron lbaas-listener-create`      :code:`https://<icontrol_endpoint>:443/mgmt/tm/ltm/virtual/`                                   new virtual server created in the |
-                                                                                                                                  tenant partition                  |
+   :command:`neutron lbaas-listener-create`        :code:`https://<icontrol_endpoint>:443/mgmt/tm/ltm/virtual/`                                       new virtual server created in the |
+                                                                                                                                                      tenant partition                  |
 
-   :cmd:`neutron lbaas-pool-create`          :code:`https://<icontrol_endpoint>:443/mgmt/tm/ltm/pool/`                                      new pool created on the virtual   |
-                                                                                                                                  server                            |
+   :command:`neutron lbaas-pool-create`            :code:`https://<icontrol_endpoint>:443/mgmt/tm/ltm/pool/`                                          new pool created on the virtual   |
+                                                                                                                                                      server                            |
 
-   :cmd:`neutron lbaas-member-create`        :code:`https://<icontrol_endpoint>:443/mgmt/tm/ltm/pool/~Project_<os_tenant_id>~pool1/members/` new member created in the pool    |
+   :command:`neutron lbaas-member-create`          :code:`https://<icontrol_endpoint>:443/mgmt/tm/ltm/pool/~Project_<os_tenant_id>~pool1/members/`    new member created in the pool    |
 
-   :cmd:`neutron lbaas-healthmonitor-create` :code:`https://<icontrol_endpoint>:443/mgmt/tm/ltm/monitor/http/`                              new health monitor created for    |
-                                                                                                                                  the pool                          |
+   :command:`neutron lbaas-healthmonitor-create`   :code:`https://<icontrol_endpoint>:443/mgmt/tm/ltm/monitor/http/`                                  new health monitor created for    |
+                                                                                                                                                      the pool                          |
 
 
 

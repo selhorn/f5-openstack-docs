@@ -11,7 +11,7 @@ The `OpenStack CLI`_ documentation has a full list of all :code:`neutron lbaas` 
 .. important::
 
    The LBaaSv2 CLI commands begin with :code:`lbaas-`.
-   Commands beginning with :code:`lb-` are part of the deprecated LBaaSv1 project.
+   Commands beginning with :code:`lb-` are part of the `deprecated LBaaSv1 project`_.
 
    Example: :code:`Project_9572afc14db14c8a806d8c8219446e7b`
 
@@ -86,3 +86,5 @@ Verify that all of your Neutron LBaaS objects were added to the BIG-IP device us
 #. Use the :guilabel:`Partition` drop-down menu to select the correct partition for your load balancer.
 #. Go to :menuselection:`Local traffic --> Virtual Servers` to view your new virtual server.
 #. Click on the virtual server name to view the pool, pool member, and health monitor.
+
+.. _deprecated LBaaS v1 project: https://docs.openstack.org/mitaka/networking-guide/config-lbaas.html#lbaas-v1
