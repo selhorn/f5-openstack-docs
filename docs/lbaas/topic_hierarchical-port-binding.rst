@@ -4,17 +4,17 @@ Hierarchical Port Binding
 Overview
 --------
 
-Neutron `hierarchical port binding`_ [#]_ allows software-defined networking (SDN) users to dynamically configure VLANs and VLAN tags for a physical BIG-IP :term:`device` or :term:`device service cluster` connected to a 'top of rack' L3 switch (a network 'segment'). Telling the F5 agent what physical switch and port the BIG-IPs are connected to allows the agent to configure the BIG-IPs to process traffic for networks that are dynamically created in that segment.
+Neutron `hierarchical port binding`_ [#]_ allows software-defined networking (SDN) users to dynamically configure VLANs and VLAN tags for a physical BIG-IP :term:`device` or :term:`device service cluster` connected to a 'top of rack' L3 switch (a network 'segment'). Telling the |agent-long| what physical switch and port the BIG-IPs are connected to allows the agent to configure the BIG-IPs to process traffic for networks that are dynamically created in that segment.
 
 Disconnected Services
 `````````````````````
 
-Because it is possible for LBaaSv2 objects to be provisioned on a Neutron network which has not yet been bound to a segment, the F5 agent can provision LBaaSv2 services in a disconnected state. When the agent discovers the intended network(s), these 'disconnected services' will be connected to the VLAN(s) and BIG-IP(s) as intended. You can customize how often the F5 agent will poll, and the maximum amount of time it should wait, for the network to be created before the request fails. This is, essentially, a fail-safe built into the F5 agent that allows for a certain degree of variation in the timing of the VLAN deployment and the request to create the LBaaS objects for it.
+Because it is possible for LBaaSv2 objects to be provisioned on a Neutron network which has not yet been bound to a segment, the |agent-long| can provision LBaaSv2 services in a disconnected state. When the agent discovers the intended network(s), these 'disconnected services' will be connected to the VLAN(s) and BIG-IP(s) as intended. You can customize how often the |agent-long| will poll, and the maximum amount of time it should wait, for the network to be created before the request fails. This is, essentially, a fail-safe built into the |agent-long| that allows for a certain degree of variation in the timing of the VLAN deployment and the request to create the LBaaS objects for it.
 
 Use Case
 --------
 
-The most common use case for heirarchical port binding is an :term:`undercloud` deployment of a physical BIG-IP device or :term:`device service cluster` that processes traffic on networks dynamically created via SDN. When the F5 agent is configured with the name of a switch and the port(s) to which BIG-IP devices are connected, the LBaaSv2 driver discovers  Neutron networks in that switch's network segment. The driver provides the segmentation IDs of VLANs in the network segment to the F5 agent, which then dynamically creates the VLAN tags required to connect LBaaS services to the BIG-IPs.
+The most common use case for heirarchical port binding is an :term:`undercloud` deployment of a physical BIG-IP device or :term:`device service cluster` that processes traffic on networks dynamically created via SDN. When the |agent-long| is configured with the name of a switch and the port(s) to which BIG-IP devices are connected, the LBaaSv2 driver discovers  Neutron networks in that switch's network segment. The driver provides the segmentation IDs of VLANs in the network segment to the |agent-long|, which then dynamically creates the VLAN tags required to connect LBaaS services to the BIG-IPs.
 
 
 
@@ -45,9 +45,9 @@ Caveats
 
 - In release v |release| of the F5 LBaaSv2 driver and agent, ``VLAN`` is the only supported ML2 network type when employing Hierarchical Port Binding.
 
-- Each F5 agent managing a BIG-IP :term:`device service cluster` must have the same ``f5_network_segment_physical_network`` setting. [#]_
+- Each |agent-long| managing a BIG-IP :term:`device service cluster` must have the same ``f5_network_segment_physical_network`` setting. [#]_
 
--  If multiple F5 agents are managing the same environment, all of the agents must use the same binding settings (in other words, either the default global segmentation bindings or hierarchical port binding). [#]_
+-  If multiple |agent-long|s are managing the same environment, all of the agents must use the same binding settings (in other words, either the default global segmentation bindings or hierarchical port binding). [#]_
 
 
 Configuration

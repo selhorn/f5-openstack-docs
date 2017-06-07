@@ -78,7 +78,7 @@ BIG-IP Requirements
 .. [#] Click on a term to view its definition: :term:`overcloud`; :term:`undercloud`; :term:`standalone`; :term:`pair`; :term:`scalen`; :term:`cluster`
 .. [#] Two VLANS = data & management. Three VLANS = data, management, and HA. See `Configuring the basic BIG-IP network`_ for more information.
 .. [#] Tunnels can be either VxLAN or GRE.
-.. [#] If you're using a tunnel to reach an undercloud BIG-IP, you must configure the VTEP at which it can be reached **before** launching the F5 agent. See :ref:`Device Tunneling (VTEP) selfips` for more information.
+.. [#] If you're using a tunnel to reach an undercloud BIG-IP, you must configure the VTEP at which it can be reached **before** launching the |agent-long|. See :ref:`Device Tunneling (VTEP) selfips` for more information.
 
 
 

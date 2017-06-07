@@ -6,9 +6,9 @@ Capacity-Based Scale Out
 Overview
 --------
 
-When using :ref:`differentiated service environments <Differentiated Service Environments>`, you can configure capacity metrics for the F5 agent to provide scale out across multiple BIG-IP device groups. The F5 agent :ref:`configuration parameters <Configure the F5 OpenStack Agent>`  ``environment_group_number`` and ``environment_capacity_score`` allow the F5 LBaaSv2 agent scheduler to assign requests to the group that has the lowest capacity score.
+When using :ref:`differentiated service environments <Differentiated Service Environments>`, you can configure capacity metrics for the |agent-long| to provide scale out across multiple BIG-IP device groups. The |agent-long| :ref:`configuration parameters <Configure the F5 OpenStack Agent>`  ``environment_group_number`` and ``environment_capacity_score`` allow the F5 LBaaSv2 agent scheduler to assign requests to the group that has the lowest capacity score.
 
-Each F5 agent expected to manage a specific :term:`device group` must be configured with the same ``icontrol_endpoints``. They must also be configured with the same ``environment_group_number``; this is used by the F5 LBaaSv2 driver to map the agents to the BIG-IP device group. The ``environment_group_number`` provides a convenient way for the F5 driver to identify agents that are available to handle requests for any of the devices in a given group.
+Each |agent-long| expected to manage a specific :term:`device group` must be configured with the same ``icontrol_endpoints``. They must also be configured with the same ``environment_group_number``; this is used by the F5 LBaaSv2 driver to map the agents to the BIG-IP device group. The ``environment_group_number`` provides a convenient way for the F5 driver to identify agents that are available to handle requests for any of the devices in a given group.
 
 You can configure a variety of capacity metrics via the ``capacity_policy`` configuration parameter. These metrics are used to calculate an ``environment_capacity_score`` for the environment group. Each agent calculates the capacity score for its group and reports the score back to the Neutron database.
 
@@ -31,7 +31,7 @@ If an agent has previously handled requests for the specified tenant, that agent
 Use Case
 --------
 
-Capacity-based scale out provides redundancy and high availability amongst F5 agents responsible for managing a specific service environment. The capacity score each agent reports back to the Neutron database is used to assign tasks to the agent handling the fewest requests.
+Capacity-based scale out provides redundancy and high availability amongst |agent-long|s responsible for managing a specific service environment. The capacity score each agent reports back to the Neutron database is used to assign tasks to the agent handling the fewest requests.
 
 Prerequisites
 -------------
@@ -46,7 +46,7 @@ Caveats
 
 - All hosts running F5 LBaaSv2 must use the same Neutron database.
 - You **can not** run multiple agents on the same host if they are expected to manage the same BIG-IP device or :term:`cluster`.
-- See :ref::ref:`differentiated service environments <Differentiated Service Environments>` for information about running more than one F5 agent/driver on the same host.
+- See :ref::ref:`differentiated service environments <Differentiated Service Environments>` for information about running more than one |agent-long|/driver on the same host.
 
 
 Configuration

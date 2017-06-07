@@ -10,17 +10,17 @@ Overview
 
     We refer to 'hosts' a lot in this document. A 'host' could be a Neutron controller, a compute node, a container, etc.; the important takeaway is that in order to run multiple agents in one environment, **each agent must have a unique** ``hostname``. [#]_
 
-When the Neutron LBaaS plugin loads the F5 LBaaSv2 driver, it creates a global messaging queue to be used for all callbacks and status update requests from F5 LBaaSv2 agents. Requests are passed from the global messaging queue to F5 LBaaSv2 drivers in a round-robin fashion, then passed on to an F5 agent as described in the :ref:`Agent-Tenant Affinity` section.
+When the Neutron LBaaS plugin loads the F5 LBaaSv2 driver, it creates a global messaging queue to be used for all callbacks and status update requests from F5 LBaaSv2 agents. Requests are passed from the global messaging queue to F5 LBaaSv2 drivers in a round-robin fashion, then passed on to an |agent-long| as described in the :ref:`Agent-Tenant Affinity` section.
 
 Agent-Tenant Affinity
 `````````````````````
 
-The F5 LBaaSv2 agent scheduler uses the Neutron database and 'agent-tenant affinity' to determine which F5 agent should handle an LBaaS request.
+The F5 LBaaSv2 agent scheduler uses the Neutron database and 'agent-tenant affinity' to determine which |agent-long| should handle an LBaaS request.
 
 How it works:
 
 #. The Neutron controller receives a new ``loadbalancer`` request.
-#. The F5 LBaaSv2 agent scheduler consults the Neutron database to determine if any F5 agent is already bound to the load balancer to which the request applies.
+#. The F5 LBaaSv2 agent scheduler consults the Neutron database to determine if any |agent-long| is already bound to the load balancer to which the request applies.
 #. If the scheduler finds a bound agent, it assigns the request to that agent.
 #. If the scheduler doesn't find a bound agent, it checks the load balancer's ``tenant_id`` to determine if any agent has already handled a request for that tenant (in other words, has affinity with that tenant, or 'agent-tenant affinity').
 #. If the scheduler finds an agent that has affinity with the load balancer's tenant, it selects that agent to complete the request.
@@ -44,9 +44,9 @@ How it works:
 Use Case
 --------
 
-You can run multiple F5 agents **on different hosts** in your OpenStack cloud to provide agent redundancy and scale-out. Managing the same BIG-IP device or cluster from different hosts ensures that if one host goes down, the F5 LBaaSv2 processes remain alive and functional. It also allows you to spread the request load for the environment across multiple agents.
+You can run multiple |agent-long|s **on different hosts** in your OpenStack cloud to provide agent redundancy and scale-out. Managing the same BIG-IP device or cluster from different hosts ensures that if one host goes down, the F5 LBaaSv2 processes remain alive and functional. It also allows you to spread the request load for the environment across multiple agents.
 
-You can run multiple F5 agents on the same host only if they are each managing a different BIG-IP
+You can run multiple |agent-long|s on the same host only if they are each managing a different BIG-IP
 
 
 Prerequisites
@@ -62,14 +62,14 @@ Prerequisites
 Caveats
 -------
 
-- You **can not** run multiple agents on the same host if they are expected to manage the same BIG-IP device or :term:`cluster`. See :ref:`Differentiated Service Environments` for information about running more than one F5 agent/driver on the same host.
-- In the standard multi-agent deployment, specifying the F5 agent/BIG-IP pair to use when creating a new load balancer is not supported. Instead, use a custom environment as described in :ref:`Multiple Agents and Differentiated Service Environments`.
+- You **can not** run multiple agents on the same host if they are expected to manage the same BIG-IP device or :term:`cluster`. See :ref:`Differentiated Service Environments` for information about running more than one |agent-long|/driver on the same host.
+- In the standard multi-agent deployment, specifying the |agent-long|/BIG-IP pair to use when creating a new load balancer is not supported. Instead, use a custom environment as described in :ref:`Multiple Agents and Differentiated Service Environments`.
 
 
 Configuration
 -------------
 
-To manage one BIG-IP device or device service group with multiple F5 agents, deploy F5 LBaaSv2 on separate hosts using the instructions provided below.
+To manage one BIG-IP device or device service group with multiple |agent-long|s, deploy F5 LBaaSv2 on separate hosts using the instructions provided below.
 
 #. Copy the Neutron config file from your Neutron controller to each host on which you will run F5 LBaaSv2:
 
@@ -84,7 +84,7 @@ To manage one BIG-IP device or device service group with multiple F5 agents, dep
     .. tip::
 
         * Be sure to provide the iControl endpoints for all BIG-IP devices you'd like the agents to manage.
-        * You can configure the F5 agent once, on the Neutron controller, then copy the agent config file (:file:`/etc/neutron/services/f5/f5-openstack-agent.ini`) over to the other hosts.
+        * You can configure the |agent-long| once, on the Neutron controller, then copy the agent config file (:file:`/etc/neutron/services/f5/f5-openstack-agent.ini`) over to the other hosts.
 
 #. :ref:`Start the F5 agent` on each host.
 
@@ -102,5 +102,5 @@ Further Reading
     * :ref:`Multiple Agents and Differentiated Service Environments`
 
 
-.. [#] **F5 Networks does not provide support for container service deployments.** If you are already well versed in containerized environments, you can run one F5 agent per container. The neutron.conf file must be present in the container. The service provider driver does not need to run in the container; rather, it only needs to be in the container's build context.
+.. [#] **F5 Networks does not provide support for container service deployments.** If you are already well versed in containerized environments, you can run one |agent-long| per container. The neutron.conf file must be present in the container. The service provider driver does not need to run in the container; rather, it only needs to be in the container's build context.
 

@@ -15,7 +15,7 @@ F5 OpenStack LBaaS Integration - Troubleshooting
 Set the Logging Level to DEBUG
 ------------------------------
 
-To troubleshoot general problems, set the Neutron and the F5 agent ``debug`` setting to ``True``.
+To troubleshoot general problems, set the Neutron and |agent| ``debug`` setting to ``True``.
 This creates extensive logs in  :file:`/var/log/neutron/neutron-server.log` and :file:`/var/log/neutron/f5-openstack-agent.log`, respectively.
 
 #. Set the DEBUG log level output for Neutron:

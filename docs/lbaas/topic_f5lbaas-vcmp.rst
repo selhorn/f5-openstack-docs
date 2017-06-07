@@ -14,7 +14,7 @@ F5 LBaaSv2 allows you to manage vCMP guests in the same way that you would a phy
 Use Case
 --------
 
-When used with vCMP in a flat network or VLAN, the F5 agent can manage one or more vCMP hosts, each of which can have one or more guests. Guests on the same, or different, vCMP hosts can be configured to operate as a :term:`device service cluster`. If a vCMP host fails (taking its guests with it), another vCMP host with guests configured as part of the cluster can take over managing its traffic. This provides a high degree of redundancy, while requiring fewer physical resources. vCMP also allows you to delegate management of the BIG-IP software in each instance to individual administrators. This means users who need to manage LBaaS objects don't need to be given full administrative access to the BIG-IP, only to the host & guests allotted for their project(s).
+When used with vCMP in a flat network or VLAN, the |agent-long| can manage one or more vCMP hosts, each of which can have one or more guests. Guests on the same, or different, vCMP hosts can be configured to operate as a :term:`device service cluster`. If a vCMP host fails (taking its guests with it), another vCMP host with guests configured as part of the cluster can take over managing its traffic. This provides a high degree of redundancy, while requiring fewer physical resources. vCMP also allows you to delegate management of the BIG-IP software in each instance to individual administrators. This means users who need to manage LBaaS objects don't need to be given full administrative access to the BIG-IP, only to the host & guests allotted for their project(s).
 
 Prerequisites
 -------------

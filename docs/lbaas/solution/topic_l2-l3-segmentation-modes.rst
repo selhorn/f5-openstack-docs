@@ -6,11 +6,11 @@ L2 Adjacent Mode
 Overview
 --------
 
-The F5 agent uses the L2/L3 segmentation mode settings to determine the L2/L3 network configurations for your BIG-IP device(s).
+The |agent-long| uses the L2/L3 segmentation mode settings to determine the L2/L3 network configurations for your BIG-IP device(s).
 
 .. warning::
 
-    These settings must be configured correctly for the F5 agent to manage your BIG-IP(s). Knowledge of networking concepts and BIG-IP configuration is required.
+    These settings must be configured correctly for the |agent-long| to manage your BIG-IP(s). Knowledge of networking concepts and BIG-IP configuration is required.
 
 L2 segmentation mode settings:
 
@@ -30,9 +30,9 @@ L3 segmentation mode settings:
 Use Case
 --------
 
-Typically, the F5 agent is used to manage one (1) or more BIG-IP devices deployed at the service layer of an external :ref:`provider network <docs:provider-network>`. F5 LBaaSv2 makes it possible to provision services from your existing BIG-IP(s) in an OpenStack cloud. The F5 agent L2/L3 segmentation mode settings must match the configurations of your existing external network and BIG-IP device(s).
+Typically, the |agent-long| is used to manage one (1) or more BIG-IP devices deployed at the service layer of an external :ref:`provider network <docs:provider-network>`. F5 LBaaSv2 makes it possible to provision services from your existing BIG-IP(s) in an OpenStack cloud. The |agent-long| L2/L3 segmentation mode settings must match the configurations of your existing external network and BIG-IP device(s).
 
-The default mode of operation for the F5 agent is **L2 adjacent mode** (``f5_global_routed_mode = False``).
+The default mode of operation for the |agent-long| is **L2 adjacent mode** (``f5_global_routed_mode = False``).
 
 .. figure:: ../media/f5-lbaas-l2-3-adjacent-mode.png
     :alt: L2-adjacent BIG-IP cluster
@@ -69,7 +69,7 @@ Caveats
 Configuration
 -------------
 
-Edit the :ref:`Agent Configuration File` to configure the F5 agent.
+Edit the :ref:`Agent Configuration File` to configure the |agent-long|.
 
 .. code-block:: text
 
@@ -150,7 +150,7 @@ Device Tunneling (VTEP) selfips
 
 - ``f5_vtep_folder``: This is the name of the BIG-IP folder or partition in which the `VTEP`_ (VxLAN tunnel endpoint) resides; the default partition is 'Common'.
 
-- ``f5_vtep_selfip_name``: The name of the self IP assigned to the VTEP. The self IP must be configured on the BIG-IP **before** you configure the F5 agent.
+- ``f5_vtep_selfip_name``: The name of the self IP assigned to the VTEP. The self IP must be configured on the BIG-IP **before** you configure the |agent-long|.
 
     **Example**
 

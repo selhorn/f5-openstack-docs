@@ -8,7 +8,7 @@ Overview
 
 The F5 LBaaSv2 agent and driver can manage BIG-IP :term:`device service clusters`, providing :term:`high availability`, :term:`mirroring`, and :term:`failover` services within your OpenStack cloud.
 
-The F5 agent applies LBaaS configuration changes to each BIG-IP :term:`device` in a cluster at the same time, in real time. It is unnecessary to use BIG-IP's '`configuration synchronization`_ mode' to sync LBaaS objects managed by the agent across the devices in a cluster.
+The |agent-long| applies LBaaS configuration changes to each BIG-IP :term:`device` in a cluster at the same time, in real time. It is unnecessary to use BIG-IP's '`configuration synchronization`_ mode' to sync LBaaS objects managed by the agent across the devices in a cluster.
 
 Clustering provides a greater degree of redundancy than a standalone device offers. It helps to avoid service interruptions that could otherwise occur if a device should go down. F5 LBaaSv2 can manage BIG-IP `Sync-Failover device groups`_ when set to use either the :term:`pair` or the :term:`scalen` :ref:`High Availability mode <HA mode>`.
 
@@ -20,7 +20,7 @@ Clustering provides a greater degree of redundancy than a standalone device offe
 
 .. important::
 
-    The F5 agent expects to find a specific number of entries for the ``icontrol_hostname`` parameter based on the configured ``f5_ha_type``, as noted below.
+    The |agent-long| expects to find a specific number of entries for the ``icontrol_hostname`` parameter based on the configured ``f5_ha_type``, as noted below.
 
     .. list-table::
         :header-rows: 1
@@ -68,7 +68,7 @@ Prerequisites
 Caveats
 -------
 
-- The F5 agent can manage clusters of two (2) to four (4) BIG-IP devices. Active-standby mode can only be used with two (2) devices; scalen is used with clusters of more than two devices.
+- The |agent-long| can manage clusters of two (2) to four (4) BIG-IP devices. Active-standby mode can only be used with two (2) devices; scalen is used with clusters of more than two devices.
 
 - The administrator login must be the same on all BIG-IP devices in the cluster.
 

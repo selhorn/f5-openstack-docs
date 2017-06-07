@@ -8,14 +8,14 @@ Device Driver Settings / iControl Driver Settings
 Overview
 --------
 
-The Device Driver Settings in the :ref:`Agent Configuration File` provide the means of communication between the F5 agent and BIG-IP device(s). **Do not change this setting**.
+The Device Driver Settings in the :ref:`Agent Configuration File` provide the means of communication between the |agent-long| and BIG-IP device(s). **Do not change this setting**.
 
-The iControl Driver Settings identify the BIG-IP device(s) that you want the F5 agent to manage and record the login information the agent will use to communicate with the BIG-IP(s).
+The iControl Driver Settings identify the BIG-IP device(s) that you want the |agent-long| to manage and record the login information the agent will use to communicate with the BIG-IP(s).
 
 Use Case
 --------
 
-If you want to use the F5 agent to manage BIG-IP from within your OpenStack cloud, you **must** provide the correct information in this section of the agent config file. The F5 agent can manage a :term:`standalone` device or a :term:`device service cluster`.
+If you want to use the |agent-long| to manage BIG-IP from within your OpenStack cloud, you **must** provide the correct information in this section of the agent config file. The |agent-long| can manage a :term:`standalone` device or a :term:`device service cluster`.
 
 .. seealso:: :ref:`Manage BIG-IP Clusters with F5 LBaaSv2`
 
