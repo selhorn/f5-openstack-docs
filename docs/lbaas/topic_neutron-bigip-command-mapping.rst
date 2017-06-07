@@ -3,9 +3,8 @@
 Neutron to BIG-IP Command Mapping
 =================================
 
-When you issue a :code:`neutron lbaas` commands on your OpenStack Neutron controller, the |agent-longconfigures objects on your BIG-IP device(s).
+When you issue :code:`neutron lbaas` commands on your OpenStack Neutron controller, the |agent-long| configures objects on your BIG-IP device(s).
 Here, we provide some insight into what's happening behind the scenes.
-
 
 .. tip::
 
@@ -30,82 +29,100 @@ F5 LBaaSv2 uses the `f5-sdk <http://f5-sdk.readthedocs.io/en/latest/>`_ to commu
    ==============================================  ==================================================================================================
 
 
-The table below provides an example of the settings |agent| applies to a standalone, :term:`overcloud` BIG-IP device.
-The actual settings applied may vary depending on your existing BIG-IP device configurations and network architecture.
+The sections below cover the settings |agent| applies to a standalone, :term:`overcloud` BIG-IP device.
+The actual settings applied for a given command can vary depending on your existing BIG-IP device configurations and network architecture.
 
-.. table:: Neutron command to BIG-IP configuration mapping
 
-   =========================================================== =================================================================================
-   Command                                                     Action(s)
-   =========================================================== =================================================================================
-   :command:`systemctl start f5-openstack agent`               1. |agent| reads the :code:`vtep` `self IP`_ defined in the |agent| config file.
-                                                               2. BIG-IP advertises the :code:`vtep` IP address.
-                                                               3. |agent| advertises the :code:`vtep` self IP address to Neutron as its
-                                                                  ``tunneling_ip``.
-                                                               4. |driver| adds a new port for the :code:`vtep` to the OVS switch.
-                                                               5. |agent| adds profiles for all tunnel types to the BIG-IP device.
-   ----------------------------------------------------------- ---------------------------------------------------------------------------------
-   :command:`neutron lbaas-loadbalancer-create`                1. |agent| creates a new BIG-IP partition.
-                                                               2. |agent| creates BIG-IP FDB records for all peers in the network.
-                                                               3. |agent| creates a new BIG-IP route domain.
-                                                               4. |agent| creates a new BIG-IP self IP on the specified subnet. This is the IP
-                                                                  address at which the BIG-IP device can receive traffic for this load balancer.
-                                                               5. |agent| creates a new tunnel.
+Start the |agent-long|
+----------------------
 
-                                                                  - uses the :code:`vtep` as the local address and
-                                                                  - uses the vxlan profile created when the |agent| started [#tablefn4]_
+.. rubric:: :command:`systemctl start f5-openstack agent`
+1. |agent| reads the :code:`vtep` `self IP`_ defined in the |agent| config file.
+2. BIG-IP advertises the :code:`vtep` IP address.
+3. |agent| advertises the :code:`vtep` self IP address to Neutron as its
+   ``tunneling_ip``.
+4. |driver| adds a new port for the :code:`vtep` to the OVS switch.
+5. |agent| adds profiles for all tunnel types to the BIG-IP device.
 
-                                                               6. |agent| creates a SNAT pool list/SNAT translation list on the BIG-IP device(s).
+Create a Neutron LBaaS Load Balancer
+------------------------------------
 
-                                                                  - Set the number of SNAT addresses to create with the
-                                                                  ``f5_snat_addresses_per_subnet`` setting in the :ref:`agent configuration file`.
-                                                                  [#tablefn5]_
+.. rubric:: :command:`neutron lbaas-loadbalancer-create`
+1. |agent| creates a new BIG-IP partition.
+2. |agent| creates BIG-IP FDB records for all peers in the network.
+3. |agent| creates a new BIG-IP route domain.
+4. |agent| creates a new BIG-IP self IP on the specified subnet. This is the IP
+   address at which the BIG-IP device can receive traffic for this load balancer.
+5. |agent| creates a new tunnel.
 
-                                                               7. |driver| adds a Neutron port for each SNAT address.
+   - uses the :code:`vtep` as the local address and
+   - uses the vxlan profile created when the |agent| started [#tablefn4]_
 
-                                                                  - If SNAT mode is off and SNAT addresses is set to ``0``, the BIG-IP
-                                                                    acts as a gateway and handles all return traffic from members.
-                                                                  - If SNAT mode is on & SNAT addresses is set to ``0``, the BIG-IP device uses
-                                                                    `SNAT automap`_.
-   ----------------------------------------------------------- ---------------------------------------------------------------------------------
-   :command:`neutron lbaas-listener-create`                    |agent| ceates a new BIG-IP virtual server in the partition for the specified
-                                                               load balancer.
+6. |agent| creates a SNAT pool list/SNAT translation list on the BIG-IP device(s).
 
-                                                               - uses Fast L4 by default
-                                                               - If persistence is configured, Standard is used.
-                                                               - Uses the IP address assigned to the load balancer by Neutron.
-                                                               - Uses the route domain created for the new partition when the load balancer was
-                                                                 created.
-                                                               - Traffic is restricted to the tunnel assigned to the load balancer.
+   - Set the number of SNAT addresses to create with the
+   ``f5_snat_addresses_per_subnet`` setting in the :ref:`agent configuration file`.
+   [#tablefn5]_
 
-                                                               If the listener ``--protocol`` is ``TERMINATED_HTTPS``: [#tablefn6]_
+7. |driver| adds a Neutron port for each SNAT address.
 
-                                                               - |agent| fetches the certificate/key container from Barbican; add the URI to the
-                                                                 ``default_tls_container_ref`` config parameter to tell |agent| where to find it.
-                                                               - |agent| adds the key and certificate the BIG-IP device(s).
-                                                               - |agent| creates a custom SSL profile (uses ``clientssl`` as the parent profile).
-                                                               - |agent| adds the new SSL profile to the virtual server.
-   ----------------------------------------------------------- ---------------------------------------------------------------------------------
-   :command:`neutron lbaas-pool-create`                        |agent| adds a new pool to the specified virtual server.
-   ----------------------------------------------------------- ---------------------------------------------------------------------------------
-   :command:`neutron lbaas-member-create`                      |agent| adds a new member to the specified pool using the IP address and port
-                                                               supplied in the command.
+   - If SNAT mode is off and SNAT addresses is set to ``0``, the BIG-IP
+     acts as a gateway and handles all return traffic from members.
+   - If SNAT mode is on & SNAT addresses is set to ``0``, the BIG-IP device uses
+     `SNAT automap`_.
 
-                                                               - If the member is the first created for the specified pool, the pool status
-                                                                 displayed on the BIG-IP device(s) will change.
-                                                               - If the member is the first created with the supplied IP address, |agent| also
-                                                                 creates a new node.
-                                                               - |agent| creates a forwarding database (FDB) entry for the member on the BIG-IP
-                                                                 device(s). [#tablefn7]_
-   ----------------------------------------------------------- ---------------------------------------------------------------------------------
-   :command:`neutron lbaas-healthmonitor-create`               |agent| creates a new BIG-IP health monitor for the specified pool.
+Create a Neutron LBaaS Listener
+-------------------------------
 
-                                                               - If the health monitor is the first created for the specified pool, the
-                                                                 pool status shown on the BIG-IP will change.
-                                                               - Health monitors directly affect the status and availability of pools and
-                                                                 members on the BIG-IP.
-                                                                 Any additions or changes may result in a status change for the specified pool.
-   =========================================================== =================================================================================
+.. rubric:: :command:`neutron lbaas-listener-create`
+|agent| creates a new BIG-IP virtual server in the specified partition using the `Fast L4`_ protocol.
+
+The virtual server uses the IP address Neutron assigned to the load balancer and
+the route domain created for the load balancer.
+If using tunnels, only the tunnel assigned to the load balancer handles traffic.
+
+For secure listeners using the :code:`TERMINATED_HTTPS` protocol: [#tablefn6]_
+
+- |agent| fetches the certificate/key container from Barbican.
+- |agent| adds the key and certificate to the BIG-IP device(s).
+- |agent| creates a custom SSL profile using ``clientssl`` as the parent profile.
+- |agent| adds the new SSL profile to the virtual server.
+
+Create a Neutron LBaaS Pool
+---------------------------
+
+.. rubric:: :command:`neutron lbaas-pool-create`
+|agent| adds a new pool to the specified virtual server.
+
+
+Create a Neutron LBaaS Member
+-----------------------------
+
+.. rubric:: :command:`neutron lbaas-member-create`
+- |agent| adds a new member to the specified pool using the IP address and port
+  defined in the command.
+If there is a Neutron port associated with the specified IP address and subnet, the |agent-long| creates a forwarding database (FDB) entry for the member on the BIG-IP
+  device(s). [#tablefn7]_
+
+**Notes:**
+
+- When you add a member to a pool for the first time, the BIG-IP pool status
+changes.
+- When you create a member with a specific IP address for the first time, the |agent-long| also creates a new `BIG-IP node`_.
+
+Create a Neutron LBaaS Health Monitor
+-------------------------------------
+
+.. rubric:: :command:`neutron lbaas-healthmonitor-create`
+
+|agent| creates a new BIG-IP health monitor for the specified pool.
+
+- If the health monitor is the first created for the specified pool, the
+  pool status shown on the BIG-IP will change.
+- Health monitors directly affect the status and availability of pools and
+  members on the BIG-IP.
+  Any additions or changes may result in a status change for the specified pool.
+
 
 
 
@@ -117,3 +134,5 @@ The actual settings applied may vary depending on your existing BIG-IP device co
 
 .. _self IP: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/tmos-routing-administration-12-0-0/6.html#conceptid
 .. _SNAT automap: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/tmos-routing-administration-12-0-0/8.html#unique_375712497
+.. _Fast L4: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/ltm-profiles-reference-13-0-0/5.html
+.. _BIG-IP node: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/ltm-basics-13-0-0/3.html
