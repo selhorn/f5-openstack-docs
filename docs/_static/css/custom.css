@@ -259,3 +259,9 @@ th, td {
     margin:auto 2px
 }
 
+/*
+/ Remove whitespace after code blocks
+*/
+.literal-block-wrapper:after {
+    content: none;
+}
