@@ -1,4 +1,4 @@
-:orphan: true
+.. _lbaas-differentiated-service-env:
 
 Differentiated Service Environments
 ===================================
@@ -6,9 +6,13 @@ Differentiated Service Environments
 Overview
 --------
 
-The F5 LBaaSv2 driver and |agent-long| can manage multiple BIG-IP environments. In a :dfn:`differentiated service environment` -- a uniquely-named environment for which dedicated F5 LBaaS services are required -- the F5 driver  has its own, uniquely-named messaging queue. The F5 LBaaS agent scheduler for a differentiated service environment can only assign tasks to agents running in that environment.
+The F5 LBaaSv2 driver and |agent-long| can manage multiple BIG-IP environments.
+In a :dfn:`differentiated service environment` -- a uniquely-named environment for which dedicated F5 LBaaS services are required -- the F5 driver  has its own, uniquely-named messaging queue.
+The F5 LBaaS agent scheduler for a differentiated service environment can only assign tasks to agents running in that environment.
 
-The service environment corresponds to the ``environment_prefix`` parameter in the :ref:`agent configuration file`. when you create a new ``lbaas-loadbalancer`` in OpenStack, this prefix is prepended to the OpenStack tenant id and used to create a new partition on your BIG-IP device(s). The default ``environment_prefix`` parameter is ``Project``.
+The service environment corresponds to the ``environment_prefix`` parameter in the :ref:`agent configuration file`.
+When you create a new ``lbaas-loadbalancer`` in OpenStack, this prefix is prepended to the OpenStack tenant id and used to create a new partition on your BIG-IP device(s).
+The default ``environment_prefix`` parameter is ``Project``.
 
 Differentiated service environments can be used in conjunction with :ref:`capacity-based scale out` to provide agent redundancy and scale out across BIG-IP device groups.
 
@@ -19,7 +23,8 @@ The default service environment, ``Project``, corresponds to the generic F5Netwo
 
 .. important::
 
-    Each unique service environment must have a corresponding service provider driver entry. You can use the :ref:`F5 environment generator` to easily create a new environment and configure Neutron to use it.
+   Each unique service environment must have a corresponding service provider driver entry.
+   You can use the :ref:`F5 environment generator` to easily create a new environment and configure Neutron to use it.
 
 Use Case
 --------
@@ -56,15 +61,19 @@ You can use the :ref:`F5 environment generator` to automatically generate, and c
 The environment name is limited to 8 characters in length.
 
 Configure the |agent-long|
-``````````````````````
+``````````````````````````
 
 #. :ref:`Edit the agent configuration file`.
 
 #. Change the ``environment_prefix`` parameter to match the name of your custom environment.
 
-#. :ref:`Restart Neutron`.
+#. Restart Neutron.
 
-#. If the |agent-long| is not already running, :ref:`start the F5 agent`.
+   .. include:: /_static/reuse/restart-neutron.rst
+
+#. Start the |agent-long|.
+
+   .. include:: /_static/reuse/start-f5-agent.rst
 
 
 

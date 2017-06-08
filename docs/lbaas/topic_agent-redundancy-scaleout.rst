@@ -1,4 +1,4 @@
-:orphan: true
+.. _lbaas-agent-redundancy:
 
 Agent Redundancy and Scale Out
 ==============================
@@ -86,7 +86,9 @@ To manage one BIG-IP device or device service group with multiple |agent-long|s,
         * Be sure to provide the iControl endpoints for all BIG-IP devices you'd like the agents to manage.
         * You can configure the |agent-long| once, on the Neutron controller, then copy the agent config file (:file:`/etc/neutron/services/f5/f5-openstack-agent.ini`) over to the other hosts.
 
-#. :ref:`Start the F5 agent` on each host.
+#. Start the |agent-long|.
+
+   .. include:: /_static/reuse/start-f5-agent.rst
 
 
 
