@@ -2,8 +2,8 @@
 
 .. _lbaas-basic-loadbalancer:
 
-How to set up a basic load balancer
-===================================
+Deploy a basic load balancer
+============================
 
 The series of code samples provided here demonstrate how to configure a basic loadbalancer via the OpenStack Neutron CLI with the |oslbaas|.
 The `OpenStack CLI`_ documentation has a full list of all :code:`neutron lbaas` commands.
