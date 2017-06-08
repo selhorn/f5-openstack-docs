@@ -26,21 +26,20 @@ It uses the :code:`environment_group_number` and the group's last reported :code
 The |driver-long| then selects an |agent| instance from the group (at random) to handle the request.
 
 If any |agent| instance has previously handled requests for the specified tenant, that |agent| instance receives the task.
-If that |agent| instance is a member of a group for which the last reported :code:`environment_capacity_score` is above capacity, the |drover-long| assigns the request to an |agent| instance **in a different group** where capacity is under the limit.
+If that |agent| instance is a member of a group for which the last reported :code:`environment_capacity_score` is above capacity, the |driver-long| assigns the request to an |agent| instance **in a different group** where capacity is under the limit.
 
 .. danger::
 
-   If all |agent| instances in all environment groups are at capacity, **service requests will not be completed.**
-   LBaaS objects created in an environment that has no capacity left will be placed in the error state.
+   If all |agent| instances in all environment groups are at capacity, **LBaaS service requests will fail**.
+   LBaaS objects created in an environment that has no capacity left will show an error status.
 
 Use Case
 --------
 
-Capacity-based scale out provides redundancy and high availability across the |agent| instances responsible for managing a specific service environment.
+Capacity-based scale out provides redundancy and high availability across the |agent| instances responsible for managing a specific :ref:`service environment <lbaas-differentiated-service-env>`.
 The capacity score each |agent| instance reports back to the Neutron database helps ensure that the |driver-long| assigns tasks to the |agent| instance currently handling the fewest requests.
 
 Prerequisites
-
 -------------
 - Administrator access to both the BIG-IP devices and the OpenStack cloud.
 - :ref:`F5 OpenStack BIG-IP Controller <agent:install>` installed on all hosts.
@@ -56,58 +55,84 @@ Caveats
 Configuration
 -------------
 
-1. Edit the :ref:`agent configuration file` to set the :code:`environment_group_number` for each |agent| instance you'd like to be part of a :term:`device group`.
+Edit the following items in the |agent| :ref:`configuration file <agent:config-file>`.
 
-    .. note:: Each |agent| instance must be configured to manage at least one of the BIG-IP devices in the group.
+#. Set the desired :code:`environment_group_number`.
 
-    .. code-block:: text
+   .. code-block:: text
 
-        ###############################################################################
-        #  Environment Settings
-        ###############################################################################
-        ...
-        # When using service differentiated environments, the environment can be
-        # scaled out to multiple device service groups by providing a group number.
-        # Each |agent| instance associated with a specific device service group should have
-        # the same environment_group_number.
-        #
-        # environment_group_number = 1
-        #
-        ...
+      ###############################################################################
+      #  Environment Settings
+      ###############################################################################
+      ...
+      #
+      environment_group_number = 1
+      #
+      ...
 
+#. Provide the iControl endpoint and login credentials for one (1) of the BIG-IP devices in the device service group.
 
-2. Edit the :ref:`agent configuration file` to set the capacity score metrics.
+   .. code-block:: text
 
-    .. tip:: Multiple values can be configured; they should be separated by commas.
+      #
+      icontrol_hostname = 1.2.3.4
+      #
+      ...
+      #
+      icontrol_username = <username>
+      ...
+      #
+      icontrol_password = <password>
+      #
 
-    * throughput - total throughput in bps of the TMOS devices
-    * inbound_throughput - throughput in bps inbound to TMOS devices
-    * outbound_throughput - throughput in bps outbound from TMOS devices
-    * active_connections - number of concurrent active actions on a TMOS device
-    * tenant_count - number of tenants associated with a TMOS device
-    * node_count - number of nodes provisioned on a TMOS device
-    * route_domain_count - number of route domains on a TMOS device
-    * vlan_count - number of VLANs on a TMOS device
-    * tunnel_count - number of GRE and VxLAN overlay tunnels on a TMOS device
-    * ssltps - the current measured SSL TPS count on a TMOS device
-    * clientssl_profile_count - the number of clientside SSL profiles defined
+#. Define the capacity score metrics.
 
-    .. code-block:: text
+   .. table:: Capacity score settings
 
-        ###############################################################################
-        #  Environment Settings
-        ###############################################################################
-        ...
-        #
-        # capacity_policy = throughput:1000000000, active_connections: 250000, route_domain_count: 512, tunnel_count: 2048
-        #
+      ========================= ==========================================================
+      throughput                total throughput in bps of the TMOS devices
+      ------------------------- ----------------------------------------------------------
+      inbound_throughput        throughput in bps inbound to TMOS devices
+      ------------------------- ----------------------------------------------------------
+      outbound_throughput       throughput in bps outbound from TMOS devices
+      ------------------------- ----------------------------------------------------------
+      active_connections        number of concurrent active actions on a TMOS device
+      ------------------------- ----------------------------------------------------------
+      tenant_count              number of tenants associated with a TMOS device
+      ------------------------- ----------------------------------------------------------
+      node_count                number of nodes provisioned on a TMOS device
+      ------------------------- ----------------------------------------------------------
+      route_domain_count        number of route domains on a TMOS device
+      ------------------------- ----------------------------------------------------------
+      vlan_count                number of VLANs on a TMOS device
+      ------------------------- ----------------------------------------------------------
+      tunnel_count              number of GRE and VxLAN overlay tunnels on a TMOS device
+      ------------------------- ----------------------------------------------------------
+      ssltps                    the current measured SSL TPS count on a TMOS device
+      ------------------------- ----------------------------------------------------------
+      clientssl_profile_count   the number of clientside SSL profiles defined
+      ========================= ==========================================================
+
+   \
+
+   .. code-block:: text
+
+      ###############################################################################
+      #  Environment Settings
+      ###############################################################################
+      ...
+      #
+      capacity_policy = throughput:1000000000, active_connections: 250000, route_domain_count: 512, tunnel_count: 2048
+      #
+
+\
 
 
 .. seealso::
 
-    * :ref:`Agent Configuration File`
-    * :ref:`Differentiated Service Environments`
-    * :ref:`Agent Redundancy and Scale Out <lbaas-agent-redundancy>`
+   * :ref:`Agent Configuration File`
+   * :ref:`Differentiated Service Environments <lbaas-differentiated-service-env>`
+   * :ref:`Agent Redundancy and Scale Out <lbaas-agent-redundancy>`
 
 .. rubric:: Footnotes
 .. [#diffenv] See :ref:`differentiated service environments <lbaas-differentiated-service-env>` for information about running multiple |agent| instances on the same host.
