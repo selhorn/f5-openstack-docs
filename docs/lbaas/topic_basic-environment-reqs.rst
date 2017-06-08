@@ -10,7 +10,8 @@ OpenStack Requirements
 
 The `OpenStack installation guides`_ cover the requirements for specific environments.
 
-We recommend that you install and configure the following OpenStack services. Each of these is necessary for one or more F5 OpenStack integrations.
+We recommend that you install and configure the following OpenStack services.
+Each of these is necessary for one or more F5 OpenStack integrations.
 
 +-------------+-------------------------+-----------------------+
 | Service     | Description             | F5 Integration        |
@@ -31,8 +32,8 @@ We recommend that you install and configure the following OpenStack services. Ea
 +-------------+-------------------------+-----------------------+
 
 
-BIG-IP Requirements
--------------------
+BIG-IP Device Requirements
+--------------------------
 
 .. important::
 
@@ -70,7 +71,7 @@ BIG-IP Requirements
 .. [#lb] The `LBaaSv2 dashboard panels`_ are available in OpenStack Mitaka and later releases.
 .. [#vlans] Two VLANS = data & management. Three VLANS = data, management, and HA. See `Configuring the basic BIG-IP network`_ for more information.
 .. [#tunnels] Tunnels can be either VxLAN or GRE.
-.. [#vteps] If you're using a tunnel to reach an undercloud BIG-IP, you must configure the VTEP at which it can be reached **before** launching the |agent-long|. See :ref:`Device Tunneling (VTEP) selfips` for more information.
+.. [#vteps] If you're using a tunnel to reach an undercloud BIG-IP, you must configure its VTEP **before** launching the |agent-long|. See :ref:`Device Tunneling (VTEP) selfips` for more information.
 
 
 
@@ -83,7 +84,6 @@ BIG-IP Requirements
 .. _Heat: http://www.openstack.org/software/releases/newton/components/heat
 .. _Barbican: http://www.openstack.org/software/releases/newton/components/barbican
 .. _license: https://f5.com/products/how-to-buy/simplified-licensing
-.. _BIG-IP LTM Release Notes: https://support.f5.com/kb/en-us/search.res.html?q=+inmeta:archived%3DArchived%2520documents%2520excluded+inmeta:product%3DBIG%252DIP%2520LTM+inmeta:kb_doc_type%3DRelease%2520Note+inmeta:archived%3DArchived%2520documents%2520excluded+inmeta:BIG%252DIP%2520LTM%3D12%252E1%252E0&dnavs=inmeta:product%3DBIG%252DIP%2520LTM+inmeta:kb_doc_type%3DRelease%2520Note+inmeta:archived%3DArchived%2520documents%2520excluded+inmeta:BIG%252DIP%2520LTM%3D12%252E1%252E0&filter=p&num=
-.. _RDO Packstack Quickstart: https://www.rdoproject.org/install/quickstart/
+.. _BIG-IP LTM Release Notes: https://support.f5.com/csp/knowledge-center/software/BIG-IP?module=BIG-IP%20LTM&version=13.0.0
 .. _LBaaSv2 dashboard panels: http://docs.openstack.org/mitaka/networking-guide/adv-config-lbaas.html#add-lbaas-panels-to-dashboard
 .. _Configuring the basic BIG-IP network: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-system-ecmp-mirrored-clustering-12-1-0/2.html?sr=56312127
