@@ -1,60 +1,64 @@
-:orphan: true
+.. _lbaas-capacity-based-scaleout:
 
 Capacity-Based Scale Out
 ========================
 
-Overview
---------
+When using :ref:`differentiated service environments <Differentiated Service Environments>`, you can configure capacity metrics for the |agent-long| to provide scale out across multiple BIG-IP device groups.
+The |agent-long| :code:`environment_group_number` and :code:`environment_capacity_score` :ref:`configuration parameters <agent:configuration-parameters>` allow the |driver-long| to assign requests to the group that has the lowest capacity score.
+The :code:`environment_group_number` provides a convenient way for the F5 driver to identify |agent| instances that are available to handle requests for any of the devices in a given group.
 
-When using :ref:`differentiated service environments <Differentiated Service Environments>`, you can configure capacity metrics for the |agent-long| to provide scale out across multiple BIG-IP device groups. The |agent-long| :ref:`configuration parameters <Configure the F5 OpenStack Agent>`  ``environment_group_number`` and ``environment_capacity_score`` allow the F5 LBaaSv2 agent scheduler to assign requests to the group that has the lowest capacity score.
+You can configure a variety of capacity metrics via the :code:`capacity_policy` configuration parameter.
+These metrics contribute to the overall :code:`environment_capacity_score` for the environment group.
+Each |agent| instance calculates the capacity score for its group and reports the score back to the Neutron database.
 
-Each |agent-long| expected to manage a specific :term:`device group` must be configured with the same ``icontrol_endpoints``. They must also be configured with the same ``environment_group_number``; this is used by the F5 LBaaSv2 driver to map the agents to the BIG-IP device group. The ``environment_group_number`` provides a convenient way for the F5 driver to identify agents that are available to handle requests for any of the devices in a given group.
-
-You can configure a variety of capacity metrics via the ``capacity_policy`` configuration parameter. These metrics are used to calculate an ``environment_capacity_score`` for the environment group. Each agent calculates the capacity score for its group and reports the score back to the Neutron database.
-
-The capacity score is determined by dividing the metric collected by the max specified for that metric in the ``capacity_policy`` setting. An acceptable reported ``environment_capacity_score`` is between zero (0) and one (1). **If an agent in the group reports an ``environment_capacity_score`` of one (1) or greater, the device is considered to be at capacity.**
+To find the capacity score, the |agent-long| divides the collected metric by the max specified for that metric in the :code:`capacity_policy` :ref:`configuration parameter <agent:configuration-parameters>`.
+An acceptable reported :code:`environment_capacity_score` is between zero (0) and one (1).
+**If an |agent| instance in the group reports an :code:`environment_capacity_score` of one (1) or greater, the device is at capacity.**
 
 .. figure:: /_static/media/lbaasv2_capacity-based-scaleout.png
-    :alt: Capacity-Based Scale Out
+   :scale: 60%
+   :alt: Capacity-Based Scale Out diagram
 
-    Capacity Based Scale Out
+   Capacity-based Scale Out
 
+As demonstrated in the figure, when the |driver-long| receives a new LBaaS request, it consults the Neutron database.
+It uses the :code:`environment_group_number` and the group's last reported :code:`environment_capacity_score` to assign the task to the group with the lowest utilization.
+The |driver-long| then selects an |agent| instance from the group (at random) to handle the request.
 
-As demonstrated in the figure, when a new service request is received, the agent scheduler consults the Neutron database. It uses the ``environment_group_number`` and the group's last reported  ``environment_capacity_score`` to assign the task to the group with the lowest utilization. An agent in that group is selected at random to handle the request.
+If any |agent| instance has previously handled requests for the specified tenant, that |agent| instance receives the task.
+If that |agent| instance is a member of a group for which the last reported :code:`environment_capacity_score` is above capacity, the |drover-long| assigns the request to an |agent| instance **in a different group** where capacity is under the limit.
 
-If an agent has previously handled requests for the specified tenant, that agent receives the task. If that agent is a member of a group for which the last reported ``environment_capacity_score`` is above capacity, the request is assigned to an agent in a different group where capacity is under the limit.
+.. danger::
 
-.. warning::
-
-    If all agents in all environment groups are at capacity, service requests will not be completed. LBaaS objects created in an environment that has no capacity left will be placed in the error state.
+   If all |agent| instances in all environment groups are at capacity, **service requests will not be completed.**
+   LBaaS objects created in an environment that has no capacity left will be placed in the error state.
 
 Use Case
 --------
 
-Capacity-based scale out provides redundancy and high availability amongst |agent-long| s responsible for managing a specific service environment. The capacity score each agent reports back to the Neutron database is used to assign tasks to the agent handling the fewest requests.
+Capacity-based scale out provides redundancy and high availability across the |agent| instances responsible for managing a specific service environment.
+The capacity score each |agent| instance reports back to the Neutron database helps ensure that the |driver-long| assigns tasks to the |agent| instance currently handling the fewest requests.
 
 Prerequisites
--------------
 
-- Licensed, operational BIG-IP :term:`device` and/or :term:`device group`.
-- Operational OpenStack cloud (|openstack| release).
+-------------
 - Administrator access to both the BIG-IP devices and the OpenStack cloud.
-- F5 ref:`agent <Install the F5 Agent>` and :ref:`LBaaSv2 driver <Install the F5 LBaaSv2 Driver>` installed on all hosts from which BIG-IP services will be provisioned.
+- :ref:`F5 OpenStack BIG-IP Controller <agent:install>` installed on all hosts.
+- :ref:`F5 OpenStack LBaaSv2 Driver <driver:install>` installed on the Neutron controller.
+- One F5 OpenStack service provider driver instance installed on the Neutron controller for each :ref:`custom environment <lbaas-differentiated-service-env>` you want to use.
 
 Caveats
 -------
 
-- All hosts running F5 LBaaSv2 must use the same Neutron database.
-- You **can not** run multiple agents on the same host if they are expected to manage the same BIG-IP device or :term:`cluster`.
-- See :ref::ref:`differentiated service environments <Differentiated Service Environments>` for information about running more than one |agent-long|/driver on the same host.
-
+- All hosts running the |oslbaas| must use the same Neutron database.
+- You **can not** manage a single BIG-IP device or :term:`cluster` with multiple |agent| instances running on the same host. [#diffenv]_
 
 Configuration
 -------------
 
-1. Edit the :ref:`agent configuration file` to set the ``environment_group_number`` for each agent you'd like to be part of a :term:`device group`.
+1. Edit the :ref:`agent configuration file` to set the :code:`environment_group_number` for each |agent| instance you'd like to be part of a :term:`device group`.
 
-    .. note:: Each agent must be configured to manage at least one of the BIG-IP devices in the group.
+    .. note:: Each |agent| instance must be configured to manage at least one of the BIG-IP devices in the group.
 
     .. code-block:: text
 
@@ -64,7 +68,7 @@ Configuration
         ...
         # When using service differentiated environments, the environment can be
         # scaled out to multiple device service groups by providing a group number.
-        # Each agent associated with a specific device service group should have
+        # Each |agent| instance associated with a specific device service group should have
         # the same environment_group_number.
         #
         # environment_group_number = 1
@@ -99,12 +103,11 @@ Configuration
         #
 
 
-Further Reading
----------------
-
 .. seealso::
 
     * :ref:`Agent Configuration File`
     * :ref:`Differentiated Service Environments`
     * :ref:`Agent Redundancy and Scale Out <lbaas-agent-redundancy>`
 
+.. rubric:: Footnotes
+.. [#diffenv] See :ref:`differentiated service environments <lbaas-differentiated-service-env>` for information about running multiple |agent| instances on the same host.
