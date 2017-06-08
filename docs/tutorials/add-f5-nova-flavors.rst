@@ -19,21 +19,21 @@ The values shown here reflect the requirements for BIG-IP Virtual Edition images
 f5-1slot
 --------
 
-.. code-block:: bash
+.. code-block:: console
 
    $ openstack flavor create f5-1slot --id auto --ram 4096 --disk 20 --vcpus 2
 
 f5-ltm
 ------
 
-.. code-block:: bash
+.. code-block:: console
 
    $ openstack flavor create f5-ltm --id auto --ram 4096 --disk 50 --vcpus 2
 
 f5-all
 ------
 
-.. code-block:: bash
+.. code-block:: console
 
    $ openstack flavor create f5-all --id auto --ram 4096 --disk 140 --vcpus 4
 

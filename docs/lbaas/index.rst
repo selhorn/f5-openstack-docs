@@ -25,7 +25,7 @@ The |oslbaas| documentation set assumes that you:
 |driver-long|
 -------------
 
-The |driver-link|, or |driver|, is F5's OpenStack Neutron service provider driver.
+The |driver-link|, or |driver|, is F5's OpenStack Neutron LBaaSv2 service provider driver.
 It picks up Neutron LBaaS calls from the RPC messaging queue and assigns them to the |agent-long|.
 
 .. figure:: /_static/media/f5-lbaas-architecture.png
@@ -57,12 +57,17 @@ Key OpenStack Concepts
 Agent-Tenant Affinity
 `````````````````````
 
+When the Neutron LBaaS plugin loads the |driver-long|, it creates a global messaging queue.
+The |agent-long| sends all callbacks and status updates to this global queue.
+The |driver-long| picks up LBaaS requests from the global messaging queue in a round-robin fashion, then assigns the tasks to an available |agent| instance based on "agent-tenant affinity".
+
+
 :dfn:`Agent-tenant affinity` is a relationship between an |agent| instance and an OpenStack "tenant", or project.
 In brief, once an |agent| instance handles an LBaaS request for a particular OpenStack tenant, the |agent| instance has "agent-tenant affinity" with that tenant. That instance will handle all future LBaaS requests for that tenant (with a few caveats, noted below).
 
 How "agent-tenant affinity" applies in LBaaS task assignment:
 
-.. table::
+.. table:: Agent-tenant affinity for a new load balancer
 
    == ============================================================================
    1. You request a new load balancer (:code:`neutron lbaas-loadbalancer-create`).
@@ -81,6 +86,28 @@ How "agent-tenant affinity" applies in LBaaS task assignment:
       **The selected instance binds to the requested load balancer.**
       It will handle all future LBaaS requests for that load balancer.
    == ============================================================================
+
+.. table:: Agent-tenant affinity for an existing load balancer
+
+   == ============================================================================
+   1. You update an existing load balancer
+      (:code:`neutron lbaas-loadbalancer-update`).
+   -- ----------------------------------------------------------------------------
+   2. The F5 LBaaSv2 driver checks the Neutron database to find out if an |agent|
+      instance is already bound to the load balancer.
+   -- ----------------------------------------------------------------------------
+   3. If the F5 LBaaSv2 driver doesn't find a bound |agent| instance for the
+      load balancer, it looks for an instance that has affinity with the
+      load balancer's tenant, then assigns the request to that instance.
+   -- ----------------------------------------------------------------------------
+   4. If the F5 LBaaSv2 driver doesn't find an |agent| instance that has affinity
+      with the load balancer's :code:`tenant_id`, it selects an active |agent|
+      instance at random.
+
+      **The selected instance binds to the requested load balancer.**
+      It will handle all future LBaaS requests for that load balancer.
+   == ============================================================================
+
 
 \
 

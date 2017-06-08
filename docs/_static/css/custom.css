@@ -152,14 +152,14 @@ ul.last {
 
 /* Yellow: Attention, Caution, Warning */
 .attention, .caution, .warning {
-  border: 1px #faebcc solid;
+  border: 1px #fae33e solid;
 }
 
 .attention>.admonition-title,
 .caution>.admonition-title,
 .warning>.admonition-title {
-  background-color: #fcf8e3;
-  color: #8a6d3b;
+  background-color: #ddcb0d;
+  color: #020201;
   padding: 6px;
 }
 

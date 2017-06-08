@@ -74,7 +74,7 @@ Launch the F5 Image Patch and Upload stack
 
 .. rubric:: Command line example
 
-.. code-block:: bash
+.. code-block:: console
 
    openstack stack create -f patch_upload_ve_image.yaml -e patch-upload-ve-image.params.yaml
 
@@ -99,7 +99,7 @@ Deploy a BIG-IP VE instance
 
 .. rubric:: Command line example
 
-.. code-block:: bash
+.. code-block:: console
 
    openstack stack create -f f5_ve_standalone_3_nic.yaml -e f5_ve_standalone_3_nic.params.yaml
 
@@ -144,7 +144,7 @@ Create a basic load balancer on the BIG-IP VE instance
 
 .. rubric:: Command line example
 
-.. code-block:: bash
+.. code-block:: console
 
    openstack stack create -f deploy_lb.yaml -e deploy_lb.params.yaml
 

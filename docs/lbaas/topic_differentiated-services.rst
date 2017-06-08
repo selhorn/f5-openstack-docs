@@ -7,7 +7,7 @@ Overview
 --------
 
 The F5 LBaaSv2 driver and |agent-long| can manage multiple BIG-IP environments.
-In a :dfn:`differentiated service environment` -- a uniquely-named environment for which dedicated F5 LBaaS services are required -- the F5 driver  has its own, uniquely-named messaging queue.
+In a :dfn:`differentiated service environment` -- a uniquely-named environment for which dedicated F5 LBaaS services are required -- the F5 driver has its own, uniquely-named messaging queue.
 The F5 LBaaS agent scheduler for a differentiated service environment can only assign tasks to agents running in that environment.
 
 The service environment corresponds to the ``environment_prefix`` parameter in the :ref:`agent configuration file`.

@@ -37,7 +37,7 @@ Here, we provide our preferred means of defining a Heat template's required para
 
 #. Create the Heat stack.
 
-   .. code-block:: bash
+   .. code-block:: console
 
       $ openstack stack create -f deploy-lb.yaml -e deploy-lb.params.yaml
 

@@ -3,73 +3,85 @@
 Redundancy and Scale Out
 ========================
 
-When the Neutron LBaaS plugin loads the |driver-long|, it creates a global messaging queue.
-The |agent-long| sends all callbacks and status updates to this global queue.
-The |driver-long| picks up requests from the global messaging queue in a round-robin fashion, then assigns the tasks to an available |agent| instance based on "agent-tenant affinity".
+.. note::
 
-Use Case
---------
+   The term "host" can mean a lot of things. It can be an OpenStack compute node, the Neutron controller, a virtual machine, a container, etc.
+   The important takeaway is that the :code:`hostname` for each |agent| instance must be unique.
 
-You can run multiple |agent| instances **on different hosts** in your OpenStack cloud to provide redundancy and scale-out. Managing the same BIG-IP device or cluster from different hosts ensures that if one host goes down, the F5 LBaaSv2 processes remain alive and functional. It also allows you to spread the request load for the environment across multiple agents.
+Multiple |agent| instances can manage a single BIG-IP device or :term:`cluster` if **each instance runs on a separate host**.
+Running |agent| instances on different hosts helps ensure that the |oslbaas| processes remain alive and functional if a host goes down.
+Spreading the request load for an environment across multiple |agent| instances helps to avoid |agent| overload and loss of functionality.
 
-You can run multiple |agent-long|  on the same host only if they are each managing a different BIG-IP device or group.
+.. warning::
 
+   **F5 Networks does not currently support container service deployments in OpenStack.**
+
+If you are well versed in containerized environments, you can run each |agent| instance in a separate container on your Neutron controller.
+If the service provider driver is in the container's build context, you don't need to install it in each container.
+
+- The :file:`neutron.conf` and :file:`neutron-lbaas.conf` files must be present in each container.
+- The service provider driver **does not** need to run in the container if you're building from the Neutron controller.
 
 Prerequisites
 -------------
 
-- Licensed, operational BIG-IP :term:`device` or :term:`device cluster`.
-- Operational OpenStack cloud (|openstack| release).
 - Administrator access to both the BIG-IP device(s) and the OpenStack cloud.
-- All hosts running F5 LBaaSv2 must have the Neutron and Neutron LBaaS packages installed.
-- All hosts running F5 LBaaSv2 must use the same Neutron database.
-
+- All hosts running the |oslbaas| must have the Neutron and Neutron LBaaS packages installed.
+- All hosts running the |oslbaas| must use the same Neutron database.
 
 Caveats
 -------
 
-- You **can not** run multiple agents on the same host if they are expected to manage the same BIG-IP device or :term:`cluster`. See :ref:`Differentiated Service Environments` for information about running more than one |agent-long| /driver on the same host.
-- In the standard multi-agent deployment, specifying the |agent-long| /BIG-IP pair to use when creating a new load balancer is not supported. Instead, use a custom environment as described in :ref:`Multiple Agents and Differentiated Service Environments`.
-
+- You **can not run multiple** |agent| **instances on the same host** if you want them to manage the same BIG-IP device or :term:`cluster`.
+- In the standard multi-agent deployment, you can't specify which |agent| instance you want to use to create a new load balancer (meaning you can't choose which BIG-IP device/cluster to create the new partition on).
+- Use :ref:`differentiated service environments <lbaas-differentiated-service-env>` if you need a greater degree of control over which |agent| instance(s) handle specific LBaaS requests.
 
 Configuration
 -------------
 
-To manage one BIG-IP device or device service group with multiple |agent-long|s, deploy F5 LBaaSv2 on separate hosts using the instructions provided below.
+#. Copy the Neutron and Neutron LBaaS configuration files from the Neutron controller to each host on which you want to run an |agent| instance.
 
-#. Copy the Neutron config file from your Neutron controller to each host on which you will run F5 LBaaSv2:
+   .. code-block:: console
 
-    .. code-block:: bash
+      cp /etc/neutron/neutron.conf <hostname>:/etc/neutron/neutron.conf
+      cp /etc/neutron/neutron_lbaas.conf <hostname>:/etc/neutron/neutron_lbaas.conf
 
-        $ sudo cp /etc/neutron/neutron.conf <openstack_host>:/etc/neutron/neutron.conf
+#. :ref:`Install the F5 OpenStack BIG-IP Controller <agent:install>` on each host.
 
-#. :ref:`Install the F5 Agent` and :ref:`service provider driver <Install the F5 LBaaSv2 Driver>` on each host.
+#. Copy your |agent-long| configuration file from the Neutron controller to each host.
 
-#. :ref:`Configure the F5 agent <Configure the F5 OpenStack Agent>` on each host.
+   .. code-block:: console
 
-    .. tip::
+      cp /etc/neutron/services/f5/f5-openstack-agent.ini <hostname>:/etc/neutron/services/f5/f5-openstack-agent.ini
 
-        * Be sure to provide the iControl endpoints for all BIG-IP devices you'd like the agents to manage.
-        * You can configure the |agent-long| once, on the Neutron controller, then copy the agent config file (:file:`/etc/neutron/services/f5/f5-openstack-agent.ini`) over to the other hosts.
+   .. tip::
 
-#. Start the |agent-long|.
+      * If you are managing an :term:`active-standby pair` or :term:`cluster` with `config sync`_ turned on:
+
+        - Set the :code:`ha_type` to :code:`standalone`.
+        - Provide the iControl endpoint for one (1) of the BIG-IP devices in the cluster.
+
+      * If you are managing a :term:`cluster` that has `config sync`_ turned on for a :term:`device service group` within the cluster:
+
+        - Set the :code:`ha_type` to :term:`pair` or :term:`scalen`.
+        - Provide the iControl endpoint for one (1) of the BIG-IP devices in the device service group and the endpoint for a device outside the group (:code:`pair`).
+
+          --OR--
+
+        - Provide the iControl endpoint for one (1) of the BIG-IP devices in the device service group and the endpoint for each device in the cluster that is not automatically syncing its configurations with the group. (:code:`scalen`)
+
+
+#. Start the |agent-long| on each host.
 
    .. include:: /_static/reuse/start-f5-agent.rst
 
 
-
-Further Reading
----------------
-
 .. seealso::
 
-    * :ref:`Configure the F5 OpenStack Agent`
-    * :ref:`Manage BIG-IP Clusters with F5 LBaaSv2`
-    * :ref:`Manage Multi-Tenant BIG-IP Devices with F5 LBaaSv2`
-    * :ref:`Differentiated Service Environments`
-    * :ref:`Multiple Agents and Differentiated Service Environments`
+   * :ref:`Configure the F5 OpenStack Agent`
+   * :ref:`Manage BIG-IP Clusters with F5 LBaaSv2`
+   * :ref:`Manage Multi-Tenant BIG-IP Devices with F5 LBaaSv2`
+   * :ref:`Differentiated Service Environments`
 
-.. rubric:: Footnotes
-.. [#] **F5 Networks does not provide support for container service deployments.**
-       If you are already well versed in containerized environments, you can run one |agent-long| per container. The neutron.conf file must be present in the container. The service provider driver does not need to run in the container; rather, it only needs to be in the container's build context.
 
+.. _config sync: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-system-device-service-clustering-administration-13-0-0/5.html
