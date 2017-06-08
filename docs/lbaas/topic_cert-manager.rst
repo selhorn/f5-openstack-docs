@@ -50,7 +50,7 @@ Edit the :ref:`Certificate Manager Settings <agent:certificate-manager-settings>
 
 #. Provide the Keystone authentication data for your environment.
 
-   .. table:: Keystong authentication data
+   .. table:: Keystone authentication data
 
       ======================= ====================================================
       auth_version            Keystone version (``v2`` or ``v3``)
@@ -70,7 +70,7 @@ Edit the :ref:`Certificate Manager Settings <agent:certificate-manager-settings>
                               data as os_tenant_name in v2)
       ----------------------- ----------------------------------------------------
       os_project_domain_name  OpenStack domain in which the project resides
-      ======================= =======================================================
+      ======================= ====================================================
 
    \
 
@@ -114,6 +114,10 @@ Edit the :ref:`Certificate Manager Settings <agent:certificate-manager-settings>
       The profile |agent| creates on the BIG-IP device inherit settings from the parent you define.
       The profile must already existing on the BIG-IP device; if it does not, |agent| uses :code:`clientssl` as the default
       parent profile.
+
+.. seealso::
+
+   - :ref:`Create a secure BIG-IP virtual server <create-secure-vs>`
 
 
 .. _secrets: http://developer.openstack.org/api-guide/key-manager/secrets.html

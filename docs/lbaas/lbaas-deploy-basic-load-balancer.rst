@@ -46,6 +46,7 @@ Specify the name you want to assign to the virtual server; the name of the load 
 
    $ neutron lbaas-listener-create --name vs1 --loadbalancer lb1 --protocol HTTP --protocol-port 8080
 
+.. _create-secure-vs:
 
 Add a secure BIG-IP virtual server
 ----------------------------------
@@ -66,8 +67,6 @@ Add a secure BIG-IP virtual server
    .. code-block:: console
 
       $ neutron lbaas-listener-create --name vs2 --protocol TERMINATED_HTTPS --protocol-port 8443 --loadbalancer lb1 --default-tls-container-ref  http://localhost:9311/v1/containers/db50dbb3-70c2-44ea-844c-202e06203488
-
-
 
 
 Create a pool
