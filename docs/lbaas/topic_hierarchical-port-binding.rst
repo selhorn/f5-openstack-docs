@@ -18,7 +18,7 @@ The most common use case for heirarchical port binding is an :term:`undercloud` 
 
 
 
-.. figure:: ../media/lbaasv2_hierarchical-port-binding.png
+.. figure:: /_static/media/lbaasv2_hierarchical-port-binding.png
     :alt: F5 LBaaSv2 Hierarchical Port Binding
 
     F5 LBaaSv2 Hierarchical Port Binding
@@ -47,7 +47,7 @@ Caveats
 
 - Each |agent-long| managing a BIG-IP :term:`device service cluster` must have the same ``f5_network_segment_physical_network`` setting. [#]_
 
--  If multiple |agent-long|s are managing the same environment, all of the agents must use the same binding settings (in other words, either the default global segmentation bindings or hierarchical port binding). [#]_
+-  If multiple |agent-long| instances are managing the same environment, all of the agents must use the same binding settings (in other words, either the default global segmentation bindings or hierarchical port binding). [#]_
 
 
 Configuration
@@ -120,7 +120,7 @@ Further Reading
 .. seealso::
 
     .. [#] `Neutron Hierarchical Port Binding: What is it? And why you should deploy it <https://www.openstack.org/summit/vancouver-2015/summit-videos/presentation/neutron-hierarchical-port-binding-what-is-it-and-why-you-should-deploy-it>`_ - Presentation from the 2015 OpenStack Summit
-    .. [#] See :ref:`Agent Redundancy and Scale Out`
+    .. [#] See :ref:`Agent Redundancy and Scale Out <lbaas-agent-redundancy>`
     .. [#] See :ref:`Differentiated Service Environments` and :ref:`Multi-tenancy`
 
 

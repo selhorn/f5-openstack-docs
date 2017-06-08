@@ -8,7 +8,7 @@ Overview
 
 BIG-IP devices allow users to create and customize partitions for which specific features that meet a tenant's needs can be enabled. This type of configuration, called multi-tenancy, allows a greater degree of flexibility in allocating network resources to multiple individual projects. [#]_
 
-    .. figure:: ../media/f5-lbaas-multi-tenancy.png
+    .. figure:: /_static/media/f5-lbaas-multi-tenancy.png
         :alt: Multi-tenant BIG-IP and F5 LBaaS
         :width: 500
 

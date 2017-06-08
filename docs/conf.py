@@ -94,7 +94,6 @@ exclude_patterns = ['_build',
                     'Thumbs.db',
                     '.DS_Store',
                     '_drafts',
-                    'reuse',
                     'lbaas/solution']
 
 # The reST default role (used for this markup: `text`) to use for all

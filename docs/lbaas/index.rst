@@ -52,19 +52,60 @@ It receives tasks from the Neutron RPC messaging queue, converts them to `iContr
 Key OpenStack Concepts
 ----------------------
 
-The |oslbaas| integration provides under-the-cloud multi-tenant infrastructure L4-L7 services for Neutron tenants.
-In addition to community OpenStack participation, F5 maintains :ref:`partnerships <f5ospartners>`_ with several OpenStack platform vendors.
+.. _lbaas-agent-tenant-affinity:
+
+Agent-Tenant Affinity
+`````````````````````
+
+:dfn:`Agent-tenant affinity` is a relationship between an |agent| instance and an OpenStack "tenant", or project.
+In brief, once an |agent| instance handles an LBaaS request for a particular OpenStack tenant, the |agent| instance has "agent-tenant affinity" with that tenant. That instance will handle all future LBaaS requests for that tenant (with a few caveats, noted below).
+
+How "agent-tenant affinity" applies in LBaaS task assignment:
+
+.. table::
+
+   == ============================================================================
+   1. You request a new load balancer (:code:`neutron lbaas-loadbalancer-create`).
+   -- ----------------------------------------------------------------------------
+   2. The F5 LBaaSv2 driver checks the Neutron database to find out if an |agent|
+      instance already has affinity with the tenant the load balancer request is
+      for.
+   -- ----------------------------------------------------------------------------
+   3. If the F5 LBaaSv2 driver finds an |agent| instance that has affinity with
+      the load balancer's tenant, it assigns the request to that instance.
+   -- ----------------------------------------------------------------------------
+   4. If the F5 LBaaSv2 driver doesn't find an |agent| instance that has affinity
+      with the load balancer's :code:`tenant_id`, it selects an active |agent|
+      instance at random.
+
+      **The selected instance binds to the requested load balancer.**
+      It will handle all future LBaaS requests for that load balancer.
+   == ============================================================================
+
+\
+
+.. important::
+
+   If the |agent| instance bound to a load balancer is inactive, the F5 LBaaSv2 driver looks for other active agents with the same :ref:`environment prefix`.
+   The F5 LBaaSv2 driver assigns the task to the first available agent it finds.
+   The inactive |agent| instance remains bound to the load balancer, with the expectation that it will eventually come back online and be able to handle future requests.
+
+   **If you delete an** |agent| **instance**, you should also delete all of the load balancers the instance is bound to.
+
+   To find all load balancers associated with a specific |agent| instance: ::
+
+      neutron lbaas-loadbalancer-list-on-agent <agent-id>
 
 
-Community OpenStack and platform vendor tests exercise the generic LBaaSv2 integration. F5 OpenStack tests exercise F5-specific capabilities across multiple network topologies. They are complementary to community and platform vendor tests.
+Partnerships and certifications
+-------------------------------
 
-All F5 OpenStack tests are available in the same open source repository as the product code. They may be executed via tempest and tox, consistent with the OpenStack community, to allow self-validation of a deployment.
+The |oslbaas| provides under-the-cloud multi-tenant infrastructure L4-L7 services for Neutron tenants.
+In addition to community OpenStack participation, F5 maintains :ref:`partnerships <f5ospartners>` with several OpenStack platform vendors.
+Each partner has a defined certification process that includes requirements for testing the |oslbaas| for vendor and community OpenStack compatibility.
+See the :ref:`Solution test plan <driver:solution-test-plan>` for more information.
 
-Use cases are based on real-world scenarios that represent repeatable deployments of the most common features used in F5 OpenStack integrations. Use case tests validate the combination of OpenStack, F5 BIG-IP ADC and F5 OpenStack products.
-
-
-.. include:: /reuse/see-also-lbaas.rst
-
+.. include:: /_static/reuse/see-also-lbaas.rst
 
 
 .. rubric:: Footnotes

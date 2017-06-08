@@ -106,7 +106,7 @@ Create a Neutron LBaaS Health Monitor
 - Health monitors directly affect the status and availability of BIG-IP pools and pool members.
   Any additions or changes may change the status of the specified pool.
 
-.. rubric:: Footnotes:
+.. rubric:: Footnotes
 .. [#tablefn4] If using :ref:`global routed mode`, |agent| doesn't create a tunnel. Instead, all traffic goes to the load balancer's self IP address.
 .. [#tablefn5] You can set the number of SNAT addresses to create via the ``f5_snat_addresses_per_subnet`` setting in the :ref:`L3 Segmentation Mode Settings` section of the |agent| configuration file.
 .. [#tablefn6] See :ref:`Certificate Manager/SSL Offloading`.

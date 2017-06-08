@@ -14,7 +14,7 @@ You can configure a variety of capacity metrics via the ``capacity_policy`` conf
 
 The capacity score is determined by dividing the metric collected by the max specified for that metric in the ``capacity_policy`` setting. An acceptable reported ``environment_capacity_score`` is between zero (0) and one (1). **If an agent in the group reports an ``environment_capacity_score`` of one (1) or greater, the device is considered to be at capacity.**
 
-.. figure:: ../media/lbaasv2_capacity-based-scaleout.png
+.. figure:: /_static/media/lbaasv2_capacity-based-scaleout.png
     :alt: Capacity-Based Scale Out
 
     Capacity Based Scale Out
@@ -31,7 +31,7 @@ If an agent has previously handled requests for the specified tenant, that agent
 Use Case
 --------
 
-Capacity-based scale out provides redundancy and high availability amongst |agent-long|s responsible for managing a specific service environment. The capacity score each agent reports back to the Neutron database is used to assign tasks to the agent handling the fewest requests.
+Capacity-based scale out provides redundancy and high availability amongst |agent-long| s responsible for managing a specific service environment. The capacity score each agent reports back to the Neutron database is used to assign tasks to the agent handling the fewest requests.
 
 Prerequisites
 -------------
@@ -105,6 +105,6 @@ Further Reading
 .. seealso::
 
     * :ref:`Agent Configuration File`
-    * :ref::ref:`Differentiated Service Environments`
-    * :ref:`Agent Redundancy and Scale Out`
+    * :ref:`Differentiated Service Environments`
+    * :ref:`Agent Redundancy and Scale Out <lbaas-agent-redundancy>`
 

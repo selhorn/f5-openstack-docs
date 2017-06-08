@@ -12,7 +12,7 @@ The |agent-long| applies LBaaS configuration changes to each BIG-IP :term:`devic
 
 Clustering provides a greater degree of redundancy than a standalone device offers. It helps to avoid service interruptions that could otherwise occur if a device should go down. F5 LBaaSv2 can manage BIG-IP `Sync-Failover device groups`_ when set to use either the :term:`pair` or the :term:`scalen` :ref:`High Availability mode <HA mode>`.
 
-    .. figure:: ../media/f5-lbaas-scalen-cluster.png
+    .. figure:: /_static/media/f5-lbaas-scalen-cluster.png
         :alt: BIG-IP scalen cluster
         :width: 500
 

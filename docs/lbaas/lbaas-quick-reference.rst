@@ -3,9 +3,7 @@
 F5 LBaaSv2 Quick Reference
 ==========================
 
-.. sidebar:: Applies to:
-
-   OpenStack |openstack|
+.. include:: /_static/reuse/applies-to-ALL.rst
 
 This reference sheet provides links to the information you need to get the |oslbaas| up and running.
 
@@ -25,6 +23,7 @@ This reference sheet provides links to the information you need to get the |oslb
    * :ref:`Tagged VLANs <agent:vlan-config-example>`
 
    .. todo:: add section tags to agent/README sample configs
+   \
 
    .. important::
 
