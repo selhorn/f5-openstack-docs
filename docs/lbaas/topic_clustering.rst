@@ -105,7 +105,7 @@ Edit the :ref:`device settings <agent:device-settings>` and :ref:`Device Driver/
 
 .. seealso::
 
-   * |agent-long| :ref:`redundancy and scale-out <lbaas-agent-redundancy>`
+   * :ref:`Manage BIG-IP vCMP clusters <lbaas-manage-vcmp-clusters>`
 
 
 .. _BIG-IP device service clustering: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-device-service-clustering-administration-12-1-1.html
