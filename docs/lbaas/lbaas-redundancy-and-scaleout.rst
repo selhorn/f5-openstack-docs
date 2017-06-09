@@ -56,7 +56,7 @@ Configuration
 
    .. tip::
 
-      * If you are managing an :term:`active-standby pair` or :term:`cluster` with `config sync`_ turned on:
+      * If you are managing an :term:`active-standby pair` or :term:`cluster` with `config sync`_ turned on: [#configsync]_
 
         - Set the :code:`ha_type` to :code:`standalone`.
         - Provide the iControl endpoint for one (1) of the BIG-IP devices in the cluster.
@@ -83,5 +83,8 @@ Configuration
    * :ref:`Manage Multi-Tenant BIG-IP Devices with F5 LBaaSv2`
    * :ref:`Differentiated Service Environments`
 
+
+.. rubric:: Footnotes
+.. [#configsync] Using configuration synchronization in clusters managed by the |oslbaas| is not recommended. See :ref:`managing BIG-IP clusters <lbaas-manage-clusters>` for more information.
 
 .. _config sync: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-system-device-service-clustering-administration-13-0-0/5.html

@@ -1,134 +1,113 @@
-:orphan: true
+.. _lbaas-manage-clusters:
 
-Manage BIG-IP Clusters with F5 LBaaSv2
-======================================
+Manage BIG-IP Clusters
+======================
 
-Overview
---------
+You can use the |oslbaas| to manage BIG-IP :term:`device service clusters`, making :term:`high availability`, :term:`mirroring`, and :term:`failover` services in your OpenStack cloud.
 
-The F5 LBaaSv2 agent and driver can manage BIG-IP :term:`device service clusters`, providing :term:`high availability`, :term:`mirroring`, and :term:`failover` services within your OpenStack cloud.
+Clustering provides a greater degree of redundancy than a standalone device offers.
+It helps to avoid service interruptions that could otherwise occur if a device should go down.
 
-The |agent-long| applies LBaaS configuration changes to each BIG-IP :term:`device` in a cluster at the same time, in real time. It is unnecessary to use BIG-IP's '`configuration synchronization`_ mode' to sync LBaaS objects managed by the agent across the devices in a cluster.
+The |oslbaas| can manage BIG-IP `Sync-Failover device groups`_ when the :ref:`High Availability mode <HA mode>` is set to :term:`pair` or :term:`scalen` .
 
-Clustering provides a greater degree of redundancy than a standalone device offers. It helps to avoid service interruptions that could otherwise occur if a device should go down. F5 LBaaSv2 can manage BIG-IP `Sync-Failover device groups`_ when set to use either the :term:`pair` or the :term:`scalen` :ref:`High Availability mode <HA mode>`.
+.. figure:: /_static/media/f5-lbaas-scalen-cluster.png
+   :alt: BIG-IP scalen cluster diagram
+   :scale: 60%
 
-    .. figure:: /_static/media/f5-lbaas-scalen-cluster.png
-        :alt: BIG-IP scalen cluster
-        :width: 500
+   BIG-IP scalen cluster
 
-        BIG-IP scalen cluster
+The |agent-long| expects to find a specific number of iControl endpoints (the ``icontrol_hostname`` :ref:`configuration parameter <agent:configuration-parameters>` based on the ``f5_ha_type``, as noted below.
 
-.. important::
+.. table:: |oslbaas| high availability (HA) options
 
-    The |agent-long| expects to find a specific number of entries for the ``icontrol_hostname`` parameter based on the configured ``f5_ha_type``, as noted below.
-
-    .. list-table::
-        :header-rows: 1
-
-        * - ha type
-          - number of iControl endpoints
-        * - standalone
-          - 1
-        * - pair
-          - 2
-        * - scalen
-          - > 2
+   ================= ========================================
+   HA type           Number of iControl endpoints expected
+   ================= ========================================
+   standalone        1
+   ----------------- ----------------------------------------
+   pair              2
+   ----------------- ----------------------------------------
+   scalen            > 2
+   ================= ========================================
 
 F5 LBaaSv2 and BIG-IP Auto-sync
 ```````````````````````````````
 
-By design, F5 LBaaSv2 applies configuration directly to each device in a cluster or pair. Because of this functionality, we do not support the use of F5 LBaaSv2 with BIG-IP device clusters that are set to use auto-sync. If, for example, you create a load balancer for a device group that is set to use auto-sync, the create command will only succeed on the first device in the group; it will fail on the others because the object will have already been created via auto-sync.
+.. important::
 
-For this reason, we recommend manually syncing BIG-IP device groups after making configuration changes with F5 LBaaSv2.
+   The |agent-long| applies LBaaS configuration changes to each BIG-IP :term:`device` in a cluster at the same time, in real time.
+   For this reason, **do not** use `configuration synchronization`_ (config sync) in clusters managed by the |oslbaas|.
 
-.. caution::
+For example, if you create a load balancer for a device group using config sync, the create command will succeed on the first device in the group and fail on the others.
+The failure occurs because the requested partition was created on each device in the cluster via config sync.
 
-    If you choose to enter only one (1) iControl endpoint for your device group and rely on auto-sync, you must set the ``f5_ha_type`` to ``standalone``. Should you choose to do so, however, **you will need to manually update** the :ref:`agent configuration file` with the iControl endpoint of another device in the group should the configured device fail.
+If you need to sync a BIG-IP device group, do so manually **after** making changes to Neutron LBaaS objects.
 
-    While it is possible to use auto-sync for a device group *after* creating a new load balancer, it is not recommended. This functionality has not been tested.
+.. danger::
+
+   If you must use config sync mode, set the ``f5_ha_type`` to ``standalone`` and enter the iControl endpoint for one (1) of the BIG-IP devices in the group.
+
+   If you choose to do so, **you must manually replace the iControl endpoint** in the |agent| :ref:`configuration file` with the iControl endpoint of another device in the group if the configured device should fail.
+
+   While it is possible to use config sync for a device group *after* creating a new load balancer, it is not recommended. This functionality has not been tested.
 
 Prerequisites
 -------------
 
-- Basic understanding of `BIG-IP device service clustering <https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-device-service-clustering-admin-12-0-0.html>`_.
-
+- Administrator access to both BIG-IP devices and OpenStack cloud.
 - Licensed, operational BIG-IP :term:`device service cluster`.
 
-    .. tip::
+  .. tip::
 
-        If you do not already have a BIG-IP cluster deployed in your network, you can use the `F5 BIG-IP: Active-Standby Cluster <http://f5-openstack-heat.readthedocs.io/en/latest/templates/supported/ref_f5-plugins_active-standby.html>`_ Heat template to create a two-device cluster.
-
-- Operational OpenStack cloud (|openstack| release).
-
-- Administrator access to both BIG-IP devices and OpenStack cloud.
-
-- F5 :ref:`agent <agent:home>` and :ref:`service provider driver <Install the F5 LBaaSv2 Driver>` installed on the Neutron controller and all other hosts from which you want to provision LBaaS services.
+     If you do not already have a BIG-IP cluster deployed in your network, you can use the :ref:`F5 BIG-IP: Active-Standby Cluster <heat:active-standby-cluster>` Heat template to create an :term:`overcloud` two-device cluster.
 
 
 Caveats
 -------
 
-- The |agent-long| can manage clusters of two (2) to four (4) BIG-IP devices. Active-standby mode can only be used with two (2) devices; scalen is used with clusters of more than two devices.
-
+- The |agent-long| can manage clusters of two (2) to four (4) BIG-IP devices.
+  Active-standby, or "pair", mode applies to two-device clusters; scalen applies to clusters of more than two (2) devices.
 - The administrator login must be the same on all BIG-IP devices in the cluster.
 
 Configuration
 -------------
 
-#. Edit the :ref:`Agent Configuration File`:
+Edit the :ref:`device settings <agent:device-settings>` and :ref:`Device Driver/iControl driver settings <agent:driver-settings>` sections of the |agent-long| :ref:`configuration file <agent:configuration-file`.
 
-    .. code-block:: text
+#. Set the :ref:`HA mode` to :term:`pair` **or** :term:`scalen`.
 
-        $ sudo vi /etc/neutron/services/f5/f5-openstack-agent.ini
+   .. code-block:: text
+      :emphasize-lines: 10
 
+      vi /etc/neutron/services/f5/f5-openstack-agent.ini
+      ...
+      # HA mode
+      #
+      f5_ha_type = pair    \\ 2-device cluster
+      f5_ha_type = scalen  \\ 2-4 device cluster
+      #
+      #
 
-#. Set the :ref:`HA mode` to :term:`pair` or :term:`scalen`.
+#. Add the iControl endpoint (IP address) for each BIG-IP device in the cluster and the admin login credentials.
+   Values must be comma-separated.
 
-    .. code-block:: text
-        :emphasize-lines: 10
+   .. code-block:: text
+      :emphasize-lines: 10
 
-        # HA mode
-        #
-        # Device can be required to be:
-        #
-        # standalone - single device no HA
-        # pair - active-standby two device HA
-        # scalen - active device cluster
-        #
-        #
-        f5_ha_type = pair
-        #
-        #
+      #
+      icontrol_hostname = 1.2.3.4,5.6.7.8
+      #
+      icontrol_username = myusername
+      #
+      icontrol_password = mypassword
+      #
 
-#. Add the IP address for each BIG-IP device, the admin username, and the admin password to the :ref:`Device Driver - iControl Driver Setting <Device Driver Settings / iControl Driver Settings>` section of the config file. Values must be comma-separated.
-
-    .. code-block:: text
-        :emphasize-lines: 10
-
-        #
-        icontrol_hostname = 10.190.7.232,10.190.4.193
-        #
-        icontrol_username = admin
-        #
-        icontrol_password = admin
-        #
-
-
-Further Reading
----------------
 
 .. seealso::
 
-    * `BIG-IP Device Service Clustering -- Administration Guide`_
+   * |agent-long| :ref:`redundancy and scale-out <lbaas-agent-redundancy>`
 
 
-
-
-
-.. _BIG-IP device service clustering: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-device-service-clustering-admin-12-0-0.html
-
-.. _BIG-IP Device Service Clustering -- Administration guide: <https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-device-service-clustering-admin-12-0-0.html
-
-.. _Sync-Failover device groups: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-device-service-clustering-admin-12-0-0/5.html#unique_457113521
-
-.. _configuration synchronization: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-device-service-clustering-admin-12-0-0/6.html#unique_1589362110
+.. _BIG-IP device service clustering: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-device-service-clustering-administration-12-1-1.html
+.. _Sync-Failover device groups: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-device-service-clustering-administration-12-1-1/4.html
+.. _configuration synchronization: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-device-service-clustering-administration-12-1-1/5.html
