@@ -1,7 +1,7 @@
 .. _lbaas-differentiated-service-env:
 
-Manage BIG-IP devices with differentiated service environments
-==============================================================
+Manage BIG-IP devices using Differentiated Service Environments
+===============================================================
 
 Overview
 --------
@@ -15,34 +15,14 @@ A :dfn:`differentiated service environment` is a uniquely-named environment that
 
 .. note::
 
-   You can use multiple |agent| instances in a differentiated service environment.
-   Each agent must manage a separate BIG-IP device
+   - You can use differentiated service environments to manage the same BIG-IP device or cluster with multiple |agent| instances.
+     In a multiple-agent setup, each |agent| instance manages a distinct environment that corresponds to a specific BIG-IP partition.
 
-The |driver| instance for a differentiated service environment assigns LBaaS tasks to |agent-long| instances running in that service environment.
+   - The :ref:`F5 environment generator`, a tool built in to the |driver-long|, creates new service environments for you and configures Neutron to use the new service provider drivers.
 
-The default service environment prefix, :code:`Project`, corresponds to the generic "F5Networks" LBaaSv2 :ref:`service provider driver <Set 'F5Networks' as the LBaaSv2 Service Provider>` entry in the Neutron LBaaS configuration file (:file:`/etc/neutron/neutron_lbaas.conf`).
+   - Differentiated service environments aren't compatible with `Virtual Clustered Multiprocessing`_ (vCMP) systems.
+     BIG-IP devices cannot share data or resources across differentiated service environments; this precludes the use of vCMP because vCMP guests share global VLAN IDs
 
-For each custom service environment you create, you'll also need to add a corresponding entry to the :file:`neutron_lbaas.conf` file.
-
-.. tip::
-
-   You can use the :ref:`F5 environment generator`, a tool built in to the |driver-long|, to create a new service environment and configure Neutron to use it.
-
-Use Case
-````````
-
-You can use differentiated service environments to manage LBaaS objects for unique environments (for example, "dev", "prod", "test", etc.).
-When used with :ref:`capacity-based scale out`, differentiated service environments provide redundancy and scale out for the |agent-long|.
-
-When using differentiated service environments, you can run multiple |agent| instances on the same host and manage the same BIG-IP device.
-Each unique environment corresponds to a separate BIG-IP partition; the |driver| for that environment assigns tasks to its associated |agent| instance, which configures objects in the environment's partition on the BIG-IP device.
-This allows you to specify which |agent| instance should handle LBaaS tasks instead of the "first-available" method the |driver-long| uses in the default environment.
-
-Caveats
-```````
-
-- Differentiated service environments aren't compatible with `Virtual Clustered Multiprocessing`_ (vCMP) systems.
-  BIG-IP devices cannot share data or resources across differentiated service environments; this precludes the use of vCMP because vCMP guests share global VLAN IDs.
 
 Create a new F5 service provider driver
 ---------------------------------------
@@ -54,9 +34,9 @@ Create a new F5 service provider driver
 
       add_f5agent_environment dev1
 
-   .. tip::
+.. tip::
 
-      The environment name field must be eight (8) characters or less.
+   The environment name field must be eight (8) characters or less.
 
 
 Configure the |agent-long|
@@ -82,10 +62,10 @@ Configure the |agent-long|
         #
         ...
         #
-        icontrol_username = <username>
+        icontrol_username = myusername
         ...
         #
-        icontrol_password = <password>
+        icontrol_password = mypassword
         #
 
    - Save the file with a new name.
@@ -118,10 +98,13 @@ Configure the |agent-long|
 Usage
 -----
 
-When you create a new load balancer, you must specify the service provider driver to use.
-This is how the |driver-long| knows which queue should receive the task (in other words, on which BIG-IP it should add the new partition).
+Specify the service provider driver to use when you create a new load balancer.
+This determines which |driver| messaging queue receives the task.
 
-.. rubric:: Example:
+.. tip::
+
+   If you're using custom service environments to manage different BIG-IP devices or clusters, specifying the service provider driver lets you identify the BIG-IP device on which you want to create the new partition.
+
 
 .. code-block:: console
 
@@ -143,6 +126,24 @@ This is how the |driver-long| knows which queue should receive the task (in othe
    | vip_port_id         | 079eb9e5-dc63-4dbf-bc15-f38f5fdeee92 |
    | vip_subnet_id       | b3fa44a0-3187-4a49-853a-24819bc24d3e |
    +---------------------+--------------------------------------+
+
+.. todo:: come up with a better title for this
+
+Deep dive
+---------
+
+The default service environment prefix, :code:`Project`, corresponds to the generic "F5Networks" LBaaSv2 :ref:`service provider driver <Set 'F5Networks' as the LBaaSv2 Service Provider>` entry in the Neutron LBaaS configuration file (:file:`/etc/neutron/neutron_lbaas.conf`).
+Each custom service environment (for example, "dev", "prod", "test", etc.) has a corresponding service provider driver entry in the :file:`neutron_lbaas.conf` file. When you issue a :code:`neutron lbaas-loadbalancer-create` command referencing the service provider driver for a specific environment, that |driver| instance will receive the task in its dedicated messaging queue; the |driver| instance will then assign the task to an |agent| instance in the same environment group as the driver.
+
+Use Case
+````````
+
+When used with :ref:`capacity-based scale out`, differentiated service environments provide redundancy and scale out for the |agent-long|.
+Using differentiated service environments allows you to run multiple |agent| instances on the same host to manage the same BIG-IP device.
+Each unique environment corresponds to a separate BIG-IP partition; the |driver-long| for that environment assigns tasks to its associated |agent| instance, which configures objects in the environment's partition on the BIG-IP device.
+This allows you to specify which |agent| instance should handle LBaaS tasks, instead of the "first-available" method the |driver-long| uses in the default environment.
+
+
 
 
 .. seealso::
