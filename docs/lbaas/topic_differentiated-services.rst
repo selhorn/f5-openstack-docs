@@ -6,65 +6,54 @@ Differentiated Service Environments
 Overview
 --------
 
-The |oslbaas| can manage multiple distinct BIG-IP environments, called :dfn:`differentiated service environment`.
-A differentiated service environment is a uniquely-named environment with
+The |oslbaas| can manage multiple distinct BIG-IP environments, called "differentiated service environments".
+A :dfn:`differentiated service environment` is a uniquely-named environment that has:
 
 - a dedicated |driver| instance,
 - a dedicated messaging queue, and
-- a dedicated |agent| 
+- a dedicated |agent| instance.
 
-for which dedicated F5 LBaaS services are required -- a unique |driver-long| instance has its own named messaging queue.
-The |driver| instance assigns LBaaS tasks for that environment assign tasks to |agent-long| instances running in that service environment.
+.. note::
 
-The ``environment_prefix`` parameter in the :ref:`agent configuration file` defines the |agent| service environment.
-When you create a new ``lbaas-loadbalancer`` in OpenStack, the environment prefix is prepended to the OpenStack tenant id and used to create a new partition on your BIG-IP device(s).
-The default ``environment_prefix`` parameter is ``Project``.
+   You can use multiple |agent| instances in a differentiated service environment.
+   Each agent must manage a separate BIG-IP device
 
-You can use differentiated service environments with :ref:`capacity-based scale out` to provide agent redundancy and scale out across BIG-IP device groups.
+The |driver| instance for a differentiated service environment assigns LBaaS tasks to |agent-long| instances running in that service environment.
 
-Neutron Service Provider Driver Entries
-```````````````````````````````````````
+The default service environment prefix, :code:`Project`, corresponds to the generic F5 Networks :ref:`service provider driver <Set 'F5Networks' as the LBaaSv2 Service Provider>` entry in the Neutron LBaaS configuration file (:file:`/etc/neutron/neutron_lbaas.conf`).
 
-The default service environment, ``Project``, corresponds to the generic F5Networks :ref:`service provider driver <Set 'F5Networks' as the LBaaSv2 Service Provider>` entry in the Neutron LBaaS configuration file (:file:`/etc/neutron/neutron_lbaas.conf`).
+A custom service environment prefix
 
 .. important::
 
-   Each unique service environment must have a corresponding service provider driver entry.
-   You can use the :ref:`F5 environment generator` to easily create a new environment and configure Neutron to use it.
+   Each unique service environment must have a corresponding Neutron service provider driver.
+   Use the :ref:`F5 environment generator`, which is built into the |driver-long|, to create a new service environment and configure Neutron to use it.
 
 Use Case
---------
+````````
 
-Differentiated service environments can be used to manage LBaaS objects for unique environments, which may have requirements that differ from those of other service environments.
-
-Prerequisites
--------------
-
-- Licensed, operational BIG-IP :term:`device` or :term:`device service cluster`.
-- Operational OpenStack cloud (|openstack| release).
-- F5 :ref:`agent <Install the F5 Agent>` and :ref:`LBaaSv2 driver <Install the F5 LBaaSv2 Driver>` installed on all hosts from which BIG-IP services will be provisioned.
-- Basic understanding of `BIG-IP system configuration <https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/bigip-system-initial-configuration-12-0-0/2.html#conceptid>`_.
-- Basic understanding of `BIG-IP Local Traffic Management <https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/ltm-basics-12-0-0.html>`_
+You can use differentiated service environments to manage LBaaS objects for unique environments (for example, "dev", "prod", "test", etc.).
+When used with :ref:`capacity-based scale out`, differentiated service environments provide redundancy and scale out for the |agent-long|.
 
 Caveats
--------
+```````
 
-- BIG-IP devices can not share anything across differentiated service environments. This precludes the use of vCMP, because vCMP guests share global VLAN IDs.
+- Differentiated service environments aren't compatible with `Virtual Clustered Multiprocessing`_ (vCMP) systems.
+  BIG-IP devices cannot share data or resources across differentiated service environments; this precludes the use of vCMP because vCMP guests share global VLAN IDs.
 
 
-Configuration
--------------
+Create a new F5 service provider driver
+---------------------------------------
 
-Create a Service Provider Driver
-````````````````````````````````
+Use the :ref:`F5 environment generator` to automatically create and set up a new |driver| instance.
 
-You can use the :ref:`F5 environment generator` to automatically generate, and configure Neutron to use, a new service provider driver for a custom environment. On each Neutron controller which will host your custom environment, run the following command:
+.. code-block:: console
 
-    .. code-block:: shell
+   add_f5agent_environment <env_name>
 
-        $ sudo add_f5agent_environment <env_name>
+.. tip::
 
-The environment name is limited to 8 characters in length.
+   The environment name field must be eight (8) characters or less.
 
 Configure the |agent-long|
 ``````````````````````````
@@ -83,8 +72,6 @@ Configure the |agent-long|
 
 
 
-Further Reading
----------------
 
 .. seealso::
 
@@ -212,5 +199,6 @@ This is how the |driver-long| knows which queue should receive the task (in othe
 
 .. seealso::
 
-   - :ref:`Differentiated Service Environments <lbaas-differentiated-service-env>`
    - :ref:`F5 OpenStack BIG-IP Controller Redundancy and Scale-out <lbaas-agent-redundancy>`
+
+.. _Virtual Clustered Microprocessing: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/vcmp-administration-appliances-12-1-1/1.html
