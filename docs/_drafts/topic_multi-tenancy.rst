@@ -53,7 +53,7 @@ Edit the :ref:`L2 Segmentation Mode <agent:l2-segmentation-settings>` section of
 
 .. important::
 
-   You must configure these settings correctly to ensure your tenant networks connect to the right interfaces on the BIG-IP(s) and that traffic is allowed to flow through the corresponding ports.
+   You must configure these settings correctly to ensure your tenant networks connect to the right interfaces on the BIG-IP device(s) and that traffic is allowed to flow through the corresponding ports.
 
 .. todo:: provide actual example configuration
 

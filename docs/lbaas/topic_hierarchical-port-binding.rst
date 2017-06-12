@@ -4,127 +4,76 @@ Hierarchical Port Binding
 Overview
 --------
 
-Neutron `hierarchical port binding`_ [#]_ allows software-defined networking (SDN) users to dynamically configure VLANs and VLAN tags for a physical BIG-IP :term:`device` or :term:`device service cluster` connected to a 'top of rack' L3 switch (a network 'segment'). Telling the |agent-long| what physical switch and port the BIG-IPs are connected to allows the agent to configure the BIG-IPs to process traffic for networks that are dynamically created in that segment.
+Neutron `hierarchical port binding`_ allows you to use the |oslbaas| with software-defined networking (SDN) to dynamically configure VLANs and VLAN tags for a physical BIG-IP :term:`device` or :term:`device service cluster`.
+When you tell the |agent-long| what top of rack (ToR) L3 switch and port (in other words, which network segment) the BIG-IP devices are connected to, the |agent-long| can set up the BIG-IPs to process traffic for dynamically-created networks in that segment.
 
-Disconnected Services
-`````````````````````
+What are Disconnected Services?
+```````````````````````````````
 
-Because it is possible for LBaaSv2 objects to be provisioned on a Neutron network which has not yet been bound to a segment, the |agent-long| can provision LBaaSv2 services in a disconnected state. When the agent discovers the intended network(s), these 'disconnected services' will be connected to the VLAN(s) and BIG-IP(s) as intended. You can customize how often the |agent-long| will poll, and the maximum amount of time it should wait, for the network to be created before the request fails. This is, essentially, a fail-safe built into the |agent-long| that allows for a certain degree of variation in the timing of the VLAN deployment and the request to create the LBaaS objects for it.
+:dfn:`Disconnected services` are LBaaS objects that are assigned to a Neutron network that isn't bound to physical network segment yet.
+These "disconnected services" automatically connect to the intended Neutron network when the |agent-long| discovers it.
+The |agent-long| polling frequency and maximum wait time allow for a degree of variation in the timing of the VLAN deployment and the request to create the LBaaS objects for it.
 
 Use Case
---------
+````````
 
-The most common use case for heirarchical port binding is an :term:`undercloud` deployment of a physical BIG-IP device or :term:`device service cluster` that processes traffic on networks dynamically created via SDN. When the |agent-long| is configured with the name of a switch and the port(s) to which BIG-IP devices are connected, the LBaaSv2 driver discovers  Neutron networks in that switch's network segment. The driver provides the segmentation IDs of VLANs in the network segment to the |agent-long|, which then dynamically creates the VLAN tags required to connect LBaaS services to the BIG-IPs.
+Use heirarchical port binding if you want your :term:`undercloud` physical BIG-IP device or cluster to control traffic for   networks dynamically created via SDN.
+As noted in the OpenStack documentation, this can be useful if you need your Neutron deployment to scale beyond the 4K-VLANs-per-physical network limit. [#osvlans]_
 
+When the |agent-long| is configured with the name of a switch and the port(s) to which BIG-IP devices are connected, the LBaaSv2 driver discovers Neutron networks in that switch's network segment.
+The driver provides the segmentation IDs of VLANs in the network segment to the |agent-long|, which then dynamically creates the VLAN tags required to connect LBaaS services to the BIG-IPs.
 
 
 .. figure:: /_static/media/lbaasv2_hierarchical-port-binding.png
-    :alt: F5 LBaaSv2 Hierarchical Port Binding
+   :alt: F5 LBaaSv2 Hierarchical Port Binding
+   :scale: 60%
 
-    F5 LBaaSv2 Hierarchical Port Binding
+   F5 LBaaSv2 Hierarchical Port Binding
 
 
 Prerequisites
--------------
+`````````````
 
 - Operational BIG-IP :term:`device` or :term:`device cluster` licensed for SDN services.
-
-- Operational OpenStack cloud (|openstack| release).
-
 - Administrator access to both BIG-IP device(s) and OpenStack cloud.
 
-- F5 ref:`agent <Install the F5 Agent>` and :ref:`LBaaSv2 driver <Install the F5 LBaaSv2 Driver>` installed on all hosts from which BIG-IP services will be provisioned.
-
-- Knowledge of `OpenStack Networking <http://docs.openstack.org/liberty/networking-guide/>`_ concepts.
-
-- Knowledge of BIG-IP `system configuration`_, `local traffic management`_, & `device service clustering`_.
-
-
 Caveats
--------
+```````
 
-- In release v |release| of the F5 LBaaSv2 driver and agent, ``VLAN`` is the only supported ML2 network type when employing Hierarchical Port Binding.
-
-- Each |agent-long| managing a BIG-IP :term:`device service cluster` must have the same ``f5_network_segment_physical_network`` setting. [#]_
-
--  If multiple |agent-long| instances are managing the same environment, all of the agents must use the same binding settings (in other words, either the default global segmentation bindings or hierarchical port binding). [#]_
+- The only ML2 network type supported for use with hierarchical port binding is :code:`VLAN`.
+- Each |agent| instance managing a BIG-IP :term:`device service cluster` must have the same ``f5_network_segment_physical_network`` setting. [#caveat1]_
+- If multiple |agent-long| instances are managing the same :ref:`service environment <lbaas-differentiated-service-env>`, all of the agents must use the same binding settings (in other words, either the default global segmentation bindings or hierarchical port binding).
 
 
-Configuration
--------------
 
 1. Edit the :ref:`Agent Configuration File`:
 
-.. code-block:: text
-
-    $ sudo vi /etc/neutron/services/f5/f5-openstack-agent.ini
+   .. include:: /_static/reuse/edit-agent-config-file.rst
 
 
-2. Configure the heirarchical port binding settings (found in the :ref:`L2 Segmentation Mode` section of the agent config file).
+2. Set the :ref:`heirarchical port binding settings <>` in the :ref:`L2 Segmentation Mode` section as appropriate for your environment.
 
-.. table:: Hierarchical Port Binding settings
+   .. code-block:: console
+      :caption: Hierarchical Port Binding Example
+      :emphasize-lines: 9, 14, 18
 
-    +--------------------------------------+-------------------------------------------+---------------+
-    | Setting                              | Description                               | Default Value |
-    +======================================+===========================================+===============+
-    |f5_network_segment_physical_network   || The name of the network segment in which | None          |
-    |                                      || the agent will manage BIG-IP(s).         |               |
-    +--------------------------------------+-------------------------------------------+---------------+
-    |f5_network_segment_polling_interval   || Seconds between polling Neutron for a    | 10            |
-    |                                      || ``network_id`` to ``segmentation_id``    |               |
-    |                                      || mapping.                                 |               |
-    |                                      || See :ref:`disconnected services`.        |               |
-    +--------------------------------------+-------------------------------------------+---------------+
-    |f5_network_segment_gross_timeout      || Maximum seconds to wait for a network to | 300           |
-    |                                      || be bound before the LBaaS request fails. |               |
-    |                                      || See :ref:`disconnected services`.        |               |
-    +--------------------------------------+-------------------------------------------+---------------+
+      #
+      f5_network_segment_physical_network = edgeswitch002ports0305
+      #
+      f5_network_segment_polling_interval = 10
+      #
+      f5_network_segment_gross_timeout = 300
+
+\
 
 .. important::
 
-    If you are running in 'traditional mode', the ``f5_network_segment_physical_network`` setting **must** be commented out. To use disconnected mode, the setting must be uncommented and configured with a valid network name.
+   You must comment out the :code:`f5_network_segment_physical_network` parameter if you're not using hierarchical port binding.
 
 
-.. topic:: Example
-
-    .. code-block:: text
-        :emphasize-lines: 9, 14, 18
-
-        # Hierarchical Port Binding
-        #
-        # If hierarchical networking is not required, these settings must be commented
-        # out or set to None.
-        #
-        # Restrict discovery of network segmentation ID to a specific physical network
-        # name.
-        #
-        f5_network_segment_physical_network = edgeswitch002ports0305
-        #
-        # Periodically scan for disconected listeners (a.k.a virtual servers).  The
-        # interval is number of seconds between attempts.
-        #
-        f5_network_segment_polling_interval = 10
-        #
-        # Maximum amount of time in seconds for wait for a network to become connected.
-        #
-        f5_network_segment_gross_timeout = 300
-
-
-3. Configure the related :ref:`L2 Segmentation Mode` and/or :ref:`L3 Segmentation Mode` settings as appropriate for your environment.
-
-
-
-Further Reading
----------------
-
-.. seealso::
-
-    .. [#] `Neutron Hierarchical Port Binding: What is it? And why you should deploy it <https://www.openstack.org/summit/vancouver-2015/summit-videos/presentation/neutron-hierarchical-port-binding-what-is-it-and-why-you-should-deploy-it>`_ - Presentation from the 2015 OpenStack Summit
-    .. [#] See :ref:`Agent Redundancy and Scale Out <lbaas-agent-redundancy>`
-    .. [#] See :ref:`Differentiated Service Environments` and :ref:`Multi-tenancy`
-
-
-
+.. rubric:: Footnotes
+.. [#caveat1] See :ref:`Agent Redundancy and Scale Out <lbaas-agent-redundancy>`
+.. [#osvlans] `ML2 Hierarchical Port Binding specs <https://specs.openstack.org/openstack/neutron-specs/specs/kilo/ml2-hierarchical-port-binding.html#problem-description>`_.
 
 
 .. _hierarchical port binding: https://specs.openstack.org/openstack/neutron-specs/specs/kilo/ml2-hierarchical-port-binding.html

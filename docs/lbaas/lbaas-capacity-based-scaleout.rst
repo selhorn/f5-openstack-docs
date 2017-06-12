@@ -79,10 +79,10 @@ Edit the following items in the |agent| :ref:`configuration file <agent:config-f
       #
       ...
       #
-      icontrol_username = <username>
+      icontrol_username = myusername
       ...
       #
-      icontrol_password = <password>
+      icontrol_password = mypassword
       #
 
 #. Define the capacity score metrics.

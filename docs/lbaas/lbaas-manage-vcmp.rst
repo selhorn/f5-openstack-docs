@@ -8,7 +8,7 @@ Manage BIG-IP vCMP Systems
 Overview
 --------
 
-You can use `Virtual Clustered Multiprocessing`_ ™ (vCMP) to run multiple instances of BIG-IP software on a single hardware platform.
+You can use `Virtual Clustered Multiprocessing`_ (vCMP) to run multiple instances of BIG-IP software on a single hardware platform.
 The :term:`vCMP host` allocates a share of the hardware resources to each :term:`vCMP guest`.
 Each guest has its own management IP address, self IP addresses, virtual servers, and so on.
 Each guest can receive and process application traffic with no knowledge of other guests on the system.

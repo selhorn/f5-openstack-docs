@@ -8,14 +8,19 @@ Device Driver Settings / iControl Driver Settings
 Overview
 --------
 
-The Device Driver Settings in the :ref:`Agent Configuration File` provide the means of communication between the |agent-long| and BIG-IP device(s). **Do not change this setting**.
+The Device Driver Settings in the :ref:`Agent Configuration File` provide the means of communication between the |agent-long| and BIG-IP device(s).
 
-The iControl Driver Settings identify the BIG-IP device(s) that you want the |agent-long| to manage and record the login information the agent will use to communicate with the BIG-IP(s).
+.. danger::
+
+   **Do not change** the :code:`device_driver` setting.
+
+The iControl Driver Settings identify the BIG-IP device(s) that you want the |agent-long| to manage and record the login information the agent will use to communicate with the BIG-IP device(s).
 
 Use Case
 --------
 
-If you want to use the |agent-long| to manage BIG-IP from within your OpenStack cloud, you **must** provide the correct information in this section of the agent config file. The |agent-long| can manage a :term:`standalone` device or a :term:`device service cluster`.
+If you want to use the |agent-long| to manage BIG-IP from within your OpenStack cloud, you **must** provide the correct information in this section of the agent config file.
+The |agent-long| can manage a :term:`standalone` device or a :term:`device service cluster`.
 
 .. seealso:: :ref:`Manage BIG-IP Clusters with F5 LBaaSv2`
 
@@ -44,9 +49,9 @@ Configuration
 
     $ sudo vi /etc/neutron/services/f5/f5-openstack-agent.ini
 
-2. Enter the iControl endpoint(s), username, and password for your BIG-IP(s).
+2. Enter the iControl endpoint(s), username, and password for your BIG-IP device(s).
 
-    * ``icontrol_hostname``: The IP address(es) of the BIG-IP(s) the agent will manage. If you're using multiple devices, provide a comma-separated list containing the management IP address of each device.
+    * ``icontrol_hostname``: The IP address(es) of the BIG-IP device(s) the agent will manage. If you're using multiple devices, provide a comma-separated list containing the management IP address of each device.
     * ``icontrol_vcmp_hostname``: *Unsupported in this release*.
     * ``icontrol_username``: The username of the adminstrative user; *must have access to all BIG-IP devices*.
     * ``icontrol_password``: The password of the adminstrative user; *must have access to all BIG-IP devices*.
@@ -72,7 +77,7 @@ Configuration
         # self IPs, you should specify them as a comma
         # separated list below.
         #
-        icontrol_hostname = 10.190.7.232 \\ replace with the IP address(es) of your BIG-IP(s)
+        icontrol_hostname = 1.2.3.4, 5.6.7.8 \\ replace with the IP address(es) of your BIG-IP device(s)
         #
         # If you are using vCMP with VLANs, you will need to configure
         # your vCMP host addresses, in addition to the guests addresses.
@@ -81,24 +86,17 @@ Configuration
         # for vCMP hosts. The agent will automatically determine
         # which host corresponds to each guest.
         #
-        # icontrol_vcmp_hostname = 192.168.1.245
+        # icontrol_vcmp_hostname = 10.11.12.13
         #
         # icontrol_username must be a valid Administrator username
         # on all devices in a device sync failover group.
         #
-        icontrol_username = admin
+        icontrol_username = myusername
         #
         # icontrol_password must be a valid Administrator password
         # on all devices in a device sync failover group.
         #
-        icontrol_password = admin
+        icontrol_password = mypassword
         #
-
-
-.. Further Reading
-    ---------------
-
-
-
 
 

@@ -33,7 +33,7 @@ Global routed mode is generally used for :term:`undercloud` BIG-IP hardware depl
 
     Example BIG-IP 'undercloud' deployment
 
-Global routed mode uses BIG-IP `secure network address translation`_ (SNAT) 'automapping' to map one or more origin IP addresses to a pool of translation addresses. The pool is created by the BIG-IP Local Traffic Manager (LTM) from existing `self IP`_ addresses. This means that *before* you configure the |agent-long| to use global routed mode, you should create enough `self IP`_ addresses on the BIG-IP(s) to handle anticipated connection loads. [#]_ You do not need to configure a SNAT pool, as one will be created automatically.
+Global routed mode uses BIG-IP `secure network address translation`_ (SNAT) 'automapping' to map one or more origin IP addresses to a pool of translation addresses. The pool is created by the BIG-IP Local Traffic Manager (LTM) from existing `self IP`_ addresses. This means that *before* you configure the |agent-long| to use global routed mode, you should create enough `self IP`_ addresses on the BIG-IP device(s) to handle anticipated connection loads. [#]_ You do not need to configure a SNAT pool, as one will be created automatically.
 
 Prerequisites
 -------------

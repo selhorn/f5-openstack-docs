@@ -10,7 +10,7 @@ The |agent-long| uses the L2/L3 segmentation mode settings to determine the L2/L
 
 .. warning::
 
-    These settings must be configured correctly for the |agent-long| to manage your BIG-IP(s). Knowledge of networking concepts and BIG-IP configuration is required.
+    These settings must be configured correctly for the |agent-long| to manage your BIG-IP device(s). Knowledge of networking concepts and BIG-IP configuration is required.
 
 L2 segmentation mode settings:
 
@@ -30,7 +30,7 @@ L3 segmentation mode settings:
 Use Case
 --------
 
-Typically, the |agent-long| is used to manage one (1) or more BIG-IP devices deployed at the service layer of an external :ref:`provider network <docs:provider-network>`. F5 LBaaSv2 makes it possible to provision services from your existing BIG-IP(s) in an OpenStack cloud. The |agent-long| L2/L3 segmentation mode settings must match the configurations of your existing external network and BIG-IP device(s).
+Typically, the |agent-long| is used to manage one (1) or more BIG-IP devices deployed at the service layer of an external :ref:`provider network <docs:provider-network>`. F5 LBaaSv2 makes it possible to provision services from your existing BIG-IP device(s) in an OpenStack cloud. The |agent-long| L2/L3 segmentation mode settings must match the configurations of your existing external network and BIG-IP device(s).
 
 The default mode of operation for the |agent-long| is **L2 adjacent mode** (``f5_global_routed_mode = False``).
 
@@ -436,6 +436,30 @@ The L3 Binding driver is **required** for BIG-IP VE(s) deployed within your Open
         l3_binding_driver = f5_openstack_agent.lbaasv2.drivers.bigip.l3_binding.AllowedAddressPairs
         #
 
+Hierarchical Port Binding
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. table:: Hierarchical Port Binding settings
+
+   +--------------------------------------+-------------------------------------------+---------------+
+   | Setting                              | Description                               | Default Value |
+   +======================================+===========================================+===============+
+   |f5_network_segment_physical_network   | The name of the network segment in which  | None          |
+   |                                      | the agent will manage BIG-IP device(s).   |               |
+   +--------------------------------------+-------------------------------------------+---------------+
+   |f5_network_segment_polling_interval   | Seconds between polling Neutron for a     | 10            |
+   |                                      | ``network_id`` to ``segmentation_id``     |               |
+   |                                      | mapping.                                  |               |
+   |                                      |                                           |               |
+   |                                      | See :ref:`disconnected services` for      |               |
+   |                                      | more information.                         |               |
+   +--------------------------------------+-------------------------------------------+---------------+
+   |f5_network_segment_gross_timeout      | Maximum seconds to wait for a network to  | 300           |
+   |                                      | be bound before the LBaaS request fails.  |               |
+   |                                      |                                           |               |
+   |                                      | See :ref:`disconnected services` for      |               |
+   |                                      | more information.                         |               |
+   +--------------------------------------+-------------------------------------------+---------------+
 
 
 Further Reading
