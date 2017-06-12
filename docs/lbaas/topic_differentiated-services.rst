@@ -6,15 +6,21 @@ Differentiated Service Environments
 Overview
 --------
 
-The F5 LBaaSv2 driver and |agent-long| can manage multiple BIG-IP environments.
-In a :dfn:`differentiated service environment` -- a uniquely-named environment for which dedicated F5 LBaaS services are required -- the F5 driver has its own, uniquely-named messaging queue.
-The F5 LBaaS agent scheduler for a differentiated service environment can only assign tasks to agents running in that environment.
+The |oslbaas| can manage multiple distinct BIG-IP environments, called :dfn:`differentiated service environment`.
+A differentiated service environment is a uniquely-named environment with
 
-The service environment corresponds to the ``environment_prefix`` parameter in the :ref:`agent configuration file`.
-When you create a new ``lbaas-loadbalancer`` in OpenStack, this prefix is prepended to the OpenStack tenant id and used to create a new partition on your BIG-IP device(s).
+- a dedicated |driver| instance,
+- a dedicated messaging queue, and
+- a dedicated |agent| 
+
+for which dedicated F5 LBaaS services are required -- a unique |driver-long| instance has its own named messaging queue.
+The |driver| instance assigns LBaaS tasks for that environment assign tasks to |agent-long| instances running in that service environment.
+
+The ``environment_prefix`` parameter in the :ref:`agent configuration file` defines the |agent| service environment.
+When you create a new ``lbaas-loadbalancer`` in OpenStack, the environment prefix is prepended to the OpenStack tenant id and used to create a new partition on your BIG-IP device(s).
 The default ``environment_prefix`` parameter is ``Project``.
 
-Differentiated service environments can be used in conjunction with :ref:`capacity-based scale out` to provide agent redundancy and scale out across BIG-IP device groups.
+You can use differentiated service environments with :ref:`capacity-based scale out` to provide agent redundancy and scale out across BIG-IP device groups.
 
 Neutron Service Provider Driver Entries
 ```````````````````````````````````````
