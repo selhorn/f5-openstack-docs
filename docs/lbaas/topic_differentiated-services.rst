@@ -26,7 +26,7 @@ For each custom service environment you create, you'll also need to add a corres
 
 .. tip::
 
-   You can use the :ref:`F5 environment generator`, which is built into the |driver-long|, to create a new service environment and configure Neutron to use it.
+   You can use the :ref:`F5 environment generator`, a tool built in to the |driver-long|, to create a new service environment and configure Neutron to use it.
 
 Use Case
 ````````
@@ -96,10 +96,10 @@ Configure the |agent-long|
         :w f5-openstack-agent_dev1.ini
 
 
-Set up additional hosts
------------------------
+#. Set up additional hosts. [#multihost]_
 
-#. Copy the |agent|, Neutron, and Neutron LBaaS configuration files from the Neutron controller to each host on which you want to run an |agent| instance.
+
+   Copy the |agent|, Neutron, and Neutron LBaaS configuration files from the Neutron controller to each host on which you want to run an |agent| instance.
 
    .. code-block:: console
 
