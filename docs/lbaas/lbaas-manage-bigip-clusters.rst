@@ -8,7 +8,7 @@ You can use the |oslbaas| to manage BIG-IP :term:`device service clusters`, maki
 Clustering provides a greater degree of redundancy than a standalone device offers.
 It helps to avoid service interruptions that could otherwise occur if a device should go down.
 
-The |oslbaas| can manage BIG-IP `Sync-Failover device groups`_ when the :ref:`High Availability mode <HA mode>` is set to :term:`pair` or :term:`scalen` .
+The |oslbaas| can manage BIG-IP `Sync-Failover device groups`_ when you set :ref:`High Availability mode <HA mode>` to :term:`pair` or :term:`scalen` .
 
 .. figure:: /_static/media/f5-lbaas-scalen-cluster.png
    :alt: BIG-IP scalen cluster diagram
@@ -39,7 +39,7 @@ F5 LBaaSv2 and BIG-IP Auto-sync
    For this reason, **do not** use `configuration synchronization`_ (config sync) in clusters managed by the |oslbaas|.
 
 For example, if you create a load balancer for a device group using config sync, the create command will succeed on the first device in the group and fail on the others.
-The failure occurs because the requested partition was created on each device in the cluster via config sync.
+The failure occurs because config sync has already created the requested partition on each device in the cluster.
 
 If you need to sync a BIG-IP device group, do so manually **after** making changes to Neutron LBaaS objects.
 
@@ -49,7 +49,8 @@ If you need to sync a BIG-IP device group, do so manually **after** making chang
 
    If you choose to do so, **you must manually replace the iControl endpoint** in the |agent| :ref:`configuration file` with the iControl endpoint of another device in the group if the configured device should fail.
 
-   While it is possible to use config sync for a device group *after* creating a new load balancer, it is not recommended. This functionality has not been tested.
+   While it is possible to use config sync for a device group *after* creating a new load balancer, it is not recommended.
+   **F5 has not tested or verified this functionality**.
 
 Prerequisites
 -------------
