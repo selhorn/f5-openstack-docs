@@ -1,3 +1,5 @@
+.. _lbaas-port-binding:
+
 Hierarchical Port Binding
 =========================
 
@@ -17,7 +19,7 @@ Caveats
 
 - :code:`VLAN` is the only ML2 network type supported for use with hierarchical port binding.
 - Each |agent| instance managing a BIG-IP :term:`device service cluster` must use the same ``f5_network_segment_physical_network``. [#caveat1]_
-- If multiple |agent-long| instances are managing the same :ref:`service environment <lbaas-differentiated-service-env>`, all of the instances must use the same binding settings (in other words, either the default global segmentation bindings or hierarchical port binding).
+- All |agent-long| instances in a :ref:`service environment <lbaas-differentiated-service-env>` group must use the same binding settings.
 
 .. _agent-setup-port-binding:
 
@@ -29,7 +31,7 @@ Set up the |agent-long| to use heirarchical port binding
    .. include:: /_static/reuse/edit-agent-config-file.rst
 
 
-2. Set the :ref:`heirarchical port binding settings <>` in the :ref:`L2 Segmentation Mode` section as appropriate for your environment.
+2. Set the heirarchical port binding settings in the :ref:`L2 Segmentation Mode Settings <agent:l2-segmentation-settings>` section as appropriate for your environment.
 
    .. code-block:: console
       :caption: Hierarchical Port Binding Example
