@@ -85,11 +85,12 @@ In the |agent| :ref:`configuration file <agent:configuration-file>` :
 
       :w f5-openstack-agent_dev1.ini
 
+Copy the config files to additional hosts
+`````````````````````````````````````````
 
-Set up additional hosts
-```````````````````````
+.. rubric:: [OPTIONAL]
 
-Running |agent| instances on one (1) or more additional hosts provides redundancy and a degree of protection against individual host failure. [#multihost]_
+Take the step below if you want to run |agent| instances on multiple hosts. [#multihost]_
 
 #. Copy the |agent|, Neutron, and Neutron LBaaS configuration files from the Neutron controller to each additional host.
 
@@ -99,63 +100,75 @@ Running |agent| instances on one (1) or more additional hosts provides redundanc
       cp /etc/neutron/neutron.conf <hostname>:/etc/neutron/neutron.conf
       cp /etc/neutron/neutron_lbaas.conf <hostname>:/etc/neutron/neutron_lbaas.conf
 
+Restart the services
+--------------------
+
 #. Restart Neutron.
 
    .. include:: /_static/reuse/restart-neutron.rst
 
-#. Start the |agent-long| on each host.
+#. Restart the |agent-long|.
 
-   .. include:: /_static/reuse/start-f5-agent.rst
+   .. include:: /_static/reuse/restart-f5-agent.rst
 
-Usage
------
+   .. important::
 
-Specify the service provider driver to use when you create a new load balancer.
-This determines which |driver| messaging queue receives the task.
+      Restart the |agent-long| on each host to which you copied the updated configuration file.
 
-.. tip::
+Create a load balancer in the new service environment
+-----------------------------------------------------
 
-   If you're using custom service environments to manage different BIG-IP devices or clusters, specifying the service provider driver lets you identify the BIG-IP device on which you want to create the new partition.
+#. When you create a new load balancer, pass in the name of the new service environment using the :code:`--provider` flag.
 
+   .. code-block:: console
 
-.. code-block:: console
+      (neutron) lbaas-loadbalancer-create --name lb_dev1 --provider dev1 b3fa44a0-3187-4a49-853a-24819bc24d3e
+      Created a new loadbalancer:
+      +---------------------+--------------------------------------+
+      | Field               | Value                                |
+      +---------------------+--------------------------------------+
+      | admin_state_up      | True                                 |
+      | description         |                                      |
+      | id                  | fcd874ce-6dad-4aef-9e69-98d1590738cd |
+      | listeners           |                                      |
+      | name                | lb_dev1                              |
+      | operating_status    | OFFLINE                              |
+      | provider            | dev1                                 |
+      | provisioning_status | PENDING_CREATE                       |
+      | tenant_id           | 1b2b505dafbc487fb805c6c9de9459a7     |
+      | vip_address         | 10.1.2.7                             |
+      | vip_port_id         | 079eb9e5-dc63-4dbf-bc15-f38f5fdeee92 |
+      | vip_subnet_id       | b3fa44a0-3187-4a49-853a-24819bc24d3e |
+      +---------------------+--------------------------------------+
 
-   (neutron) lbaas-loadbalancer-create --name lb_dev1 --provider dev1 b3fa44a0-3187-4a49-853a-24819bc24d3e
-   Created a new loadbalancer:
-   +---------------------+--------------------------------------+
-   | Field               | Value                                |
-   +---------------------+--------------------------------------+
-   | admin_state_up      | True                                 |
-   | description         |                                      |
-   | id                  | fcd874ce-6dad-4aef-9e69-98d1590738cd |
-   | listeners           |                                      |
-   | name                | lb_dev1                              |
-   | operating_status    | OFFLINE                              |
-   | provider            | dev1                                 |
-   | provisioning_status | PENDING_CREATE                       |
-   | tenant_id           | 1b2b505dafbc487fb805c6c9de9459a7     |
-   | vip_address         | 10.1.2.7                             |
-   | vip_port_id         | 079eb9e5-dc63-4dbf-bc15-f38f5fdeee92 |
-   | vip_subnet_id       | b3fa44a0-3187-4a49-853a-24819bc24d3e |
-   +---------------------+--------------------------------------+
+   .. info::
 
+      Specifing the service provider driver to use determines which LBaaS driver messaging queue receives the task and, ultimately, which BIG-IP device/cluster gets the requested load balancer.
 
 Learn more
 ----------
 
-The default service environment prefix, :code:`Project`, corresponds to the generic "F5Networks" LBaaSv2 :ref:`service provider driver <Set 'F5Networks' as the LBaaSv2 Service Provider>` entry in the Neutron LBaaS configuration file (:file:`/etc/neutron/neutron_lbaas.conf`).
-Each custom service environment (for example, "dev", "prod", "test", etc.) has a corresponding service provider driver entry in the :file:`neutron_lbaas.conf` file. When you issue a :code:`neutron lbaas-loadbalancer-create` command referencing the service provider driver for a specific environment, that |driver| instance will receive the task in its dedicated messaging queue; the |driver| instance will then assign the task to an |agent| instance in the same environment group as the driver.
+When the |agent-long| uses the default service environment prefix -- :code:`Project` -- the |driver-long| assigns LBaaS tasks to each |agent| instance from the global messaging queue.
+
+When you create a new service environment (for example, "dev", "prod", "test", etc.), you're really creating a new LBaaS service provider driver and uniquely-named messaging queue.
+The F5 environment generator creates the driver and adds it to the service providers list in the Neutron LBaaS config file.
+When you issue a :code:`neutron lbaas-loadbalancer-create` command with the :code:`--provider` flag, that |driver| instance receives the task in its dedicated messaging queue; it then assigns the task to an |agent| instance in its environment group.
+By default, |agent| instances in an environment group receive tasks in a round-robin fashion; you can set up :ref:`capacity-based scale out <lbaas-capacity-based-scaleout>` for a greater degree of control over how the |driver-long| chooses which |agent| instances receive tasks.
 
 Use Case
 ````````
 
-When used with :ref:`capacity-based scale out`, differentiated service environments provide redundancy and scale out for the |agent-long|.
-Using differentiated service environments allows you to run multiple |agent| instances on the same host to manage the same BIG-IP device.
-Each unique environment corresponds to a separate BIG-IP partition; the |driver-long| for that environment assigns tasks to its associated |agent| instance, which configures objects in the environment's partition on the BIG-IP device.
-This allows you to specify which |agent| instance should handle LBaaS tasks, instead of the "first-available" method the |driver-long| uses in the default environment.
+Use differentiated service environments if:
 
+A. You want to run multiple |agent| instances **on the same host** to manage the same BIG-IP device/cluster.
+   Each unique service environment corresponds to a distinct BIG-IP partition, so the |agent| processes don't overlap and cause errors.
+
+B. You want a finer degree of control over where LBaaS objects are created.
+   In the default set-up, the |driver-long| assigns tasks from the global messaging queue to the first available |agent| instance it finds.
+   This means that, when using the default environment, you can't control which BIG-IP device gets any given object.
+   Custom service environments allow you to specify which |agent| instance/group -- and, therefore, which BIG-IP device/cluster -- should handle a given LBaaS task.
 
 .. rubric:: Footnotes
-.. [#multihost] See :ref:`F5 OpenStack BIG-IP Controller Redundancy and Scale-out <lbaas-agent-redundancy>`.
+.. [#multihost] Running |agent| instances on one (1) or more additional hosts provides redundancy and a degree of protection against individual host failure. See :ref:`F5 OpenStack BIG-IP Controller Redundancy and Scale-out <lbaas-agent-redundancy>` for more information.
 
 .. _Virtual Clustered Multiprocessing: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/vcmp-administration-appliances-12-1-1/1.html
