@@ -13,14 +13,16 @@ A :dfn:`differentiated service environment` is a uniquely-named environment that
 - a dedicated messaging queue, and
 - a dedicated |agent| instance.
 
-.. note::
+.. important::
 
    - You can use differentiated service environments to manage the same BIG-IP device or cluster with multiple |agent| instances.
      In a multiple-agent setup, each |agent| instance manages a distinct environment that corresponds to a specific BIG-IP partition.
 
    - The :ref:`F5 environment generator`, a tool built in to the |driver-long|, creates new service environments for you and configures Neutron to use the new service provider drivers.
 
-   - Differentiated service environments aren't compatible with `Virtual Clustered Multiprocessing`_ (vCMP) systems.
+.. warning::
+
+   - Differentiated service environments are not compatible with `Virtual Clustered Multiprocessing`_ (vCMP) systems.
      BIG-IP devices cannot share data or resources across differentiated service environments; this precludes the use of vCMP because vCMP guests share global VLAN IDs
 
 Set up a new service environment
@@ -85,8 +87,8 @@ In the |agent| :ref:`configuration file <agent:configuration-file>` :
 
       :w f5-openstack-agent_dev1.ini
 
-Copy the config files to additional hosts
-`````````````````````````````````````````
+Set up the new environment on additional hosts
+``````````````````````````````````````````````
 
 .. rubric:: [OPTIONAL]
 
