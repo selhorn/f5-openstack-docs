@@ -10,8 +10,7 @@ When you tell the |agent-long| what top of rack (ToR) L3 switch and port (in oth
 Prerequisites
 `````````````
 
-- Operational BIG-IP :term:`device` or :term:`device cluster` licensed for SDN services.
-- Administrator access to both BIG-IP device(s) and OpenStack cloud.
+- BIG-IP license must include SDN services (Better or Best).
 
 Caveats
 ```````
