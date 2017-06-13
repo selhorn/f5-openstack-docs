@@ -23,63 +23,75 @@ A :dfn:`differentiated service environment` is a uniquely-named environment that
    - Differentiated service environments aren't compatible with `Virtual Clustered Multiprocessing`_ (vCMP) systems.
      BIG-IP devices cannot share data or resources across differentiated service environments; this precludes the use of vCMP because vCMP guests share global VLAN IDs
 
+Set up a new service environment
+--------------------------------
 
-Create a new F5 service provider driver
----------------------------------------
-
-:ref:`Generate a new custom environment <driver:environment-generator>` on the Neutron controller.
+#. :ref:`Generate a new custom environment <driver:environment-generator>` on the Neutron controller.
 
    .. code-block:: console
       :caption: Example: Add a custom environment called "dev1"
 
       add_f5agent_environment dev1
 
-.. tip::
+   .. tip::
 
-   The environment name field must be eight (8) characters or less.
+      The environment name field must be eight (8) characters or less.
+
+#. Check the Neutron LBaaS configuration file to verify that the new service provider driver is active.
+
+   .. code-block:: console
+      :emphasize-lines: 5
+
+      less /etc/neutron/neutron_lbaas.conf
+      ...
+      [service_providers]
+      service_provider = LOADBALANCERV2:F5Networks:neutron_lbaas.drivers.f5.driver_v2.F5LBaaSV2Driver:default
+      service_provider = LOADBALANCERV2:dev1:neutron_lbaas.drivers.f5.driver_v2.F5LBaaSV2Driver
+      ...
+
+Set up |agent| to use the new environment
+-----------------------------------------
+
+In the |agent| :ref:`configuration file <agent:configuration-file>` :
+
+#. Replace the default ``environment_prefix`` with the name of the new service environment.
+
+   .. code-block:: console
+
+      vi /etc/neutron/services/f5/f5-openstack-agent.ini
+      #
+      # environment_prefix = 'dev1'
+      #
+
+#. Add/update the iControl endpoints and login credentials for the BIG-IP devices you want to include in the service group.
+
+   .. code-block:: console
+
+      #
+      icontrol_hostname = 1.2.3.4, 5.6.7.8
+      #
+      ...
+      #
+      icontrol_username = myusername
+      ...
+      #
+      icontrol_password = mypassword
+      #
+
+#. Save the file with a new name.
+
+   .. code-block:: console
+      :caption: Example
+
+      :w f5-openstack-agent_dev1.ini
 
 
-Configure the |agent-long|
---------------------------
+Set up additional hosts
+```````````````````````
 
-#. Edit the |agent| configuration file:
+Running |agent| instances on one (1) or more additional hosts provides redundancy and a degree of protection against individual host failure. [#multihost]_
 
-   - Replace the default ``environment_prefix`` with the name of the new custom environment.
-
-     .. code-block:: console
-
-        vi /etc/neutron/services/f5/f5-openstack-agent.ini
-        #
-        # environment_prefix = 'dev1'
-        #
-
-   - Add/update the iControl endpoints, as needed.
-
-     .. code-block:: console
-
-        #
-        icontrol_hostname = 1.2.3.4, 5.6.7.8
-        #
-        ...
-        #
-        icontrol_username = myusername
-        ...
-        #
-        icontrol_password = mypassword
-        #
-
-   - Save the file with a new name.
-
-     .. code-block:: console
-        :caption: Example
-
-        :w f5-openstack-agent_dev1.ini
-
-
-#. Set up additional hosts. [#multihost]_
-
-
-   Copy the |agent|, Neutron, and Neutron LBaaS configuration files from the Neutron controller to each host on which you want to run an |agent| instance.
+#. Copy the |agent|, Neutron, and Neutron LBaaS configuration files from the Neutron controller to each additional host.
 
    .. code-block:: console
 
@@ -127,10 +139,9 @@ This determines which |driver| messaging queue receives the task.
    | vip_subnet_id       | b3fa44a0-3187-4a49-853a-24819bc24d3e |
    +---------------------+--------------------------------------+
 
-.. todo:: come up with a better title for this
 
-Deep dive
----------
+Learn more
+----------
 
 The default service environment prefix, :code:`Project`, corresponds to the generic "F5Networks" LBaaSv2 :ref:`service provider driver <Set 'F5Networks' as the LBaaSv2 Service Provider>` entry in the Neutron LBaaS configuration file (:file:`/etc/neutron/neutron_lbaas.conf`).
 Each custom service environment (for example, "dev", "prod", "test", etc.) has a corresponding service provider driver entry in the :file:`neutron_lbaas.conf` file. When you issue a :code:`neutron lbaas-loadbalancer-create` command referencing the service provider driver for a specific environment, that |driver| instance will receive the task in its dedicated messaging queue; the |driver| instance will then assign the task to an |agent| instance in the same environment group as the driver.
@@ -144,10 +155,7 @@ Each unique environment corresponds to a separate BIG-IP partition; the |driver-
 This allows you to specify which |agent| instance should handle LBaaS tasks, instead of the "first-available" method the |driver-long| uses in the default environment.
 
 
+.. rubric:: Footnotes
+.. [#multihost] See :ref:`F5 OpenStack BIG-IP Controller Redundancy and Scale-out <lbaas-agent-redundancy>`.
 
-
-.. seealso::
-
-   - :ref:`F5 OpenStack BIG-IP Controller Redundancy and Scale-out <lbaas-agent-redundancy>`
-
-.. _Virtual Clustered Microprocessing: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/vcmp-administration-appliances-12-1-1/1.html
+.. _Virtual Clustered Multiprocessing: https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/vcmp-administration-appliances-12-1-1/1.html
