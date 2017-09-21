@@ -13,7 +13,7 @@ Commands follow the format ::
 
    $ openstack flavor create FLAVOR_NAME --id FLAVOR_ID --ram RAM_IN_MB --disk ROOT_DISK_IN_GB --vcpus NUMBER_OF_VCPUS
 
-The values shown here reflect the requirements for BIG-IP Virtual Edition images v12.0 and later.
+The values shown here reflect the requirements for `BIG-IP Virtual Edition v13.0.0`_.
 
 
 f5-1slot
@@ -21,21 +21,21 @@ f5-1slot
 
 .. code-block:: console
 
-   $ openstack flavor create f5-1slot --id auto --ram 4096 --disk 20 --vcpus 2
+   $ openstack flavor create f5-1slot --id auto --ram 4096 --disk 8 --vcpus 2
 
 f5-ltm
 ------
 
 .. code-block:: console
 
-   $ openstack flavor create f5-ltm --id auto --ram 4096 --disk 50 --vcpus 2
+   $ openstack flavor create f5-ltm --id auto --ram 4096 --disk 39 --vcpus 2
 
 f5-all
 ------
 
 .. code-block:: console
 
-   $ openstack flavor create f5-all --id auto --ram 4096 --disk 140 --vcpus 4
+   $ openstack flavor create f5-all --id auto --ram 4096 --disk 149 --vcpus 4
 
 .. tip::
 
@@ -45,3 +45,4 @@ f5-all
 
 .. _OpenStack Horizon - Manage flavors: https://docs.openstack.org/horizon/latest/admin/manage-flavors.html
 .. _Application Acceleration Manager: https://f5.com/products/big-ip/application-acceleration-manager-aam
+.. _BIG-IP Virtual Edition v13.0.0: https://support.f5.com/csp/article/K14946
